@@ -1,0 +1,9 @@
+E:\勉強\カーブ\CurveEditor\CurveEditor\bin\Debug\CurveEditor.exe.config
+E:\勉強\カーブ\CurveEditor\CurveEditor\bin\Debug\CurveEditor.exe
+E:\勉強\カーブ\CurveEditor\CurveEditor\bin\Debug\CurveEditor.pdb
+E:\勉強\カーブ\CurveEditor\CurveEditor\obj\Debug\CurveEditor.csprojResolveAssemblyReference.cache
+E:\勉強\カーブ\CurveEditor\CurveEditor\obj\Debug\CurveEditor.Properties.Resources.resources
+E:\勉強\カーブ\CurveEditor\CurveEditor\obj\Debug\CurveEditor.csproj.GenerateResource.Cache
+E:\勉強\カーブ\CurveEditor\CurveEditor\obj\Debug\CurveEditor.exe
+E:\勉強\カーブ\CurveEditor\CurveEditor\obj\Debug\CurveEditor.pdb
+E:\勉強\カーブ\CurveEditor\CurveEditor\obj\Debug\CurveEditor.Form1.resources
