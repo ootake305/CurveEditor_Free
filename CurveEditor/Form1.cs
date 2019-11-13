@@ -13,8 +13,29 @@ using System.Windows.Input;
 
 namespace CurveEditor
 {
+    //中心の線を引くためのポイント
+    struct StandardPoint
+    {
+        public Point startPoint;//開始点
+        public  Point endPoint;//終了点
+        public Pen pen ;//線の色
+    }
+    //制御点
+    struct ControlPoint
+    {
+        Point point1;
+        Point point2;
+    }
+    //3次ベジェ曲線に必要な点
+    struct BezierPoint
+    {
+        Point startPoint;           //開始点
+        ControlPoint controlPoint;  //制御点
+        Point endPoint;             //終了点
+    }
     public partial class Form1 : Form
     {
+        StandardPoint m_standartpoint;
         const float cpSize = 15;
         Point[] Points;
         Point[] Points2;
@@ -24,6 +45,9 @@ namespace CurveEditor
         Point point3 = new Point(300, 400);
         Point point4 = new Point(450, 150);
         Point point5 = new Point(550, 250);
+        Point point6 = new Point(600, 350);
+        Point point7 = new Point(750, 450);
+        Point point8 = new Point(450, 150);
         Pen pen = new Pen(Color.White, 1);
         Brush brush = new SolidBrush(Color.FromArgb(160, 255, 0, 0));
         int moveIndex = 0;
@@ -31,43 +55,28 @@ namespace CurveEditor
         GraphicsPath path = new GraphicsPath();
         public Form1()
         {
+
             InitializeComponent();
             Text = "DrawBezier";
-            Points = new Point[] { point1, point2 , point3, point1 };
-            Points2 = new Point[] { point2, point3, point4, point5 };
+            Points = new Point[] { point1, point2 , point3, point4 };
+            Points2 = new Point[] { point8, point5, point6, point7 };
             Points3 = new Point[] { point3, point4 };
             InitPointLocationLabel();
             SetStyle(
     ControlStyles.DoubleBuffer |
     ControlStyles.UserPaint |
     ControlStyles.AllPaintingInWmPaint, true);
-           // path.AddCurve(Points);
-            //path.AddCurve(Points2);
+            　
+            StandartPointInit();
         }
-
-        protected override void OnPaint(PaintEventArgs e)
+        //中心の線を引くためのポイント初期化
+        public void StandartPointInit()
         {
-           /* Graphics g = e.Graphics;
-            // g.DrawCurve(pen, Points,0.5f);
-            // g.DrawCurve(pen, Points2, 0.0f);
-            //  g.DrawLine(pen, Points[0], Points[1]);
-            // g.DrawLine(pen, Points[3], Points[2]);
-        
-            g.Clear(Color.White);
-            path.Reset();
-            path.AddCurve(Points,1,1,1);
-         //  path.AddCurve(Points3,0.5f);
-           // path.AddCurve(Points3);
-            // path.PathPoints[0] = point1;
-            for (int i = 0; i < Points.Length; i++)
-            {
-                e.Graphics.FillRectangle(brush, Points[i].X - cpSize / 2, Points[i].Y - cpSize / 2, cpSize, cpSize);
-            }
-            for (int i = 0; i < Points2.Length; i++)
-            {
-                e.Graphics.FillRectangle(brush, Points2[i].X - cpSize / 2, Points2[i].Y - cpSize / 2, cpSize, cpSize);
-            }
-            e.Graphics.DrawPath(pen, path);*/
+            m_standartpoint.startPoint.X = 0;
+            m_standartpoint.startPoint.Y = 150;
+            m_standartpoint.endPoint.X = 600;
+            m_standartpoint.endPoint.Y = 150;
+            m_standartpoint.pen = new Pen(Color.FromArgb(100, 200, 200, 200), 1);
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
@@ -106,11 +115,11 @@ namespace CurveEditor
 
                 Points[moveIndex].Y = e.Y;
 
-                Control cx = Controls[moveIndex + "X"];
+              /*  Control cx = Controls[moveIndex + "X"];
                 cx.Text = Points[moveIndex].X.ToString();
                 Control cy = Controls[moveIndex + "Y"];
                 cy.Text = Points[moveIndex].Y.ToString();
-
+                */
                 Invalidate();
                 Refresh();
             }
@@ -118,7 +127,7 @@ namespace CurveEditor
         }
         private void InitPointLocationLabel()
         {
-            for (int i = 0; i < Points.Length; i++)
+         /*   for (int i = 0; i < Points.Length; i++)
             {
                 Label l = new Label();
                 l.Location = new Point(100, 20 * i + 400);
@@ -138,7 +147,7 @@ namespace CurveEditor
                 l3.Size = new Size(64, 20);
                 Controls.Add(l3);
 
-            }
+            }*/
 
         }
 
@@ -151,23 +160,34 @@ namespace CurveEditor
         {
 
         }
+        //3次ベジェ曲線を結ぶ点描画
+        private void PointrPaint(PaintEventArgs e)
+        {
 
+        }
+        //選択している点の制御点描画
+        private void ControlPaint(PaintEventArgs e)
+        {
+
+        }
+        //3次ベジェ曲線描画
+        private void BezierPaint( PaintEventArgs e)
+        {
+
+        }
         private void TestPaint(object sender, PaintEventArgs e)
         {
        
             Graphics g = e.Graphics;
-            // g.DrawCurve(pen, Points,0.5f);
-            // g.DrawCurve(pen, Points2, 0.0f);
-            //  g.DrawLine(pen, Points[0], Points[1]);
-            // g.DrawLine(pen, Points[3], Points[2]);
-
             g.Clear(Color.FromArgb(20, 255, 255, 255));
             path.Reset();
-            path.AddCurve(Points, 1, 1, 1);
-            path.AddCurve(Points2, 1, 1, 1);
-            //  path.AddCurve(Points3,0.5f);
-            // path.AddCurve(Points3);
+            g.DrawLine(m_standartpoint.pen, m_standartpoint.startPoint, m_standartpoint.endPoint);
+
+            path.AddBeziers(Points);
+            path.AddBeziers(Points2);
+
             // path.PathPoints[0] = point1;
+           
             for (int i = 0; i < Points.Length; i++)
             {
                 e.Graphics.FillRectangle(brush, Points[i].X - cpSize / 2, Points[i].Y - cpSize / 2, cpSize, cpSize);
@@ -177,23 +197,12 @@ namespace CurveEditor
                 e.Graphics.FillRectangle(brush, Points2[i].X - cpSize / 2, Points2[i].Y - cpSize / 2, cpSize, cpSize);
             }
             e.Graphics.DrawPath(pen, path);
- 
+            BezierPaint(e);    //3次ベジェ曲線描画
+            ControlPaint(e);   //選択している点の制御点描画
+            PointrPaint(e);    //3次ベジェ曲線を結ぶ点描画
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
 
-        }
-
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 
 }
