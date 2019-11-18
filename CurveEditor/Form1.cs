@@ -13,17 +13,17 @@ using System.Windows.Input;
 
 namespace CurveEditor
 {
-    //中心の線を引くためのポイント
-    struct StandardPoint
-    {
-        public Point startPoint;//開始点
-        public  Point endPoint;//終了点
-        public Pen pen ;//線の色
-    }
+
 
     public partial class Form1 : Form
     {
-        StandardPoint m_standartpoint;
+        /// <summary>
+        /// 線
+        /// </summary>
+        CenterLine m_CenterLine;
+        TopLine m_TopLine;
+        BottomLine m_BottomLine;
+
         const float cpSize = 15;
         Point[] Points;
         Point[] Points2;
@@ -60,11 +60,12 @@ namespace CurveEditor
         //中心の線を引くためのポイント初期化
         public void StandartPointInit()
         {
-            m_standartpoint.startPoint.X = 0;
-            m_standartpoint.startPoint.Y = 150;
-            m_standartpoint.endPoint.X = 600;
-            m_standartpoint.endPoint.Y = 150;
-            m_standartpoint.pen = new Pen(Color.FromArgb(100, 200, 200, 200), 1);
+            m_CenterLine = new CenterLine();
+            m_TopLine = new TopLine();
+            m_BottomLine = new BottomLine();
+            m_CenterLine.Init();
+            m_TopLine.Init();
+            m_BottomLine.Init();
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
@@ -163,15 +164,30 @@ namespace CurveEditor
         {
 
         }
+        /// <summary>
+        /// 線描画
+        /// </summary>
+        /// <param name="g"></param>
+        private void LinePaint(Graphics g)
+        {
+            m_CenterLine.Paint(g);
+            m_TopLine.Paint(g);
+            m_BottomLine.Paint(g);
+        }
+
+        /// <summary>
+        /// pictureBox内の描画
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TestPaint(object sender, PaintEventArgs e)
         {
        
             Graphics g = e.Graphics;
-          //  g.Clear(Color.FromArgb(20, 230, 230, 230));
+           g.Clear(Color.FromArgb(20, 230, 230, 230));
             path.Reset();
-            //中心の線の描画
-            g.DrawLine(m_standartpoint.pen, m_standartpoint.startPoint, m_standartpoint.endPoint);
-
+            //線の描画
+            LinePaint(g);
             //曲線の描画
             path.AddBeziers(Points);
             path.AddBeziers(Points2);
