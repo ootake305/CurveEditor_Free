@@ -20,19 +20,7 @@ namespace CurveEditor
         public  Point endPoint;//終了点
         public Pen pen ;//線の色
     }
-    //制御点
-    struct ControlPoint
-    {
-        Point point1;
-        Point point2;
-    }
-    //3次ベジェ曲線に必要な点
-    struct BezierPoint
-    {
-        Point startPoint;           //開始点
-        ControlPoint controlPoint;  //制御点
-        Point endPoint;             //終了点
-    }
+
     public partial class Form1 : Form
     {
         StandardPoint m_standartpoint;
@@ -55,7 +43,7 @@ namespace CurveEditor
         GraphicsPath path = new GraphicsPath();
         public Form1()
         {
-
+           
             InitializeComponent();
             Text = "DrawBezier";
             Points = new Point[] { point1, point2 , point3, point4 };
@@ -179,15 +167,16 @@ namespace CurveEditor
         {
        
             Graphics g = e.Graphics;
-            g.Clear(Color.FromArgb(20, 255, 255, 255));
+          //  g.Clear(Color.FromArgb(20, 230, 230, 230));
             path.Reset();
+            //中心の線の描画
             g.DrawLine(m_standartpoint.pen, m_standartpoint.startPoint, m_standartpoint.endPoint);
 
+            //曲線の描画
             path.AddBeziers(Points);
             path.AddBeziers(Points2);
 
-            // path.PathPoints[0] = point1;
-           
+           //点の描画
             for (int i = 0; i < Points.Length; i++)
             {
                 e.Graphics.FillRectangle(brush, Points[i].X - cpSize / 2, Points[i].Y - cpSize / 2, cpSize, cpSize);
@@ -201,8 +190,6 @@ namespace CurveEditor
             ControlPaint(e);   //選択している点の制御点描画
             PointrPaint(e);    //3次ベジェ曲線を結ぶ点描画
         }
-
-
     }
 
 }
