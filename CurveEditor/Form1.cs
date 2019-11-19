@@ -24,23 +24,23 @@ namespace CurveEditor
         TopLine m_TopLine;
         BottomLine m_BottomLine;
 
-        const float cpSize = 15;
+        const float cpSize = 8;
         Point[] Points;
         Point[] Points2;
         Point[] Points3;
         Point point1 = new Point(50, 300);
         Point point2 = new Point(150, 150);
-        Point point3 = new Point(300, 400);
+        Point point3 = new Point(300, 200);
         Point point4 = new Point(450, 150);
         Point point5 = new Point(550, 250);
         Point point6 = new Point(600, 350);
         Point point7 = new Point(750, 450);
         Point point8 = new Point(450, 150);
-        Pen pen = new Pen(Color.White, 1);
-        Brush brush = new SolidBrush(Color.FromArgb(160, 255, 0, 0));
+
         int moveIndex = 0;
-        bool moveFlag = false;
-        GraphicsPath path = new GraphicsPath();
+
+
+        CurvePointControl m_CurvePointControl;
         public Form1()
         {
            
@@ -56,6 +56,7 @@ namespace CurveEditor
     ControlStyles.AllPaintingInWmPaint, true);
             　
             StandartPointInit();
+            m_CurvePointControl = new CurvePointControl();
         }
         //中心の線を引くためのポイント初期化
         public void StandartPointInit()
@@ -77,42 +78,24 @@ namespace CurveEditor
                     if (e.Y >= Points[i].Y - cpSize / 2 && e.Y < Points[i].Y + cpSize / 2)
                     {
                         moveIndex = i;
-                        moveFlag = true;
+
                     }
                 }
             }
-
+            m_CurvePointControl.SearchSelectPoint(e);
         }
 
         private void Form1_MouseUp(object sender, MouseEventArgs e)
         {
-            moveFlag = false;
+            m_CurvePointControl.CancelSelectPoint();
         }
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (moveFlag)
-            {
-                if (e.X < 1000)
-                {
-                    Points[moveIndex].X = e.X;
-                }
-                else
-                {
-                    Points[moveIndex].X = 1000;
-                }
-
-                Points[moveIndex].Y = e.Y;
-
-              /*  Control cx = Controls[moveIndex + "X"];
-                cx.Text = Points[moveIndex].X.ToString();
-                Control cy = Controls[moveIndex + "Y"];
-                cy.Text = Points[moveIndex].Y.ToString();
-                */
-                Invalidate();
-                Refresh();
-            }
-          
+            Invalidate();
+            Refresh();
+            m_CurvePointControl.MovePoint(e);
+                  
         }
         private void InitPointLocationLabel()
         {
@@ -152,17 +135,18 @@ namespace CurveEditor
         //3次ベジェ曲線を結ぶ点描画
         private void PointrPaint(PaintEventArgs e)
         {
-
+            m_CurvePointControl.SelectPointrPaint(e);
+            m_CurvePointControl.PointrPaint(e);
         }
         //選択している点の制御点描画
         private void ControlPaint(PaintEventArgs e)
         {
-
+            m_CurvePointControl.ControlPaint(e);
         }
         //3次ベジェ曲線描画
         private void BezierPaint( PaintEventArgs e)
         {
-
+            m_CurvePointControl.BezierPaint(e);
         }
         /// <summary>
         /// 線描画
@@ -185,23 +169,10 @@ namespace CurveEditor
        
             Graphics g = e.Graphics;
            g.Clear(Color.FromArgb(20, 230, 230, 230));
-            path.Reset();
+
             //線の描画
             LinePaint(g);
-            //曲線の描画
-            path.AddBeziers(Points);
-            path.AddBeziers(Points2);
 
-           //点の描画
-            for (int i = 0; i < Points.Length; i++)
-            {
-                e.Graphics.FillRectangle(brush, Points[i].X - cpSize / 2, Points[i].Y - cpSize / 2, cpSize, cpSize);
-            }
-            for (int i = 0; i < Points2.Length; i++)
-            {
-                e.Graphics.FillRectangle(brush, Points2[i].X - cpSize / 2, Points2[i].Y - cpSize / 2, cpSize, cpSize);
-            }
-            e.Graphics.DrawPath(pen, path);
             BezierPaint(e);    //3次ベジェ曲線描画
             ControlPaint(e);   //選択している点の制御点描画
             PointrPaint(e);    //3次ベジェ曲線を結ぶ点描画
