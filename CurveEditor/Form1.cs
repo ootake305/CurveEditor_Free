@@ -18,37 +18,22 @@ namespace CurveEditor
     public partial class Form1 : Form
     {
         /// <summary>
-        /// 線
+        /// 直線
         /// </summary>
-        CenterLine m_CenterLine;
-        TopLine m_TopLine;
-        BottomLine m_BottomLine;
-
-        const float cpSize = 8;
-        Point[] Points;
-        Point[] Points2;
-        Point[] Points3;
-        Point point1 = new Point(50, 300);
-        Point point2 = new Point(150, 150);
-        Point point3 = new Point(300, 200);
-        Point point4 = new Point(450, 150);
-        Point point5 = new Point(550, 250);
-        Point point6 = new Point(600, 350);
-        Point point7 = new Point(750, 450);
-        Point point8 = new Point(450, 150);
-
-        int moveIndex = 0;
-
-
+        CenterLine m_CenterLine = new CenterLine();
+        TopLine m_TopLine = new TopLine();
+        BottomLine m_BottomLine = new BottomLine();
+        /// <summary>
+        /// 曲線
+        /// </summary>
         CurvePointControl m_CurvePointControl;
+
         public Form1()
         {
            
             InitializeComponent();
             Text = "DrawBezier";
-            Points = new Point[] { point1, point2 , point3, point4 };
-            Points2 = new Point[] { point8, point5, point6, point7 };
-            Points3 = new Point[] { point3, point4 };
+
             InitPointLocationLabel();
             SetStyle(
     ControlStyles.DoubleBuffer |
@@ -61,9 +46,6 @@ namespace CurveEditor
         //中心の線を引くためのポイント初期化
         public void StandartPointInit()
         {
-            m_CenterLine = new CenterLine();
-            m_TopLine = new TopLine();
-            m_BottomLine = new BottomLine();
             m_CenterLine.Init();
             m_TopLine.Init();
             m_BottomLine.Init();
@@ -71,23 +53,13 @@ namespace CurveEditor
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
-            for (int i = 0; i < Points.Length; i++)
-            {
-                if (e.X >= Points[i].X - cpSize / 2 && e.X < Points[i].X + cpSize / 2)
-                {
-                    if (e.Y >= Points[i].Y - cpSize / 2 && e.Y < Points[i].Y + cpSize / 2)
-                    {
-                        moveIndex = i;
 
-                    }
-                }
-            }
             m_CurvePointControl.SearchSelectPoint(e);
         }
 
         private void Form1_MouseUp(object sender, MouseEventArgs e)
         {
-            m_CurvePointControl.CancelSelectPoint();
+            m_CurvePointControl.CancelMovePoint();
         }
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
@@ -132,18 +104,29 @@ namespace CurveEditor
         {
 
         }
-        //3次ベジェ曲線を結ぶ点描画
+         
+        /// <summary>
+        /// 3次ベジェ曲線を結ぶ点描画
+        /// </summary>
+        /// <param name="e"></param>
         private void PointrPaint(PaintEventArgs e)
         {
             m_CurvePointControl.SelectPointrPaint(e);
             m_CurvePointControl.PointrPaint(e);
         }
-        //選択している点の制御点描画
+
+        /// <summary>
+        /// 選択している点の制御点描画
+        /// </summary>
+        /// <param name="e"></param>
         private void ControlPaint(PaintEventArgs e)
         {
             m_CurvePointControl.ControlPaint(e);
         }
-        //3次ベジェ曲線描画
+        /// <summary>
+        /// 3次ベジェ曲線描画
+        /// </summary>
+        /// <param name="e"></param>
         private void BezierPaint( PaintEventArgs e)
         {
             m_CurvePointControl.BezierPaint(e);
