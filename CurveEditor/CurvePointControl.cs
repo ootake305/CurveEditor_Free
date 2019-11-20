@@ -24,6 +24,12 @@ namespace CurveEditor
         }
         List<BezierPoint> m_list = new List<BezierPoint>();//線を引くための点を格納する場所
 
+        //グラフの範囲を示す座標
+        const int ScrrenRightPosX = 600;
+        const int ScrrenBottomPosY = 310;
+        const int ScrrenLeftPosX = 0;
+        const int ScrrenTopPosY =  10;
+
         int m_SelectPoint = 0;  //左から何番目の点を選択精しているか
         const float m_cpSize = 8; //点のサイズ
         bool m_isMoveStartPoint = false;      //開始点を選択した状態でドラッグできるか
@@ -47,8 +53,8 @@ namespace CurveEditor
         {
             //初期の曲線設定
             BezierPoint startBezirPoint = new BezierPoint();
-            startBezirPoint.startPoint = new Point(0, 160);
-            startBezirPoint.endPoint = new Point(600, 10);
+            startBezirPoint.startPoint = new Point(ScrrenLeftPosX, 160);//中央配置
+            startBezirPoint.endPoint = new Point(ScrrenRightPosX, ScrrenTopPosY);
             startBezirPoint.controlPoint1 = new Point(20, 150);
             startBezirPoint.controlPoint2 = new Point(40, 130);
             m_list.Add(startBezirPoint);
@@ -142,16 +148,18 @@ namespace CurveEditor
             if (m_isMoveStartPoint)
             {
                 BezierPoint sp = m_list[m_SelectPoint];//選択した開始点
-                sp.startPoint.X = mouse.X;
-                sp.startPoint.Y = mouse.Y;
+
+                if(m_SelectPoint != 0) sp.startPoint.X = mouse.X;
+                sp.startPoint.Y = Clamp(mouse.Y, ScrrenTopPosY, ScrrenBottomPosY); 
                 m_list[m_SelectPoint] = sp;
             } 
             else if(m_isMoveEndPoint)
             {
                 int LastNum = m_list.Count() - 1;//選択した最後の点
                 BezierPoint sp = m_list[LastNum];
-                sp.endPoint.X = mouse.X;
-                sp.endPoint.Y = mouse.Y;
+
+                sp.endPoint.Y = Clamp(mouse.Y, ScrrenTopPosY, ScrrenBottomPosY); ;
+               
                 m_list[LastNum] = sp;
             }
           
@@ -229,8 +237,21 @@ namespace CurveEditor
             }
             return false;
         }
+
+ 
+        /// <summary>
+        /// /値を特定の範囲に宣言する
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="minVal"></param>
+        /// <param name="maxVal"></param>
+        /// <returns></returns>
+        public int  Clamp(int x, int minVal, int maxVal)
+        {
+            return Math.Min(Math.Max(minVal, x), maxVal);
+        }
+
     }
-   
 }
 
  

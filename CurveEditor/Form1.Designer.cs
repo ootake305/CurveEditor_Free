@@ -84,7 +84,6 @@
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.DecimalPlaces = 2;
             this.numericUpDown1.Location = new System.Drawing.Point(198, 375);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             1000,
@@ -102,7 +101,6 @@
             // 
             // numericUpDown2
             // 
-            this.numericUpDown2.DecimalPlaces = 2;
             this.numericUpDown2.Location = new System.Drawing.Point(198, 400);
             this.numericUpDown2.Maximum = new decimal(new int[] {
             1000,
@@ -120,7 +118,6 @@
             // 
             // numericUpDown3
             // 
-            this.numericUpDown3.DecimalPlaces = 2;
             this.numericUpDown3.Location = new System.Drawing.Point(198, 425);
             this.numericUpDown3.Maximum = new decimal(new int[] {
             1000,
@@ -138,7 +135,6 @@
             // 
             // numericUpDown4
             // 
-            this.numericUpDown4.DecimalPlaces = 2;
             this.numericUpDown4.Location = new System.Drawing.Point(85, 425);
             this.numericUpDown4.Maximum = new decimal(new int[] {
             1000,
@@ -156,7 +152,6 @@
             // 
             // numericUpDown5
             // 
-            this.numericUpDown5.DecimalPlaces = 2;
             this.numericUpDown5.Location = new System.Drawing.Point(85, 400);
             this.numericUpDown5.Maximum = new decimal(new int[] {
             1000,
@@ -174,7 +169,6 @@
             // 
             // numericUpDown6
             // 
-            this.numericUpDown6.DecimalPlaces = 2;
             this.numericUpDown6.Location = new System.Drawing.Point(85, 375);
             this.numericUpDown6.Maximum = new decimal(new int[] {
             1000,
@@ -255,7 +249,6 @@
             // 
             // numericUpDown7
             // 
-            this.numericUpDown7.DecimalPlaces = 2;
             this.numericUpDown7.Location = new System.Drawing.Point(355, 400);
             this.numericUpDown7.Maximum = new decimal(new int[] {
             1000,
@@ -273,7 +266,6 @@
             // 
             // numericUpDown8
             // 
-            this.numericUpDown8.DecimalPlaces = 2;
             this.numericUpDown8.Location = new System.Drawing.Point(355, 375);
             this.numericUpDown8.Maximum = new decimal(new int[] {
             1000,
@@ -323,7 +315,6 @@
             // 
             // numericUpDown9
             // 
-            this.numericUpDown9.DecimalPlaces = 2;
             this.numericUpDown9.Location = new System.Drawing.Point(476, 400);
             this.numericUpDown9.Maximum = new decimal(new int[] {
             1000,
@@ -341,7 +332,6 @@
             // 
             // numericUpDown10
             // 
-            this.numericUpDown10.DecimalPlaces = 2;
             this.numericUpDown10.Location = new System.Drawing.Point(476, 375);
             this.numericUpDown10.Maximum = new decimal(new int[] {
             1000,
