@@ -25,17 +25,18 @@ namespace CurveEditor
         List<BezierPoint> m_list = new List<BezierPoint>();//線を引くための点を格納する場所
 
         //グラフの範囲を示す座標
-        const int ScrrenRightPosX = 600;
-        const int ScrrenBottomPosY = 310;
-        const int ScrrenLeftPosX = 0;
-        const int ScrrenTopPosY =  10;
+        const int ScrrenRightPosX = 600;    //右端
+        const int ScrrenBottomPosY = 310;   //下端
+        const int ScrrenLeftPosX = 0;       //左端
+        const int ScrrenTopPosY =  10;      //上端
+        const int ScrrenCenterpPosY = 160;  //中央
 
         int m_SelectPoint = 0;  //左から何番目の点を選択精しているか
         const float m_cpSize = 8; //点のサイズ
         bool m_isMoveStartPoint = false;      //開始点を選択した状態でドラッグできるか
         bool m_isMoveEndPoint = false;       //終了点を選択した状態でドラッグできるか
-        bool m_isMoveControl1Point = false;  //終了点を選択した状態でドラッグできるか
-        bool m_isMoveControl2Point = false;  //終了点を選択した状態でドラッグできるか
+        bool m_isMoveControl1Point = false;  //制御点1を選択した状態でドラッグできるか
+        bool m_isMoveControl2Point = false;  //制御点2を選択した状態でドラッグできるか
         bool m_isSelectStartPoint = true;    //開始点を選択しているか falseなら終了点を選択
         //線を引くためのパス
         GraphicsPath m_path = new GraphicsPath();//曲線を引くためのパス
@@ -53,10 +54,10 @@ namespace CurveEditor
         {
             //初期の曲線設定
             BezierPoint startBezirPoint = new BezierPoint();
-            startBezirPoint.startPoint = new Point(ScrrenLeftPosX, 160);//中央配置
+            startBezirPoint.startPoint = new Point(ScrrenLeftPosX, ScrrenCenterpPosY);//中央配置
             startBezirPoint.endPoint = new Point(ScrrenRightPosX, ScrrenTopPosY);
-            startBezirPoint.controlPoint1 = new Point(20, 150);
-            startBezirPoint.controlPoint2 = new Point(40, 130);
+            startBezirPoint.controlPoint1 = new Point(ScrrenLeftPosX + 10, ScrrenCenterpPosY + 30);
+            startBezirPoint.controlPoint2 = new Point(ScrrenLeftPosX + 10, ScrrenCenterpPosY - 30);
             m_list.Add(startBezirPoint);
         }
       
@@ -115,6 +116,7 @@ namespace CurveEditor
             //パス追加
             foreach (BezierPoint item in m_list)
             {
+                //曲線パス
                 Point[] p = new Point[4];
                 p[0] = item.startPoint;
                 p[1] = item.controlPoint1;
@@ -122,6 +124,7 @@ namespace CurveEditor
                 p[3] = item.endPoint;
                 m_path.AddBeziers(p);
             }
+            //直線パス
             m_path2.AddLine(m_list[m_SelectPoint].startPoint, m_list[m_SelectPoint].controlPoint1);
             m_path2.AddLine(m_list[m_SelectPoint].startPoint, m_list[m_SelectPoint].controlPoint2);
             //描画
@@ -144,18 +147,36 @@ namespace CurveEditor
         /// <param name="mouse"></param>
         public void MovePoint(MouseEventArgs mouse)
         {
-            //      if (isSelect) return;
-            if (m_isMoveStartPoint)
+ 
+            if (m_isMoveStartPoint)//選択した開始点
             {
-                BezierPoint sp = m_list[m_SelectPoint];//選択した開始点
+                BezierPoint sp = m_list[m_SelectPoint];
 
                 if(m_SelectPoint != 0) sp.startPoint.X = mouse.X;
                 sp.startPoint.Y = Clamp(mouse.Y, ScrrenTopPosY, ScrrenBottomPosY); 
                 m_list[m_SelectPoint] = sp;
-            } 
-            else if(m_isMoveEndPoint)
+            }
+            else if (m_isMoveControl1Point)//選択した制御点1
             {
-                int LastNum = m_list.Count() - 1;//選択した最後の点
+                BezierPoint sp = m_list[m_SelectPoint];
+
+                sp.controlPoint1.X = Clamp(mouse.X, ScrrenLeftPosX, ScrrenRightPosX); 
+                sp.controlPoint1.Y = Clamp(mouse.Y, ScrrenTopPosY, ScrrenBottomPosY); 
+
+                m_list[m_SelectPoint] = sp;
+            }
+            else if (m_isMoveControl2Point)//選択した制御点2
+            {
+                BezierPoint sp = m_list[m_SelectPoint];
+
+                sp.controlPoint2.X = Clamp(mouse.X, ScrrenLeftPosX, ScrrenRightPosX);
+                sp.controlPoint2.Y = Clamp(mouse.Y, ScrrenTopPosY, ScrrenBottomPosY);
+
+                m_list[m_SelectPoint] = sp;
+            }
+            else if(m_isMoveEndPoint)//選択した最後の点
+            {
+                int LastNum = m_list.Count() - 1;
                 BezierPoint sp = m_list[LastNum];
 
                 sp.endPoint.Y = Clamp(mouse.Y, ScrrenTopPosY, ScrrenBottomPosY); ;
@@ -179,19 +200,30 @@ namespace CurveEditor
                     //開始点を選択
                     m_SelectPoint = i;
                     m_isMoveStartPoint = true;
-                    m_isMoveEndPoint = false;
+             
                     m_isSelectStartPoint = true;
                     return;
                 }
             }
+
+            //制御点1を選択
+            if (isSearchSelectControlPoint(mouse))
+            {
+                m_isMoveControl1Point = true;
+                return;
+            }
+            //制御点2を選択
+            if (isSearchSelectContro2Point(mouse))
+            {
+                m_isMoveControl2Point = true;
+                return;
+            }
             //終了点を選択
             if (isSearchSelectEndPoint(mouse))
             {
-                m_isMoveStartPoint = false;
                 m_isMoveEndPoint = true;
                 m_isSelectStartPoint = false;
             }
-
         }
         /// <summary>
         /// 移動可能選択状態を解除　クリックを終えたら呼ぶ
@@ -200,19 +232,57 @@ namespace CurveEditor
         {
             m_isMoveStartPoint = false;
             m_isMoveEndPoint = false;
+            m_isMoveControl1Point = false;
+            m_isMoveControl2Point = false;
         }
        /// <summary>
        /// 開始点がマウスカーソルの下にあるか検索
        /// </summary>
        /// <param name="mouse"></param>
-       /// <param name="num"></param>
        /// <returns></returns>
         public bool isSearchSelectStartPoint(MouseEventArgs mouse,int num)
         {
             float SelectPointSize = m_cpSize + 20;//判定は少し大きめに
-            if (mouse.X >= m_list[num].startPoint.X - SelectPointSize / 2 && mouse.X < m_list[num].startPoint.X + SelectPointSize / 2)
+            if (mouse.X >= m_list[m_SelectPoint].startPoint.X - SelectPointSize / 2 && mouse.X < m_list[m_SelectPoint].startPoint.X + SelectPointSize / 2)
             {
-                if (mouse.Y >= m_list[num].startPoint.Y - SelectPointSize / 2 && mouse.Y < m_list[num].startPoint.Y + SelectPointSize / 2)
+                if (mouse.Y >= m_list[m_SelectPoint].startPoint.Y - SelectPointSize / 2 && mouse.Y < m_list[m_SelectPoint].startPoint.Y + SelectPointSize / 2)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        /// <summary>
+        /// 制御点1がマウスカーソルの下にあるか検索
+        /// </summary>
+        /// <param name="mouse"></param>
+        /// <returns></returns>
+        public bool isSearchSelectControlPoint(MouseEventArgs mouse)
+        {
+            if (!m_isSelectStartPoint) return false;
+            float SelectPointSize = m_cpSize + 20;//判定は少し大きめに
+            if (mouse.X >= m_list[m_SelectPoint].controlPoint1.X - SelectPointSize / 2 && mouse.X < m_list[m_SelectPoint].controlPoint1.X + SelectPointSize / 2)
+            {
+                if (mouse.Y >= m_list[m_SelectPoint].controlPoint1.Y - SelectPointSize / 2 && mouse.Y < m_list[m_SelectPoint].controlPoint1.Y + SelectPointSize / 2)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        /// <summary>
+        /// 制御点2がマウスカーソルの下にあるか検索
+        /// </summary>
+        /// <param name="mouse"></param>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        public bool isSearchSelectContro2Point(MouseEventArgs mouse)
+        {
+            if (!m_isSelectStartPoint) return false;
+            float SelectPointSize = m_cpSize + 20;//判定は少し大きめに
+            if (mouse.X >= m_list[m_SelectPoint].controlPoint2.X - SelectPointSize / 2 && mouse.X < m_list[m_SelectPoint].controlPoint2.X + SelectPointSize / 2)
+            {
+                if (mouse.Y >= m_list[m_SelectPoint].controlPoint2.Y - SelectPointSize / 2 && mouse.Y < m_list[m_SelectPoint].controlPoint2.Y + SelectPointSize / 2)
                 {
                     return true;
                 }
@@ -237,8 +307,6 @@ namespace CurveEditor
             }
             return false;
         }
-
- 
         /// <summary>
         /// /値を特定の範囲に宣言する
         /// </summary>

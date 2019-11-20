@@ -15,6 +15,13 @@ namespace CurveEditor
         protected　Point m_startPoint;   //開始点
         protected Point m_endPoint;     //終了点
         protected Pen m_pen;            //線の色
+
+        //グラフの範囲を示す座標
+        protected const int ScrrenRightPosX = 600;
+        protected const int ScrrenBottomPosY = 310;
+        protected const int ScrrenLeftPosX = 0;
+        protected const int ScrrenTopPosY = 10;
+        protected const int ScrrenCenterpPosY = 160;
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -58,10 +65,10 @@ namespace CurveEditor
         public override void Init()
         {
             base.Init();
-            m_startPoint.X = 0;
-            m_startPoint.Y = 160;
-            m_endPoint.X = 600;
-            m_endPoint.Y = 160;
+            m_startPoint.X = ScrrenLeftPosX;
+            m_startPoint.Y = ScrrenCenterpPosY;
+            m_endPoint.X = ScrrenRightPosX;
+            m_endPoint.Y = ScrrenCenterpPosY;
             m_pen = new Pen(Color.FromArgb(100, 200, 200, 200), 1);
         }
     }
@@ -76,10 +83,10 @@ namespace CurveEditor
         public override void Init()
         {
             base.Init();
-            m_startPoint.X = 0;
-            m_startPoint.Y = 10;
-            m_endPoint.X = 600;
-            m_endPoint.Y = 10;
+            m_startPoint.X = ScrrenLeftPosX;
+            m_startPoint.Y = ScrrenTopPosY;
+            m_endPoint.X = ScrrenRightPosX;
+            m_endPoint.Y = ScrrenTopPosY;
             m_pen = new Pen(Color.FromArgb(100, 200, 200, 200), 1);
         }
     }
@@ -88,6 +95,23 @@ namespace CurveEditor
     /// </summary>
 
     class BottomLine : LineBase
+    {
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        public override void Init()
+        {
+            base.Init();
+            m_startPoint.X = ScrrenLeftPosX;
+            m_startPoint.Y = ScrrenBottomPosY;
+            m_endPoint.X = ScrrenRightPosX;
+            m_endPoint.Y = ScrrenBottomPosY;
+            m_pen = new Pen(Color.FromArgb(100, 200, 200, 200), 1);
+        }
+    }
+
+
+     class VerticalLine : LineBase
     {
         /// <summary>
         /// 初期化

@@ -33,8 +33,6 @@ namespace CurveEditor
            
             InitializeComponent();
             Text = "DrawBezier";
-
-            InitPointLocationLabel();
             SetStyle(
     ControlStyles.DoubleBuffer |
     ControlStyles.UserPaint |
@@ -68,43 +66,7 @@ namespace CurveEditor
             Refresh();
             m_CurvePointControl.MovePoint(e);
                   
-        }
-        private void InitPointLocationLabel()
-        {
-         /*   for (int i = 0; i < Points.Length; i++)
-            {
-                Label l = new Label();
-                l.Location = new Point(100, 20 * i + 400);
-                l.Size = new Size(64, 20);
-                l.Text = "Point" + i;
-                Controls.Add(l);
-                Label l2 = new Label();
-                l2.Name = i + "X";
-                l2.Text = Points[i].X.ToString();
-                l2.Location = new Point(164, 20 * i + 400);
-                l2.Size = new Size(64, 20);
-                Controls.Add(l2);
-                Label l3 = new Label();
-                l3.Name = i + "Y";
-                l3.Text = Points[i].X.ToString();
-                l3.Location = new Point(228, 20 * i + 400);
-                l3.Size = new Size(64, 20);
-                Controls.Add(l3);
-
-            }*/
-
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void chart1_Click(object sender, EventArgs e)
-        {
-
-        }
-         
+        }  
         /// <summary>
         /// 3次ベジェ曲線を結ぶ点描画
         /// </summary>
@@ -114,7 +76,6 @@ namespace CurveEditor
             m_CurvePointControl.SelectPointrPaint(e);
             m_CurvePointControl.PointrPaint(e);
         }
-
         /// <summary>
         /// 選択している点の制御点描画
         /// </summary>
@@ -141,7 +102,6 @@ namespace CurveEditor
             m_TopLine.Paint(g);
             m_BottomLine.Paint(g);
         }
-
         /// <summary>
         /// pictureBox内の描画
         /// </summary>
@@ -159,6 +119,11 @@ namespace CurveEditor
             BezierPaint(e);    //3次ベジェ曲線描画
             ControlPaint(e);   //選択している点の制御点描画
             PointrPaint(e);    //3次ベジェ曲線を結ぶ点描画
+        }
+        //点追加ボタンクリック
+        private void button2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 
