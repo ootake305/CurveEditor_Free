@@ -124,7 +124,6 @@ namespace CurveEditor
             BezierPaint(e);    //3次ベジェ曲線描画
             ControlPaint(e);   //選択している点の制御点描画
             PointrPaint(e);    //3次ベジェ曲線を結ぶ点描画
-            Refresh();//再描画
         }
         //点追加ボタンクリック
         private void button2_Click(object sender, EventArgs e)
@@ -132,6 +131,13 @@ namespace CurveEditor
             m_CurvePointControl.AddPoint();
             Refresh();//再描画
         }
+        //点削除ボタンクリック
+        private void button1_Click(object sender, EventArgs e)
+        {
+            m_CurvePointControl.DeletePoint();
+            Refresh();//再描画
+        }
+
     }
 
 }

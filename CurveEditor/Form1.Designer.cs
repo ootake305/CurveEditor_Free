@@ -59,6 +59,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
@@ -77,9 +78,9 @@
             // 
             this.button2.Location = new System.Drawing.Point(553, 375);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(75, 19);
             this.button2.TabIndex = 4;
-            this.button2.Text = "追加";
+            this.button2.Text = "点の追加";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -439,11 +440,22 @@
             this.label12.Text = "最小値 Y = 310";
             this.label12.UseCompatibleTextRendering = true;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(553, 400);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 19);
+            this.button1.TabIndex = 30;
+            this.button1.Text = "点の削除";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(653, 471);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
@@ -527,6 +539,7 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Button button1;
     }
 }
 

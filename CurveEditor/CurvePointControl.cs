@@ -136,13 +136,14 @@ namespace CurveEditor
                 p[3] = item.endPoint;
                 m_path.AddBeziers(p);
             }
-            //直線パス
-            m_path2.AddLine(m_list[m_SelectPoint].startPoint, m_list[m_SelectPoint].controlPoint1);
-            m_path2.AddLine(m_list[m_SelectPoint].startPoint, m_list[m_SelectPoint].controlPoint2);
-            //描画
+             //描画
             e.Graphics.DrawPath(m_pen, m_path);
             //制御点は開始点を選択しているときだけ描画する
             if (m_SelectMode != SelectMode.SelectStart) return;
+            //直線パス
+            m_path2.AddLine(m_list[m_SelectPoint].startPoint, m_list[m_SelectPoint].controlPoint1);
+            m_path2.AddLine(m_list[m_SelectPoint].startPoint, m_list[m_SelectPoint].controlPoint2);
+
             e.Graphics.DrawPath(m_pen2, m_path2);
         }
         /// <summary>
@@ -153,7 +154,6 @@ namespace CurveEditor
         {
           
         }
-
         /// <summary>
         /// 点の追加(ボタンver)
         /// </summary>
@@ -171,12 +171,50 @@ namespace CurveEditor
             startBezirPoint.controlPoint2 = new Point(cpointX, m_list[LastCnt].startPoint.Y - 30);
             m_list.Add(startBezirPoint);//新しい点追加
 
-            //最後の点を追加した開始点とつなげる
+            //追加前の最後の終了点を追加した最後の開始点とつなげる ここ大事！
             BezierPoint BezirPoint = new BezierPoint();
             BezirPoint = m_list[LastCnt];
             BezirPoint.endPoint = m_list[LastCnt + 1].startPoint;//繋ぎなおす
             m_list[LastCnt] = BezirPoint;
         }
+        /// <summary>
+        /// 選択している点の削除(ボタンver)
+        /// </summary>
+        public void DeletePoint()
+        {
+            var LastCnt = m_list.Count() - 1;
+            //開始点をしてる時のみ削除できる
+            if (m_SelectMode != SelectMode.SelectStart) return;
+            //最初の開始点は削除できない
+            if (m_SelectPoint == 0) return;
+
+               //最後の開始点を選択してるなら
+            if (m_SelectPoint == LastCnt)
+            {
+                var BeforeSelectPoint = m_SelectPoint - 1;  //ひとつ前の終了点の移動
+                //一つ前の終了点と一つ先の開始点をつなぐ
+                BezierPoint sp2 = m_list[BeforeSelectPoint];
+
+                sp2.endPoint.X = ScrrenRightPosX;
+                sp2.endPoint.Y = m_list[LastCnt].endPoint.Y;
+                m_list[BeforeSelectPoint] = sp2;
+            }
+            else
+            {         
+                var NextSelectPoint = m_SelectPoint + 1;  //選択している次のポイント
+                var BeforeSelectPoint = m_SelectPoint - 1;  //ひとつ前の終了点の移動
+                //一つ前の終了点と一つ先の開始点をつなぐ
+                BezierPoint sp2 = m_list[BeforeSelectPoint];
+
+                sp2.endPoint = m_list[NextSelectPoint].startPoint;
+                m_list[BeforeSelectPoint] = sp2;
+            }
+            //削除
+            m_list.RemoveAt(m_SelectPoint);
+
+            //削除したときは選択モード解除　でないとエラーが出る
+            m_SelectMode = SelectMode.None;
+        } 
         /// <summary>
         /// 点の移動
         /// </summary>
@@ -208,6 +246,7 @@ namespace CurveEditor
         {
             BezierPoint sp = m_list[m_SelectPoint]; //選択している点
 
+            sp.startPoint.Y = Clamp(mouse.Y, ScrrenTopPosY, ScrrenBottomPosY);
             // 一番最初の開始点だけY軸にしか動かせないように
             if (!isSelectFirstStartPoint())
             {
@@ -219,7 +258,7 @@ namespace CurveEditor
                 sp2.endPoint = sp.startPoint;
                 m_list[BeforeSelectPoint] = sp2;
             }
-            sp.startPoint.Y = Clamp(mouse.Y, ScrrenTopPosY, ScrrenBottomPosY);
+       
             m_list[m_SelectPoint] = sp;
         }
         /// <summary>
@@ -279,7 +318,6 @@ namespace CurveEditor
             sp.endPoint.Y = Clamp(mouse.Y, ScrrenTopPosY, ScrrenBottomPosY); ;
             m_list[LastNum] = sp;
         }
-
         /// <summary>
         /// 点を選択してドラック出来る状態か検索する クリックしたときに呼ぶ
         /// </summary>
