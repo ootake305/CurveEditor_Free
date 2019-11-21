@@ -330,7 +330,26 @@ namespace CurveEditor
         /// </summary>
         public void OrganizeControlPoint()
         {
+            int ListMax = m_list.Count();
+            int LastNum = m_list.Count() - 1;
             //制御点がいてはいけない場所なら位置を補正する
+            for (int i = 0; i < ListMax; i++)
+            {
+                BezierPoint sp = m_list[i]; //選択している点
+                //左端以外なら
+                if (i != 0)
+                {
+                    sp.controlPoint1.X = Clamp(sp.controlPoint1.X, m_list[i - 1].endPoint.X, ScrrenRightPosX);
+                    sp.controlPoint2.X = Clamp(sp.controlPoint2.X, m_list[i - 1].endPoint.X, ScrrenRightPosX);
+                }
+                //右端以外なら
+                if (i != LastNum)
+                {
+                    sp.controlPoint1.X = Clamp(sp.controlPoint1.X, ScrrenLeftPosX, m_list[i + 1].startPoint.X);
+                    sp.controlPoint2.X = Clamp(sp.controlPoint2.X, ScrrenLeftPosX, m_list[i + 1].startPoint.X);
+                }
+                m_list[i] = sp;
+            }
         }
         /// <summary>
         /// 移動可能選択状態を解除　クリックを終えたら呼ぶ

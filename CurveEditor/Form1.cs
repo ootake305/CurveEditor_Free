@@ -67,7 +67,7 @@ namespace CurveEditor
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
             m_CurvePointControl.MovePoint(e);
-            Invalidate();
+          //  Invalidate();重くなるのでいらない
             Refresh();//再描画
         }  
         /// <summary>
@@ -114,16 +114,17 @@ namespace CurveEditor
         /// <param name="e"></param>
         private void TestPaint(object sender, PaintEventArgs e)
         {
-       
             Graphics g = e.Graphics;
            g.Clear(Color.FromArgb(20, 230, 230, 230));
 
             //線の描画
             LinePaint(g);
 
+            m_CurvePointControl.OrganizeControlPoint(); //制御点の整理
             BezierPaint(e);    //3次ベジェ曲線描画
             ControlPaint(e);   //選択している点の制御点描画
             PointrPaint(e);    //3次ベジェ曲線を結ぶ点描画
+            Refresh();//再描画
         }
         //点追加ボタンクリック
         private void button2_Click(object sender, EventArgs e)
