@@ -113,17 +113,33 @@ namespace CurveEditor
 
      class VerticalLine : LineBase
     {
+        bool m_isLeft = false;
+        public VerticalLine(bool isLeft)
+        {
+            m_isLeft = isLeft;
+        }
         /// <summary>
         /// 初期化
         /// </summary>
         public override void Init()
         {
             base.Init();
-            m_startPoint.X = 0;
-            m_startPoint.Y = 310;
-            m_endPoint.X = 600;
-            m_endPoint.Y = 310;
-            m_pen = new Pen(Color.FromArgb(100, 200, 200, 200), 1);
+          
+            //左側の縦線か
+            if(m_isLeft)
+            {
+                m_startPoint.X = ScrrenLeftPosX;
+                m_endPoint.X = ScrrenLeftPosX;
+            }
+            else
+            {
+                m_startPoint.X = ScrrenRightPosX;
+                m_endPoint.X = ScrrenRightPosX;
+            }
+           
+            m_startPoint.Y = ScrrenTopPosY;
+            m_endPoint.Y = ScrrenBottomPosY;
+            m_pen = new Pen(Color.FromArgb(100, 200, 200, 200), 5.0f);
         }
     }
 }

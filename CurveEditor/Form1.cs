@@ -23,6 +23,8 @@ namespace CurveEditor
         CenterLine m_CenterLine = new CenterLine();
         TopLine m_TopLine = new TopLine();
         BottomLine m_BottomLine = new BottomLine();
+        VerticalLine m_VerticalLeftLine = new VerticalLine(true);
+        VerticalLine m_VerticalRightLine = new VerticalLine(false);
         /// <summary>
         /// 曲線
         /// </summary>
@@ -47,6 +49,8 @@ namespace CurveEditor
             m_CenterLine.Init();
             m_TopLine.Init();
             m_BottomLine.Init();
+            m_VerticalLeftLine.Init();
+            m_VerticalRightLine.Init();
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
@@ -62,10 +66,9 @@ namespace CurveEditor
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            Invalidate();
-            Refresh();
             m_CurvePointControl.MovePoint(e);
-                  
+            Invalidate();
+            Refresh();//再描画
         }  
         /// <summary>
         /// 3次ベジェ曲線を結ぶ点描画
@@ -101,6 +104,8 @@ namespace CurveEditor
             m_CenterLine.Paint(g);
             m_TopLine.Paint(g);
             m_BottomLine.Paint(g);
+            m_VerticalLeftLine.Paint(g);
+            m_VerticalRightLine.Paint(g);
         }
         /// <summary>
         /// pictureBox内の描画
@@ -123,7 +128,8 @@ namespace CurveEditor
         //点追加ボタンクリック
         private void button2_Click(object sender, EventArgs e)
         {
-
+            m_CurvePointControl.AddPoint();
+            Refresh();//再描画
         }
     }
 
