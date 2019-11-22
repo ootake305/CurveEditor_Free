@@ -38,7 +38,7 @@ namespace CurveEditor
         const int ScrrenLeftPosX = 0;       //左端
         const int ScrrenTopPosY =  10;      //上端
         const int ScrrenCenterpPosY = 160;  //中央
-
+        const int intervalPointPos = 5;     //点と点の感覚
         int m_SelectPoint = 0;  //左から何番目の点を選択精しているか
         const float m_cpSize = 8; //点のサイズ
         bool m_isMoveStartPoint = false;      //開始点を選択した状態でドラッグできるか
@@ -182,20 +182,22 @@ namespace CurveEditor
         /// </summary>
         public void DeletePoint()
         {
+            //削除できないなら
+            if(!isDeletePoint())
+            {
+                DeleteErrorMessage();//エラーメッセージ
+                return;
+            }
             var LastCnt = m_list.Count() - 1;
-            //開始点をしてる時のみ削除できる
-            if (m_SelectMode != SelectMode.SelectStart) return;
-            //最初の開始点は削除できない
-            if (m_SelectPoint == 0) return;
 
-               //最後の開始点を選択してるなら
+            //最後の開始点を選択してるなら
             if (m_SelectPoint == LastCnt)
             {
                 var BeforeSelectPoint = m_SelectPoint - 1;  //ひとつ前の終了点の移動
-                //一つ前の終了点と一つ先の開始点をつなぐ
+                //一つ前の終了点と最後の終了点を結ぶ
                 BezierPoint sp2 = m_list[BeforeSelectPoint];
 
-                sp2.endPoint.X = ScrrenRightPosX;
+                sp2.endPoint.X = ScrrenRightPosX;//終了点は一番右端
                 sp2.endPoint.Y = m_list[LastCnt].endPoint.Y;
                 m_list[BeforeSelectPoint] = sp2;
             }
@@ -211,10 +213,46 @@ namespace CurveEditor
             }
             //削除
             m_list.RemoveAt(m_SelectPoint);
-
             //削除したときは選択モード解除　でないとエラーが出る
             m_SelectMode = SelectMode.None;
-        } 
+        }
+        /// <summary>
+        /// 点を削除できる状態か
+        /// </summary>
+        /// <returns></returns>
+        bool isDeletePoint()
+        {
+            //最初の開始点は削除できない
+            if (m_SelectPoint == 0) return false;
+            //開始点をしてる時のみ削除できる
+            if (m_SelectMode != SelectMode.SelectStart) return false;
+
+            return true;
+        }
+        /// <summary>
+        /// 削除出来ない点ならエラーメッセージを出す
+        /// </summary>
+        public void DeleteErrorMessage()
+        {
+            //点を選択してないときは削除できない
+            if (m_SelectMode == SelectMode.None)
+            {
+                MessageBox.Show("点を選択していません");
+                return;
+            }
+            //終了点は削除できない
+            if (m_SelectMode == SelectMode.SelectEnd)
+            {
+                MessageBox.Show("最後の点は削除できません。");
+                return;
+            }
+            //最初の開始点は削除できない
+            if (m_SelectPoint == 0)
+            {
+                MessageBox.Show("最初の点は削除できません。");
+                return;
+            }
+        }
         /// <summary>
         /// 点の移動
         /// </summary>
@@ -250,10 +288,13 @@ namespace CurveEditor
             // 一番最初の開始点だけY軸にしか動かせないように
             if (!isSelectFirstStartPoint())
             {
-                //X軸の移動
-                sp.startPoint.X = Clamp(mouse.X, ScrrenLeftPosX, ScrrenRightPosX);
-                //ひとつ前の終了点の移動
+            
                 var BeforeSelectPoint = m_SelectPoint - 1;
+                //X軸の移動 intervalPointPosを加算減算すること隣の点と同じ座標にならないようにする
+                int minpx = m_list[BeforeSelectPoint].startPoint.X + intervalPointPos;
+                int maxpx = sp.endPoint.X - intervalPointPos;
+                sp.startPoint.X = Clamp(mouse.X, minpx, maxpx);
+                //ひとつ前の終了点の移動
                 BezierPoint sp2 = m_list[BeforeSelectPoint];
                 sp2.endPoint = sp.startPoint;
                 m_list[BeforeSelectPoint] = sp2;
@@ -261,6 +302,8 @@ namespace CurveEditor
        
             m_list[m_SelectPoint] = sp;
         }
+
+        
         /// <summary>
         /// 制御点1の移動
         /// </summary>
@@ -271,16 +314,18 @@ namespace CurveEditor
           
             sp.controlPoint1.X = Clamp(mouse.X, ScrrenLeftPosX, ScrrenRightPosX);
             sp.controlPoint1.Y = Clamp(mouse.Y, ScrrenTopPosY, ScrrenBottomPosY);
-            //一番最初の開始点以外を選択しているなら
+            //X軸の移動 intervalPointPosを加算減算すること隣の点と同じ座標にならないようにする
             if (!isSelectFirstStartPoint())
             {
-                sp.controlPoint1.X = Clamp(sp.controlPoint1.X, m_list[m_SelectPoint - 1].endPoint.X, ScrrenRightPosX);
+                int minpx = m_list[m_SelectPoint - 1].endPoint.X + intervalPointPos;
+                sp.controlPoint1.X = Clamp(sp.controlPoint1.X, minpx, ScrrenRightPosX - 1);
             }
 
-            //一番最後の終了点以外を選択しているなら
+            //X軸の移動 intervalPointPosを加算減算すること隣の点と同じ座標にならないようにする
             if (!(isSelectLastEndPoint()))
             {
-                sp.controlPoint1.X = Clamp(sp.controlPoint1.X, ScrrenLeftPosX, m_list[m_SelectPoint + 1].startPoint.X);
+                int maxpx = m_list[m_SelectPoint + 1].startPoint.X - intervalPointPos;
+                sp.controlPoint1.X = Clamp(sp.controlPoint1.X, ScrrenLeftPosX + 1, maxpx);
             }
             m_list[m_SelectPoint] = sp;
         }
@@ -294,16 +339,18 @@ namespace CurveEditor
             sp.controlPoint2.X = Clamp(mouse.X, ScrrenLeftPosX, ScrrenRightPosX);
             sp.controlPoint2.Y = Clamp(mouse.Y, ScrrenTopPosY, ScrrenBottomPosY);
 
-            //一番最初の開始点以外を選択しているなら
+            //一番最初の開始点以外を選択しているなら  +1 -1することで隣の点と同じ座標にならないようにする
             if (!isSelectFirstStartPoint())
             {
-                sp.controlPoint2.X = Clamp(sp.controlPoint2.X, m_list[m_SelectPoint - 1].endPoint.X, ScrrenRightPosX);
+                int minpx = m_list[m_SelectPoint - 1].endPoint.X + intervalPointPos;
+                sp.controlPoint2.X = Clamp(sp.controlPoint2.X,minpx, ScrrenRightPosX - 1);
             }
 
-            //一番最後の終了点以外を選択しているなら
+            //一番最後の終了点以外を選択しているなら  +1 -1することで隣の点と同じ座標にならないようにする
             if (!isSelectLastEndPoint())
             {
-                sp.controlPoint2.X = Clamp(sp.controlPoint2.X, ScrrenLeftPosX, m_list[m_SelectPoint + 1].startPoint.X);
+                int maxpx = m_list[m_SelectPoint + 1].startPoint.X - intervalPointPos;
+                sp.controlPoint2.X = Clamp(sp.controlPoint2.X, ScrrenLeftPosX + 1, maxpx);
             }
             m_list[m_SelectPoint] = sp;
         }
@@ -406,7 +453,7 @@ namespace CurveEditor
        /// <returns></returns>
         public bool isSearchSelectStartPoint(MouseEventArgs mouse,int num)
         {
-            float SelectPointSize = m_cpSize + 20;//判定は少し大きめに
+            float SelectPointSize = m_cpSize + 15;//判定は少し大きめに
             if (mouse.X >= m_list[num].startPoint.X - SelectPointSize / 2 && mouse.X < m_list[num].startPoint.X + SelectPointSize / 2)
             {
                 if (mouse.Y >= m_list[num].startPoint.Y - SelectPointSize / 2 && mouse.Y < m_list[num].startPoint.Y + SelectPointSize / 2)
@@ -424,7 +471,7 @@ namespace CurveEditor
         public bool isSearchSelectControlPoint(MouseEventArgs mouse)
         {
             if (m_SelectMode != SelectMode.SelectStart) return false;
-            float SelectPointSize = m_cpSize + 20;//判定は少し大きめに
+            float SelectPointSize = m_cpSize + 15;//判定は少し大きめに
             if (mouse.X >= m_list[m_SelectPoint].controlPoint1.X - SelectPointSize / 2 && mouse.X < m_list[m_SelectPoint].controlPoint1.X + SelectPointSize / 2)
             {
                 if (mouse.Y >= m_list[m_SelectPoint].controlPoint1.Y - SelectPointSize / 2 && mouse.Y < m_list[m_SelectPoint].controlPoint1.Y + SelectPointSize / 2)
@@ -443,7 +490,7 @@ namespace CurveEditor
         public bool isSearchSelectContro2Point(MouseEventArgs mouse)
         {
             if (m_SelectMode != SelectMode.SelectStart) return false;
-            float SelectPointSize = m_cpSize + 25;//判定は少し大きめに
+            float SelectPointSize = m_cpSize + 15;//判定は少し大きめに
             if (mouse.X >= m_list[m_SelectPoint].controlPoint2.X - SelectPointSize / 2 && mouse.X < m_list[m_SelectPoint].controlPoint2.X + SelectPointSize / 2)
             {
                 if (mouse.Y >= m_list[m_SelectPoint].controlPoint2.Y - SelectPointSize / 2 && mouse.Y < m_list[m_SelectPoint].controlPoint2.Y + SelectPointSize / 2)
@@ -454,13 +501,13 @@ namespace CurveEditor
             return false;
         }
         /// <summary>
-        /// 開始点がマウスカーソルの下にあるか検索
+        /// 終了点がマウスカーソルの下にあるか検索
         /// </summary>
         /// <param name="mouse"></param>
         /// <returns></returns>
         public bool isSearchSelectEndPoint(MouseEventArgs mouse)
         {
-            float SelectPointSize = m_cpSize + 25;//判定は少し大きめに
+            float SelectPointSize = m_cpSize + 15;//判定は少し大きめに
             int LastNum = m_list.Count() - 1;//最後の点
             if (mouse.X >= m_list[LastNum].endPoint.X - SelectPointSize / 2 && mouse.X < m_list[LastNum].endPoint.X + SelectPointSize / 2)
             {

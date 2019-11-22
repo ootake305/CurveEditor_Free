@@ -7,13 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Drawing.Drawing2D;
 using System.Windows.Input;
 
 
 namespace CurveEditor
 {
-
 
     public partial class Form1 : Form
     {
@@ -28,20 +26,20 @@ namespace CurveEditor
         /// <summary>
         /// 曲線
         /// </summary>
-        CurvePointControl m_CurvePointControl;
+        CurvePointControl m_CurvePointControl = new CurvePointControl();
 
         public Form1()
         {
-           
             InitializeComponent();
-            Text = "DrawBezier";
+            Text = "CurveEditor ver:0.5 α版";
+            //ちらつき防止
             SetStyle(
     ControlStyles.DoubleBuffer |
     ControlStyles.UserPaint |
     ControlStyles.AllPaintingInWmPaint, true);
             　
             StandartPointInit();
-            m_CurvePointControl = new CurvePointControl();
+            KeyPreview = true;//キー入力有効化
         }
         //中心の線を引くためのポイント初期化
         public void StandartPointInit()
@@ -55,13 +53,30 @@ namespace CurveEditor
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
-
-            m_CurvePointControl.SearchSelectPoint(e);
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
+                    m_CurvePointControl.SearchSelectPoint(e);
+                    break;
+                case MouseButtons.Middle:
+                    break;
+                case MouseButtons.Right:
+                    break;
+            }
         }
 
         private void Form1_MouseUp(object sender, MouseEventArgs e)
         {
-            m_CurvePointControl.CancelMovePoint();
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
+                    m_CurvePointControl.CancelMovePoint();
+                    break;
+                case MouseButtons.Middle:
+                    break;
+                case MouseButtons.Right:
+                    break;
+            }
         }
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
@@ -138,6 +153,20 @@ namespace CurveEditor
             Refresh();//再描画
         }
 
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            //デリーとキー押したら
+             if (e.KeyCode == Keys.Delete)
+             {
+                 m_CurvePointControl.DeletePoint();//点削除
+                 Refresh();//再描画
+             }
+            //デリーとキー押したら
+            if (e.KeyCode == Keys.Escape)
+            {
+                Close();
+            }
+        }
     }
 
 }
