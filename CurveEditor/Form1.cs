@@ -21,13 +21,20 @@ namespace CurveEditor
         CenterLine m_CenterLine = new CenterLine();
         TopLine m_TopLine = new TopLine();
         BottomLine m_BottomLine = new BottomLine();
-        VerticalLine m_VerticalLeftLine = new VerticalLine(true);
-        VerticalLine m_VerticalRightLine = new VerticalLine(false);
+        VerticalEndLine m_VerticalLeftLine = new VerticalEndLine(true);
+        VerticalEndLine m_VerticalRightLine = new VerticalEndLine(false);
+
+        VerticalLine[] m_VerticalCenterLines = new VerticalLine[5];
         /// <summary>
         /// 曲線
         /// </summary>
         CurvePointControl m_CurvePointControl = new CurvePointControl();
 
+        int m_MinNum;//最小値
+        int m_MaxNum;  //最大値
+
+        const int ScrrenCenterpPosY = 160;  //中央
+        Point m_MousePos;
         public Form1()
         {
             InitializeComponent();
@@ -40,6 +47,8 @@ namespace CurveEditor
             　
             StandartPointInit();
             KeyPreview = true;//キー入力有効化
+            //入力装置の初期化
+            numericUpDownInit();
         }
         //中心の線を引くためのポイント初期化
         public void StandartPointInit()
@@ -49,14 +58,26 @@ namespace CurveEditor
             m_BottomLine.Init();
             m_VerticalLeftLine.Init();
             m_VerticalRightLine.Init();
+            for(int i = 0; i < 5; i++)
+            {
+                m_VerticalCenterLines[i] = new VerticalLine((i + 1) * 100 );
+                m_VerticalCenterLines[i].Init();
+            }
+         
         }
-
+        public void numericUpDownInit()
+        {
+            numericUpDown8.ValueChanged += new EventHandler(ChangeFirstStartPoint);
+            numericUpDown8.Value = ScrrenCenterpPosY;
+            ChangeFirstStartPoint(null,null);
+        }
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
             switch (e.Button)
             {
                 case MouseButtons.Left:
                     m_CurvePointControl.SearchSelectPoint(e);
+                    SaveMousePos(e);
                     break;
                 case MouseButtons.Middle:
                     break;
@@ -121,6 +142,10 @@ namespace CurveEditor
             m_BottomLine.Paint(g);
             m_VerticalLeftLine.Paint(g);
             m_VerticalRightLine.Paint(g);
+            for (int i = 0; i < 5; i++)
+            {
+                m_VerticalCenterLines[i].Paint(g);
+            }
         }
         /// <summary>
         /// pictureBox内の描画
@@ -146,26 +171,50 @@ namespace CurveEditor
             m_CurvePointControl.AddPoint();
             Refresh();//再描画
         }
+        //点追加ダブルクリック時呼びだす
+        private void pictureBox1_DoubleClick(object sender, EventArgs e)
+        {
+            m_CurvePointControl.AddPoint(m_MousePos);
+            Refresh();//再描画
+        }
         //点削除ボタンクリック
         private void button1_Click(object sender, EventArgs e)
         {
             m_CurvePointControl.DeletePoint();
             Refresh();//再描画
         }
-
+        //キーを押した際のイベント
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            //デリーとキー押したら
-             if (e.KeyCode == Keys.Delete)
+            //デリートキー押したら
+            if (e.KeyCode == Keys.Delete)
              {
                  m_CurvePointControl.DeletePoint();//点削除
                  Refresh();//再描画
              }
-            //デリーとキー押したら
+            //エスケープキーを押したら
             if (e.KeyCode == Keys.Escape)
             {
                 Close();
             }
+        }
+    
+
+        public void ChangeFirstStartPoint(object sender, EventArgs e)
+        {
+            int  num= Convert.ToInt32(numericUpDown8.Value);
+            numericUpDown8.Value =  m_CurvePointControl.SetFirstStartPoint(num);
+            Refresh();//再描画
+        }
+        /// <summary>
+        ///  picture内のマウス座標を保存
+        /// </summary>
+        public void SaveMousePos(MouseEventArgs e)
+        {    
+            Point p = new Point();
+            p.X = e.X;
+            p.Y = e.Y;
+            m_MousePos = p;
         }
     }
 

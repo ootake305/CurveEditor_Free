@@ -110,11 +110,11 @@ namespace CurveEditor
         }
     }
 
-
-     class VerticalLine : LineBase
+    //端っこの縦線
+     class VerticalEndLine : LineBase
     {
-        bool m_isLeft = false;
-        public VerticalLine(bool isLeft)
+        bool m_isLeft = false;//左端か
+        public VerticalEndLine(bool isLeft)
         {
             m_isLeft = isLeft;
         }
@@ -140,6 +140,28 @@ namespace CurveEditor
             m_startPoint.Y = ScrrenTopPosY;
             m_endPoint.Y = ScrrenBottomPosY;
             m_pen = new Pen(Color.FromArgb(100, 200, 200, 200), 5.0f);
+        }
+    }
+    class VerticalLine : LineBase
+    {
+        int m_X;
+        public VerticalLine(int x)
+        {
+            m_X = x;
+        }
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        public override void Init()
+        {
+            base.Init();
+
+             m_startPoint.X = m_X;
+             m_endPoint.X = m_X;
+
+            m_startPoint.Y = ScrrenTopPosY;
+            m_endPoint.Y = ScrrenBottomPosY;
+            m_pen = new Pen(Color.FromArgb(50, 200, 200, 200), 1.0f);
         }
     }
 }

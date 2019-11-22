@@ -98,8 +98,8 @@ namespace CurveEditor
                     e.Graphics.DrawEllipse(m_CPointLineColor, m_list[m_SelectPoint].controlPoint2.X - m_cpSize / 2, m_list[m_SelectPoint].controlPoint2.Y - m_cpSize / 2, m_cpSize, m_cpSize);
                     break;
                 case SelectMode.SelectEnd://終了点を選択している
-                    int LastNum = m_list.Count() - 1;//最後の点
-                    e.Graphics.DrawEllipse(m_PointLineColor, m_list[LastNum].endPoint.X - m_cpSize / 2, m_list[LastNum].endPoint.Y - m_cpSize / 2, m_cpSize, m_cpSize);
+                    int LastCnt = m_list.Count() - 1;//最後の点
+                    e.Graphics.DrawEllipse(m_PointLineColor, m_list[LastCnt].endPoint.X - m_cpSize / 2, m_list[LastCnt].endPoint.Y - m_cpSize / 2, m_cpSize, m_cpSize);
                     break;
                 case SelectMode.None:
                     break;
@@ -146,13 +146,51 @@ namespace CurveEditor
 
             e.Graphics.DrawPath(m_pen2, m_path2);
         }
+
+        /// <summary>
+        /// マウスが点が何番目の点になるかを求める
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public int SearchSelectStartPoint(Point p)
+        {
+            int ListMax = m_list.Count();
+       
+            for (int i = 0; i < ListMax; i++)
+            {
+                if (m_list[i].endPoint.X > p.X) return i;
+            }
+            return ListMax - 1;
+        }
         /// <summary>
         /// 点の追加(ダブルクリックVer)
         /// </summary>
         /// <param name="p"></param>
         public void AddPoint(Point p)
         {
-          
+            var SelectNum = SearchSelectStartPoint(p);//何番目の点になるか
+            BezierPoint startBezirPoint = new BezierPoint();
+            const int ofsetY = 30;
+
+            startBezirPoint.startPoint = new Point(Math.Min(p.X, ScrrenRightPosX), Clamp(p.Y, ScrrenTopPosY, ScrrenBottomPosY));
+            startBezirPoint.endPoint = new Point(m_list[SelectNum].endPoint.X, m_list[SelectNum].endPoint.Y);
+            //制御点は追加される開始点の少し右に生成させる
+            var cpointX = Clamp(startBezirPoint.startPoint.X + 10, ScrrenLeftPosX, ScrrenRightPosX);
+            startBezirPoint.controlPoint1 = new Point(cpointX, Clamp( startBezirPoint.startPoint.Y + ofsetY, ScrrenTopPosY, ScrrenBottomPosY));
+            startBezirPoint.controlPoint2 = new Point(cpointX, Clamp(startBezirPoint.startPoint.Y - ofsetY, ScrrenTopPosY, ScrrenBottomPosY));
+
+            m_list.Insert(SelectNum + 1, startBezirPoint);//新しい点追加
+
+            //追加前の最後の終了点を追加した最後の開始点とつなげる ここ大事！
+            BezierPoint BezirPoint = new BezierPoint();
+            BezirPoint = m_list[SelectNum];
+            BezirPoint.endPoint = m_list[SelectNum + 1].startPoint;//繋ぎなおす
+            m_list[SelectNum] = BezirPoint;
+
+            //ダブルクリックで選択モードが解除されてるので選択モードに
+            m_SelectMode = SelectMode.SelectStart;
+            //増やした点を選択状態に
+            m_SelectPoint = SelectNum + 1;
         }
         /// <summary>
         /// 点の追加(ボタンver)
@@ -176,6 +214,8 @@ namespace CurveEditor
             BezirPoint = m_list[LastCnt];
             BezirPoint.endPoint = m_list[LastCnt + 1].startPoint;//繋ぎなおす
             m_list[LastCnt] = BezirPoint;
+            //増やした点を選択状態に
+            m_SelectPoint = LastCnt + 1;
         }
         /// <summary>
         /// 選択している点の削除(ボタンver)
@@ -301,9 +341,7 @@ namespace CurveEditor
             }
        
             m_list[m_SelectPoint] = sp;
-        }
-
-        
+        }   
         /// <summary>
         /// 制御点1の移動
         /// </summary>
@@ -360,10 +398,10 @@ namespace CurveEditor
         /// <param name="mouse"></param>
         public void MoveEndPoint(MouseEventArgs mouse)
         {
-            int LastNum = m_list.Count() - 1;
-            BezierPoint sp = m_list[LastNum]; //選択している点
+            int LastCnt = m_list.Count() - 1;
+            BezierPoint sp = m_list[LastCnt]; //選択している点
             sp.endPoint.Y = Clamp(mouse.Y, ScrrenTopPosY, ScrrenBottomPosY); ;
-            m_list[LastNum] = sp;
+            m_list[LastCnt] = sp;
         }
         /// <summary>
         /// 点を選択してドラック出来る状態か検索する クリックしたときに呼ぶ
@@ -508,10 +546,10 @@ namespace CurveEditor
         public bool isSearchSelectEndPoint(MouseEventArgs mouse)
         {
             float SelectPointSize = m_cpSize + 15;//判定は少し大きめに
-            int LastNum = m_list.Count() - 1;//最後の点
-            if (mouse.X >= m_list[LastNum].endPoint.X - SelectPointSize / 2 && mouse.X < m_list[LastNum].endPoint.X + SelectPointSize / 2)
+            int LastCnt = m_list.Count() - 1;//最後の点
+            if (mouse.X >= m_list[LastCnt].endPoint.X - SelectPointSize / 2 && mouse.X < m_list[LastCnt].endPoint.X + SelectPointSize / 2)
             {
-                if (mouse.Y >= m_list[LastNum].endPoint.Y - SelectPointSize / 2 && mouse.Y < m_list[LastNum].endPoint.Y + SelectPointSize / 2)
+                if (mouse.Y >= m_list[LastCnt].endPoint.Y - SelectPointSize / 2 && mouse.Y < m_list[LastCnt].endPoint.Y + SelectPointSize / 2)
                 {
                     return true;
                 }
@@ -546,6 +584,29 @@ namespace CurveEditor
         {
             return Math.Min(Math.Max(minVal, x), maxVal);
         }
+        /// <summary>
+        /// 最初の開始点セット
+        /// </summary>
+        /// <param name="y"></param>
+        public int SetFirstStartPoint(int y)
+        {
+            BezierPoint sp = m_list[0]; //最初の点
+            sp.startPoint.Y = Clamp(y, ScrrenTopPosY, ScrrenBottomPosY);
+            m_list[0] = sp;
+            return sp.startPoint.Y;
+        }
+        /// <summary>
+        /// 最後の終了点セット
+        /// </summary>
+        /// <param name="y"></param>
+         public int  SetEndPoint(int y)
+        {
+            var LastCnt = m_list.Count() - 1;
 
+            BezierPoint sp = m_list[LastCnt]; //最後の点
+            sp.endPoint.Y = Clamp(y, ScrrenTopPosY, ScrrenBottomPosY);
+            m_list[LastCnt] = sp;
+            return sp.endPoint.Y;
+        }
     }
 }
