@@ -57,6 +57,7 @@
             this.menuSaveAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.menuEnd = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -87,7 +88,7 @@
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(198, 375);
+            this.numericUpDown1.Location = new System.Drawing.Point(85, 375);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -104,7 +105,7 @@
             // 
             // numericUpDown2
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(198, 400);
+            this.numericUpDown2.Location = new System.Drawing.Point(85, 401);
             this.numericUpDown2.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -121,7 +122,7 @@
             // 
             // numericUpDown3
             // 
-            this.numericUpDown3.Location = new System.Drawing.Point(198, 425);
+            this.numericUpDown3.Location = new System.Drawing.Point(85, 426);
             this.numericUpDown3.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -138,7 +139,7 @@
             // 
             // numericUpDown4
             // 
-            this.numericUpDown4.Location = new System.Drawing.Point(85, 425);
+            this.numericUpDown4.Location = new System.Drawing.Point(198, 375);
             this.numericUpDown4.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -155,7 +156,7 @@
             // 
             // numericUpDown5
             // 
-            this.numericUpDown5.Location = new System.Drawing.Point(85, 400);
+            this.numericUpDown5.Location = new System.Drawing.Point(198, 402);
             this.numericUpDown5.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -172,7 +173,7 @@
             // 
             // numericUpDown6
             // 
-            this.numericUpDown6.Location = new System.Drawing.Point(85, 375);
+            this.numericUpDown6.Location = new System.Drawing.Point(198, 426);
             this.numericUpDown6.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -411,12 +412,19 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.FileToolStripMenuItem});
+            this.FileToolStripMenuItem,
+            this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(653, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "Help";
             // 
             // label11
             // 
@@ -554,6 +562,7 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
     }
 }
 

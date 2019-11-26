@@ -30,10 +30,11 @@ namespace CurveEditor
         /// </summary>
         CurvePointControl m_CurvePointControl = new CurvePointControl();
 
-        int m_MinNum;//最小値
-        int m_MaxNum;  //最大値
+        int m_MinNum = -150;//最小値
+        int m_MaxNum = 150;  //最大値
 
         const int ScrrenCenterpPosY = 160;  //中央
+        const int ScrrenTopPosY = 10;      //上端
         Point m_MousePos;
         public Form1()
         {
@@ -65,11 +66,33 @@ namespace CurveEditor
             }
          
         }
+        //入力項目の初期化
         public void numericUpDownInit()
         {
+            //値が変わった時の呼び出されるメソッド設定
+            numericUpDown1.ValueChanged += new EventHandler(ChangeSelectPointX);
+            numericUpDown2.ValueChanged += new EventHandler(ChangeControlPoint1X);
+            numericUpDown3.ValueChanged += new EventHandler(ChangeControlPoint2X);
+            numericUpDown4.ValueChanged += new EventHandler(ChangeSelectPointY);
+            numericUpDown5.ValueChanged += new EventHandler(ChangeControlPoint1Y);
+            numericUpDown6.ValueChanged += new EventHandler(ChangeControlPoint2Y);
+            numericUpDown7.ValueChanged += new EventHandler(ChangeEndPoint);
+            numericUpDown7.Value = ScrrenTopPosY;
             numericUpDown8.ValueChanged += new EventHandler(ChangeFirstStartPoint);
             numericUpDown8.Value = ScrrenCenterpPosY;
+            numericUpDown9.ValueChanged += new EventHandler(ChangeMaxValue);
+            numericUpDown9.Value = m_MaxNum;
+            numericUpDown10.ValueChanged += new EventHandler(ChangeMinValue);
+            numericUpDown10.Value = m_MinNum;
             ChangeFirstStartPoint(null,null);
+            ChangeEndPoint(null, null);
+        }
+        /// <summary>
+        /// 点を動かした際同期を取る
+        /// </summary>
+        public void numericUpDownSync()
+        {
+
         }
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -198,14 +221,6 @@ namespace CurveEditor
                 Close();
             }
         }
-    
-
-        public void ChangeFirstStartPoint(object sender, EventArgs e)
-        {
-            int  num= Convert.ToInt32(numericUpDown8.Value);
-            numericUpDown8.Value =  m_CurvePointControl.SetFirstStartPoint(num);
-            Refresh();//再描画
-        }
         /// <summary>
         ///  picture内のマウス座標を保存
         /// </summary>
@@ -216,6 +231,107 @@ namespace CurveEditor
             p.Y = e.Y;
             m_MousePos = p;
         }
+
+
+
+        /// <summary>
+        /// 選択点X
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ChangeSelectPointX(object sender, EventArgs e)
+        {
+            int num = Convert.ToInt32(numericUpDown1.Value);
+            numericUpDown1.Value = m_CurvePointControl.SetStartPointX(num);
+            Refresh();//再描画
+        }
+        /// <summary>
+        /// 選択点Y
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ChangeSelectPointY(object sender, EventArgs e)
+        {
+            int num = Convert.ToInt32(numericUpDown4.Value);
+            numericUpDown4.Value = m_CurvePointControl.SetStartPointY(num);
+            Refresh();//再描画
+        }
+        /// <summary>
+        /// 制御0点1X
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ChangeControlPoint1X(object sender, EventArgs e)
+        {
+            int num = Convert.ToInt32(numericUpDown2.Value);
+            numericUpDown2.Value = m_CurvePointControl.SetControl1PointX(num);
+            Refresh();//再描画
+        }
+        /// <summary>
+        /// 制御0点1Y
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ChangeControlPoint1Y(object sender, EventArgs e)
+        {
+            int num = Convert.ToInt32(numericUpDown5.Value);
+            numericUpDown5.Value = m_CurvePointControl.SetControl1PointY(num);
+            Refresh();//再描画
+        }
+        /// <summary>
+        /// 制御0点2X
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ChangeControlPoint2X(object sender, EventArgs e)
+        {
+            int num = Convert.ToInt32(numericUpDown3.Value);
+            numericUpDown3.Value = m_CurvePointControl.SetControl2PointX(num);
+            Refresh();//再描画
+        }
+        /// <summary>
+        /// 制御0点2Y
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ChangeControlPoint2Y(object sender, EventArgs e)
+        {
+            int num = Convert.ToInt32(numericUpDown6.Value);
+            numericUpDown6.Value = m_CurvePointControl.SetControl2PointY(num);
+            Refresh();//再描画
+        }
+        //開始点せってい
+        public void ChangeFirstStartPoint(object sender, EventArgs e)
+        {
+            int num = Convert.ToInt32(numericUpDown8.Value);
+            numericUpDown8.Value = m_CurvePointControl.SetFirstStartPoint(num);
+            Refresh();//再描画
+        }
+        /// <summary>
+        /// 終了点
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ChangeEndPoint(object sender, EventArgs e)
+        {
+            int num = Convert.ToInt32(numericUpDown7.Value);
+            numericUpDown7.Value = m_CurvePointControl.SetEndPoint(num);
+            Refresh();//再描画
+        }
+        public void ChangeMaxValue(object sender, EventArgs e)
+        {
+            int num = Convert.ToInt32(numericUpDown9.Value);
+            m_MaxNum = num;
+            Refresh();//再描画
+        }
+
+        public void ChangeMinValue(object sender, EventArgs e)
+        {
+            int num = Convert.ToInt32(numericUpDown8.Value);
+            m_MinNum = num;
+            Refresh();//再描画
+        }
+
     }
 
 }

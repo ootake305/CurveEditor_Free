@@ -172,10 +172,10 @@ namespace CurveEditor
             BezierPoint startBezirPoint = new BezierPoint();
             const int ofsetY = 30;
 
-            startBezirPoint.startPoint = new Point(Math.Min(p.X, ScrrenRightPosX), Clamp(p.Y, ScrrenTopPosY, ScrrenBottomPosY));
+            startBezirPoint.startPoint = new Point(Math.Min(p.X, ScrrenRightPosX - 1), Clamp(p.Y, ScrrenTopPosY, ScrrenBottomPosY));
             startBezirPoint.endPoint = new Point(m_list[SelectNum].endPoint.X, m_list[SelectNum].endPoint.Y);
             //制御点は追加される開始点の少し右に生成させる
-            var cpointX = Clamp(startBezirPoint.startPoint.X + 10, ScrrenLeftPosX, ScrrenRightPosX);
+            var cpointX = Clamp(startBezirPoint.startPoint.X + 10, ScrrenLeftPosX, ScrrenRightPosX - 1);
             startBezirPoint.controlPoint1 = new Point(cpointX, Clamp( startBezirPoint.startPoint.Y + ofsetY, ScrrenTopPosY, ScrrenBottomPosY));
             startBezirPoint.controlPoint2 = new Point(cpointX, Clamp(startBezirPoint.startPoint.Y - ofsetY, ScrrenTopPosY, ScrrenBottomPosY));
 
@@ -327,8 +327,7 @@ namespace CurveEditor
             sp.startPoint.Y = Clamp(mouse.Y, ScrrenTopPosY, ScrrenBottomPosY);
             // 一番最初の開始点だけY軸にしか動かせないように
             if (!isSelectFirstStartPoint())
-            {
-            
+            {     
                 var BeforeSelectPoint = m_SelectPoint - 1;
                 //X軸の移動 intervalPointPosを加算減算すること隣の点と同じ座標にならないようにする
                 int minpx = m_list[BeforeSelectPoint].startPoint.X + intervalPointPos;
@@ -583,6 +582,128 @@ namespace CurveEditor
         public int  Clamp(int x, int minVal, int maxVal)
         {
             return Math.Min(Math.Max(minVal, x), maxVal);
+        }
+        /// <summary>
+        ///    開始点セット
+        /// </summary>
+        /// <param name="y"></param>
+        public int SetStartPointX(int x)
+        {
+            BezierPoint sp = m_list[m_SelectPoint]; //最初の点
+
+            if (isSelectFirstStartPoint()) return 0;
+            if (m_SelectMode == SelectMode.None) return 0;
+
+            var BeforeSelectPoint = m_SelectPoint - 1;
+            //X軸の移動 intervalPointPosを加算減算すること隣の点と同じ座標にならないようにする
+            int minpx = m_list[BeforeSelectPoint].startPoint.X + intervalPointPos;
+            int maxpx = sp.endPoint.X - intervalPointPos;
+            sp.startPoint.X = Clamp(x, minpx, maxpx);
+            //ひとつ前の終了点の移動
+            BezierPoint sp2 = m_list[BeforeSelectPoint];
+            sp2.endPoint = sp.startPoint;
+            m_list[BeforeSelectPoint] = sp2;
+
+            m_list[m_SelectPoint] = sp;
+            return x;
+        }
+        /// <summary>
+        ///    開始点セット
+        /// </summary>
+        /// <param name="y"></param>
+        public int SetStartPointY(int y)
+        {
+            if (m_SelectMode == SelectMode.None) return 0;
+
+            BezierPoint sp = m_list[m_SelectPoint]; //最初の点のY
+
+            sp.startPoint.Y = Clamp(y, ScrrenTopPosY, ScrrenBottomPosY);
+            m_list[m_SelectPoint] = sp;
+            return sp.startPoint.Y;
+        }
+        /// <summary>
+        ///    制御点1Xセット
+        /// </summary>
+        /// <param name="y"></param>
+        public int SetControl1PointX(int x)
+        {
+            if (m_SelectMode == SelectMode.None) return 0;
+
+            BezierPoint sp = m_list[m_SelectPoint]; //選択している点
+            sp.controlPoint1.X = Clamp(x, ScrrenLeftPosX, ScrrenRightPosX);
+
+            //一番最初の開始点以外を選択しているなら  +1 -1することで隣の点と同じ座標にならないようにする
+            if (!isSelectFirstStartPoint())
+            {
+                int minpx = m_list[m_SelectPoint - 1].endPoint.X + intervalPointPos;
+                sp.controlPoint1.X = Clamp(sp.controlPoint1.X, minpx, ScrrenRightPosX - 1);
+            }
+
+            //一番最後の終了点以外を選択しているなら  +1 -1することで隣の点と同じ座標にならないようにする
+            if (!isSelectLastEndPoint())
+            {
+                int maxpx = m_list[m_SelectPoint + 1].startPoint.X - intervalPointPos;
+                sp.controlPoint1.X = Clamp(sp.controlPoint1.X, ScrrenLeftPosX + 1, maxpx);
+            }
+            m_list[m_SelectPoint] = sp;
+
+            return sp.controlPoint1.X;
+        }
+        /// <summary>
+        ///    制御点2Xセット
+        /// </summary>
+        /// <param name="y"></param>
+        public int SetControl2PointX(int x)
+        {
+            if (m_SelectMode == SelectMode.None) return 0;
+
+            BezierPoint sp = m_list[m_SelectPoint]; //選択している点
+            sp.controlPoint2.X = Clamp(x, ScrrenLeftPosX, ScrrenRightPosX);
+
+            //一番最初の開始点以外を選択しているなら  +1 -1することで隣の点と同じ座標にならないようにする
+            if (!isSelectFirstStartPoint())
+            {
+                int minpx = m_list[m_SelectPoint - 1].endPoint.X + intervalPointPos;
+                sp.controlPoint2.X = Clamp(sp.controlPoint2.X, minpx, ScrrenRightPosX - 1);
+            }
+
+            //一番最後の終了点以外を選択しているなら  +1 -1することで隣の点と同じ座標にならないようにする
+            if (!isSelectLastEndPoint())
+            {
+                int maxpx = m_list[m_SelectPoint + 1].startPoint.X - intervalPointPos;
+                sp.controlPoint2.X = Clamp(sp.controlPoint2.X, ScrrenLeftPosX + 1, maxpx);
+            }
+            m_list[m_SelectPoint] = sp;
+
+            return sp.controlPoint2.X;
+        }
+        /// <summary>
+        ///    制御点1Ｙセット
+        /// </summary>
+        /// <param name="y"></param>
+        public int SetControl1PointY(int y)
+        {
+            if (m_SelectMode == SelectMode.None) return 0;
+
+            BezierPoint sp = m_list[m_SelectPoint];
+
+            sp.controlPoint1.Y = Clamp(y, ScrrenTopPosY, ScrrenBottomPosY);
+            m_list[m_SelectPoint] = sp;
+            return sp.controlPoint1.Y;
+        }
+        /// <summary>
+        ///    制御点2Ｙセット
+        /// </summary>
+        /// <param name="y"></param>
+        public int SetControl2PointY(int y)
+        {
+            if (m_SelectMode == SelectMode.None) return 0;
+
+            BezierPoint sp = m_list[m_SelectPoint];
+
+            sp.controlPoint2.Y = Clamp(y, ScrrenTopPosY, ScrrenBottomPosY);
+            m_list[m_SelectPoint] = sp;
+            return sp.controlPoint2.Y;
         }
         /// <summary>
         /// 最初の開始点セット
