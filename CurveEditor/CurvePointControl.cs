@@ -16,7 +16,7 @@ namespace CurveEditor
     class CurvePointControl
     {
         //3次ベジェ曲線に必要な点
-        struct BezierPoint
+        public struct BezierPoint
         {
             public Point startPoint;     //開始点
             public Point controlPoint1;  //制御点1
@@ -573,6 +573,27 @@ namespace CurveEditor
             return m_SelectPoint == LastCnt;
         }
         /// <summary>
+        /// どれかの動いてる点を選択してるか
+        /// </summary>
+        /// <returns></returns>
+        public bool isMoveSelectPoint()
+        {
+            if (m_isMoveStartPoint) return true;//選択した開始点
+            if (m_isMoveControl1Point) return true;//選択した制御点1
+            if (m_isMoveControl2Point) return true;//選択した制御点2
+            if (m_isMoveEndPoint) return true;//選択した最後の点
+            return false;
+        }
+        /// <summary>
+        /// どれかの点を選択してるか
+        /// </summary>
+        /// <returns></returns>
+        public bool isSelectPoint()
+        {
+            if (m_SelectMode == SelectMode.None) return false;
+            return true;
+        }
+        /// <summary>
         /// /値を特定の範囲に宣言する
         /// </summary>
         /// <param name="x"></param>
@@ -728,6 +749,30 @@ namespace CurveEditor
             sp.endPoint.Y = Clamp(y, ScrrenTopPosY, ScrrenBottomPosY);
             m_list[LastCnt] = sp;
             return sp.endPoint.Y;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+
+        public BezierPoint GetBezierPoint()
+        {
+            return m_list[m_SelectPoint];
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+
+        public int GetFirstStartPointY()
+        {
+            return m_list[0].startPoint.Y;
+        }
+
+        public int GetEndPointY()
+        {
+            var LastCnt = m_list.Count() - 1;
+            return m_list[LastCnt].endPoint.Y;
         }
     }
 }

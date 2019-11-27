@@ -87,12 +87,21 @@ namespace CurveEditor
             ChangeFirstStartPoint(null,null);
             ChangeEndPoint(null, null);
         }
+        CurvePointControl.BezierPoint bp;//一時保存用
         /// <summary>
         /// 点を動かした際同期を取る
         /// </summary>
         public void numericUpDownSync()
         {
-
+            bp = m_CurvePointControl.GetBezierPoint();
+            numericUpDown1.Value = bp.startPoint.X;
+            numericUpDown2.Value = bp.controlPoint1.X;
+            numericUpDown3.Value = bp.controlPoint2.X;
+            numericUpDown4.Value = bp.startPoint.Y;
+            numericUpDown5.Value = bp.controlPoint1.Y;
+            numericUpDown6.Value = bp.controlPoint2.Y;
+            numericUpDown7.Value = m_CurvePointControl.GetEndPointY();
+            numericUpDown8.Value = m_CurvePointControl.GetFirstStartPointY();
         }
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -114,7 +123,13 @@ namespace CurveEditor
             switch (e.Button)
             {
                 case MouseButtons.Left:
-                    m_CurvePointControl.CancelMovePoint();
+               
+                      m_CurvePointControl.CancelMovePoint();
+                    if (!m_CurvePointControl.isSelectPoint())
+                    {
+                        //入力項目のリセット
+                        ResetCurvePointValue();
+                    }
                     break;
                 case MouseButtons.Middle:
                     break;
@@ -126,6 +141,7 @@ namespace CurveEditor
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
             m_CurvePointControl.MovePoint(e);
+            numericUpDownSync();
           //  Invalidate();重くなるのでいらない
             Refresh();//再描画
         }  
@@ -232,8 +248,6 @@ namespace CurveEditor
             m_MousePos = p;
         }
 
-
-
         /// <summary>
         /// 選択点X
         /// </summary>
@@ -243,7 +257,7 @@ namespace CurveEditor
         {
             int num = Convert.ToInt32(numericUpDown1.Value);
             numericUpDown1.Value = m_CurvePointControl.SetStartPointX(num);
-            Refresh();//再描画
+            if (!m_CurvePointControl.isMoveSelectPoint()) Refresh();//再描画
         }
         /// <summary>
         /// 選択点Y
@@ -254,7 +268,9 @@ namespace CurveEditor
         {
             int num = Convert.ToInt32(numericUpDown4.Value);
             numericUpDown4.Value = m_CurvePointControl.SetStartPointY(num);
-            Refresh();//再描画
+            if (!m_CurvePointControl.isMoveSelectPoint()) Refresh();//再描画
+            //最初の開始点と同期を取る
+            numericUpDown8.Value = m_CurvePointControl.GetFirstStartPointY();
         }
         /// <summary>
         /// 制御0点1X
@@ -265,7 +281,7 @@ namespace CurveEditor
         {
             int num = Convert.ToInt32(numericUpDown2.Value);
             numericUpDown2.Value = m_CurvePointControl.SetControl1PointX(num);
-            Refresh();//再描画
+            if (!m_CurvePointControl.isMoveSelectPoint())  Refresh();//再描画
         }
         /// <summary>
         /// 制御0点1Y
@@ -276,7 +292,7 @@ namespace CurveEditor
         {
             int num = Convert.ToInt32(numericUpDown5.Value);
             numericUpDown5.Value = m_CurvePointControl.SetControl1PointY(num);
-            Refresh();//再描画
+            if (!m_CurvePointControl.isMoveSelectPoint())  Refresh();//再描画
         }
         /// <summary>
         /// 制御0点2X
@@ -287,7 +303,7 @@ namespace CurveEditor
         {
             int num = Convert.ToInt32(numericUpDown3.Value);
             numericUpDown3.Value = m_CurvePointControl.SetControl2PointX(num);
-            Refresh();//再描画
+            if (!m_CurvePointControl.isMoveSelectPoint())  Refresh();//再描画
         }
         /// <summary>
         /// 制御0点2Y
@@ -298,14 +314,17 @@ namespace CurveEditor
         {
             int num = Convert.ToInt32(numericUpDown6.Value);
             numericUpDown6.Value = m_CurvePointControl.SetControl2PointY(num);
-            Refresh();//再描画
+            if (!m_CurvePointControl.isMoveSelectPoint()) Refresh();//再描画
         }
         //開始点せってい
         public void ChangeFirstStartPoint(object sender, EventArgs e)
         {
             int num = Convert.ToInt32(numericUpDown8.Value);
             numericUpDown8.Value = m_CurvePointControl.SetFirstStartPoint(num);
-            Refresh();//再描画
+            if (!m_CurvePointControl.isMoveSelectPoint()) Refresh();//再描画
+
+            bp = m_CurvePointControl.GetBezierPoint();
+            numericUpDown4.Value = bp.startPoint.Y;
         }
         /// <summary>
         /// 終了点
@@ -316,20 +335,31 @@ namespace CurveEditor
         {
             int num = Convert.ToInt32(numericUpDown7.Value);
             numericUpDown7.Value = m_CurvePointControl.SetEndPoint(num);
-            Refresh();//再描画
+            if (!m_CurvePointControl.isMoveSelectPoint()) Refresh();//再描画
+            bp = m_CurvePointControl.GetBezierPoint();
         }
         public void ChangeMaxValue(object sender, EventArgs e)
         {
             int num = Convert.ToInt32(numericUpDown9.Value);
             m_MaxNum = num;
-            Refresh();//再描画
+            if (!m_CurvePointControl.isMoveSelectPoint())  Refresh();//再描画
         }
 
         public void ChangeMinValue(object sender, EventArgs e)
         {
             int num = Convert.ToInt32(numericUpDown8.Value);
             m_MinNum = num;
-            Refresh();//再描画
+            if (!m_CurvePointControl.isMoveSelectPoint()) Refresh();//再描画
+        }
+        //カーブポイント入力項目のリセット
+        public void ResetCurvePointValue()
+        {
+              numericUpDown1.Value = 0;
+              numericUpDown2.Value = 0;
+              numericUpDown3.Value = 0;
+              numericUpDown4.Value = 0;
+              numericUpDown5.Value = 0;
+              numericUpDown6.Value = 0;
         }
 
     }
