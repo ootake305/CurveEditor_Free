@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -640,7 +638,16 @@ namespace CurveEditor
 
             sp.startPoint.Y = Clamp(y, ScrrenTopPosY, ScrrenBottomPosY);
             m_list[m_SelectPoint] = sp;
-            return sp.startPoint.Y;
+
+            //最初の開始点を選択してないなら前の終了点も移動させる
+            if (!isSelectFirstStartPoint())
+            {
+                var BeforeSelectPoint = m_SelectPoint - 1;
+                BezierPoint sp2 = m_list[BeforeSelectPoint];
+                sp2.endPoint = sp.startPoint;
+                m_list[BeforeSelectPoint] = sp2;
+            }
+                return sp.startPoint.Y;
         }
         /// <summary>
         ///    制御点1Xセット
