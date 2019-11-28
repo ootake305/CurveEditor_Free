@@ -35,7 +35,8 @@ namespace CurveEditor
 
         const int ScrrenCenterpPosY = 160;  //中央
         const int ScrrenTopPosY = 10;      //上端
-        Point m_MousePos;//一時保存用変数
+        Point m_MousePos;//一時保存用マウスの座標
+        CurvePointControl.BezierPoint bp;//一時保存用
         public Form1()
         {
             InitializeComponent();
@@ -50,6 +51,8 @@ namespace CurveEditor
             KeyPreview = true;//キー入力有効化
             //入力装置の初期化
             numericUpDownInit();
+
+            LavelInit();
         }
         //中心の線を引くためのポイント初期化
         public void StandartPointInit()
@@ -87,7 +90,16 @@ namespace CurveEditor
             ChangeFirstStartPoint(null,null);
             ChangeEndPoint(null, null);
         }
-        CurvePointControl.BezierPoint bp;//一時保存用
+  
+        /// <summary>
+        /// 背景を透過させるための初期化
+        /// </summary>
+        public void LavelInit()
+        {
+            pictureBox1.Controls.Add(label10);
+            pictureBox1.Controls.Add(label11);
+            pictureBox1.Controls.Add(label12);
+        }
         /// <summary>
         /// 点を動かした際同期を取る
         /// </summary>

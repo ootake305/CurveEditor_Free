@@ -67,7 +67,7 @@ namespace CurveEditor
             base.Init();
             m_startPoint.X = ScrrenLeftPosX;
             m_startPoint.Y = ScrrenCenterpPosY;
-            m_endPoint.X = ScrrenRightPosX;
+            m_endPoint.X = ScrrenRightPosX - 3;//線が重ならないようにするため-3
             m_endPoint.Y = ScrrenCenterpPosY;
             m_pen = new Pen(Color.FromArgb(100, 200, 200, 200), 1);
         }
