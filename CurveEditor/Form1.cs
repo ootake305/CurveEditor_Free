@@ -35,6 +35,7 @@ namespace CurveEditor
 
         const int ScrrenCenterpPosY = 160;  //中央
         const int ScrrenTopPosY = 10;      //上端
+        const int ScrrenBottomPosY = 310;   //下端
         Point m_MousePos;//一時保存用マウスの座標
         CurvePointControl.BezierPoint bp;//一時保存用
         public Form1()
@@ -53,6 +54,7 @@ namespace CurveEditor
             numericUpDownInit();
 
             LavelInit();
+            pictureBox1.ContextMenuStrip = contextMenuStrip1;
         }
         //中心の線を引くためのポイント初期化
         public void StandartPointInit()
@@ -82,15 +84,13 @@ namespace CurveEditor
             numericUpDown7.ValueChanged += new EventHandler(ChangeEndPoint);
             numericUpDown7.Value = ScrrenTopPosY;
             numericUpDown8.ValueChanged += new EventHandler(ChangeFirstStartPoint);
-            numericUpDown8.Value = ScrrenCenterpPosY;
+            numericUpDown8.Value = ScrrenBottomPosY;
             numericUpDown9.ValueChanged += new EventHandler(ChangeMaxValue);
             numericUpDown9.Value = m_MaxNum;
-            numericUpDown10.ValueChanged += new EventHandler(ChangeMinValue);
-            numericUpDown10.Value = m_MinNum;
             ChangeFirstStartPoint(null,null);
             ChangeEndPoint(null, null);
         }
-  
+
         /// <summary>
         /// 背景を透過させるための初期化
         /// </summary>
@@ -99,6 +99,11 @@ namespace CurveEditor
             pictureBox1.Controls.Add(label10);
             pictureBox1.Controls.Add(label11);
             pictureBox1.Controls.Add(label12);
+            pictureBox1.Controls.Add(label13);
+            pictureBox1.Controls.Add(label14);
+            pictureBox1.Controls.Add(label15);
+            pictureBox1.Controls.Add(label16);
+            pictureBox1.Controls.Add(label17);
         }
         /// <summary>
         /// 点を動かした際同期を取る
@@ -369,14 +374,16 @@ namespace CurveEditor
             int num = Convert.ToInt32(numericUpDown9.Value);
             m_MaxNum = num;
             if (!m_CurvePointControl.isMoveSelectPoint())  pictureBox1.Refresh();//再描画
+            label10.Text = m_MaxNum.ToString();
         }
 
-        public void ChangeMinValue(object sender, EventArgs e)
+    /*   public void ChangeMinValue(object sender, EventArgs e)
         {
-            int num = Convert.ToInt32(numericUpDown8.Value);
+            int num = Convert.ToInt32(numericUpDown10.Value);
             m_MinNum = num;
             if (!m_CurvePointControl.isMoveSelectPoint()) pictureBox1.Refresh();//再描画
-        }
+            label12.Text = m_MinNum.ToString();
+        }*/
         //カーブポイント入力項目のリセット
         public void ResetCurvePointValue()
         {
@@ -388,6 +395,25 @@ namespace CurveEditor
               numericUpDown6.Value = 0;
         }
 
-    }
+        public int OriginalPosToLimitPosX()
+        {
+            return 0;
+        }
 
+        public int OriginalPosToLimitPosY()
+        {
+            return 0;
+        }
+
+        public int LimitPosToOriginalPosX()
+        {
+            return 0;
+        }
+
+        public int LimitPosToOriginalPosY()
+        {
+            return 0;
+        }
+
+    }
 }
