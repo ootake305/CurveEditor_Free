@@ -35,6 +35,7 @@ namespace CurveEditor
 
         const int ScrrenCenterpPosY = 160;  //中央
         const int ScrrenTopPosY = 10;      //上端
+        const int ScrrenBottomPosY = 310;   //下端
         Point m_MousePos;//一時保存用マウスの座標
         CurvePointControl.BezierPoint bp;//一時保存用
         public Form1()
@@ -53,6 +54,7 @@ namespace CurveEditor
             numericUpDownInit();
 
             LavelInit();
+            pictureBox1.ContextMenuStrip = contextMenuStrip1;
         }
         //中心の線を引くためのポイント初期化
         public void StandartPointInit()
@@ -82,15 +84,13 @@ namespace CurveEditor
             numericUpDown7.ValueChanged += new EventHandler(ChangeEndPoint);
             numericUpDown7.Value = ScrrenTopPosY;
             numericUpDown8.ValueChanged += new EventHandler(ChangeFirstStartPoint);
-            numericUpDown8.Value = ScrrenCenterpPosY;
+            numericUpDown8.Value = ScrrenBottomPosY;
             numericUpDown9.ValueChanged += new EventHandler(ChangeMaxValue);
             numericUpDown9.Value = m_MaxNum;
-            numericUpDown10.ValueChanged += new EventHandler(ChangeMinValue);
-            numericUpDown10.Value = m_MinNum;
             ChangeFirstStartPoint(null,null);
             ChangeEndPoint(null, null);
         }
-  
+
         /// <summary>
         /// 背景を透過させるための初期化
         /// </summary>
@@ -99,6 +99,11 @@ namespace CurveEditor
             pictureBox1.Controls.Add(label10);
             pictureBox1.Controls.Add(label11);
             pictureBox1.Controls.Add(label12);
+            pictureBox1.Controls.Add(label13);
+            pictureBox1.Controls.Add(label14);
+            pictureBox1.Controls.Add(label15);
+            pictureBox1.Controls.Add(label16);
+            pictureBox1.Controls.Add(label17);
         }
         /// <summary>
         /// 点を動かした際同期を取る
@@ -106,9 +111,9 @@ namespace CurveEditor
         public void numericUpDownSync()
         {
             bp = m_CurvePointControl.GetBezierPoint();
-            numericUpDown1.Value = bp.startPoint.X;
-            numericUpDown2.Value = bp.controlPoint1.X;
-            numericUpDown3.Value = bp.controlPoint2.X;
+            numericUpDown1.Value = ChageDecimalPosX(bp.startPoint.X);
+            numericUpDown2.Value = ChageDecimalPosX(bp.controlPoint1.X);
+            numericUpDown3.Value = ChageDecimalPosX(bp.controlPoint2.X);
             numericUpDown4.Value = bp.startPoint.Y;
             numericUpDown5.Value = bp.controlPoint1.Y;
             numericUpDown6.Value = bp.controlPoint2.Y;
@@ -273,7 +278,6 @@ namespace CurveEditor
             p.Y = e.Y;
             m_MousePos = p;
         }
-
         /// <summary>
         /// 選択点X
         /// </summary>
@@ -281,9 +285,10 @@ namespace CurveEditor
         /// <param name="e"></param>
         public void ChangeSelectPointX(object sender, EventArgs e)
         {
-            int num = Convert.ToInt32(numericUpDown1.Value);
-            numericUpDown1.Value = m_CurvePointControl.SetStartPointX(num);
-            if (!m_CurvePointControl.isMoveSelectPoint()) pictureBox1.Refresh();//再描画
+            int num3 = ChageNomalPosX(numericUpDown1.Value);
+            int num4 = m_CurvePointControl.SetStartPointX(num3);
+            numericUpDown1.Value = ChageDecimalPosX(num4); 
+             if (!m_CurvePointControl.isMoveSelectPoint()) pictureBox1.Refresh();//再描画
         }
         /// <summary>
         /// 選択点Y
@@ -305,9 +310,10 @@ namespace CurveEditor
         /// <param name="e"></param>
         public void ChangeControlPoint1X(object sender, EventArgs e)
         {
-            int num = Convert.ToInt32(numericUpDown2.Value);
-            numericUpDown2.Value = m_CurvePointControl.SetControl1PointX(num);
-            if (!m_CurvePointControl.isMoveSelectPoint())  pictureBox1.Refresh();//再描画
+            int num = ChageNomalPosX(numericUpDown2.Value);
+            int num2 = m_CurvePointControl.SetControl1PointX(num);
+            numericUpDown2.Value =ChageDecimalPosX(num2);
+             if (!m_CurvePointControl.isMoveSelectPoint())  pictureBox1.Refresh();//再描画
         }
         /// <summary>
         /// 制御0点1Y
@@ -327,8 +333,9 @@ namespace CurveEditor
         /// <param name="e"></param>
         public void ChangeControlPoint2X(object sender, EventArgs e)
         {
-            int num = Convert.ToInt32(numericUpDown3.Value);
-            numericUpDown3.Value = m_CurvePointControl.SetControl2PointX(num);
+            int num = ChageNomalPosX(numericUpDown3.Value);
+            int num2 = m_CurvePointControl.SetControl2PointX(num);
+            numericUpDown3.Value = ChageDecimalPosX(num2);
             if (!m_CurvePointControl.isMoveSelectPoint())  pictureBox1.Refresh();//再描画
         }
         /// <summary>
@@ -348,7 +355,6 @@ namespace CurveEditor
             int num = Convert.ToInt32(numericUpDown8.Value);
             numericUpDown8.Value = m_CurvePointControl.SetFirstStartPoint(num);
             if (!m_CurvePointControl.isMoveSelectPoint()) pictureBox1.Refresh();//再描画
-
             bp = m_CurvePointControl.GetBezierPoint();
             numericUpDown4.Value = bp.startPoint.Y;
         }
@@ -369,13 +375,7 @@ namespace CurveEditor
             int num = Convert.ToInt32(numericUpDown9.Value);
             m_MaxNum = num;
             if (!m_CurvePointControl.isMoveSelectPoint())  pictureBox1.Refresh();//再描画
-        }
-
-        public void ChangeMinValue(object sender, EventArgs e)
-        {
-            int num = Convert.ToInt32(numericUpDown8.Value);
-            m_MinNum = num;
-            if (!m_CurvePointControl.isMoveSelectPoint()) pictureBox1.Refresh();//再描画
+            label10.Text = m_MaxNum.ToString();
         }
         //カーブポイント入力項目のリセット
         public void ResetCurvePointValue()
@@ -388,6 +388,38 @@ namespace CurveEditor
               numericUpDown6.Value = 0;
         }
 
-    }
+        public int OriginalPosToLimitPosX()
+        {
+            return 0;
+        }
 
+        public int OriginalPosToLimitPosY()
+        {
+            return 0;
+        }
+
+        public int LimitPosToOriginalPosX()
+        {
+            return 0;
+        }
+
+        public int LimitPosToOriginalPosY()
+        {
+            return 0;
+        }
+        //小数から元の座標に変換
+        public int ChageNomalPosX(decimal Value)
+        {
+            decimal num = Value;
+
+            decimal num2 = (num * (decimal)500);
+            int num3 = Convert.ToInt32(num2);
+            return num3;
+        }
+        //元の座標から0～1の間に変換
+        public decimal ChageDecimalPosX(int posX)
+        {
+            return (decimal)posX / (decimal)500;
+        }
+    }
 }

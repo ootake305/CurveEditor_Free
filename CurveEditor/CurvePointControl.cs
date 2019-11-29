@@ -31,7 +31,7 @@ namespace CurveEditor
         List<BezierPoint> m_list = new List<BezierPoint>();//線を引くための点を格納する場所
 
         //グラフの範囲を示す座標
-        const int ScrrenRightPosX = 600;    //右端
+        const int ScrrenRightPosX = 500;    //右端
         const int ScrrenBottomPosY = 310;   //下端
         const int ScrrenLeftPosX = 0;       //左端
         const int ScrrenTopPosY =  10;      //上端
@@ -60,7 +60,7 @@ namespace CurveEditor
         {
             //初期の曲線設定
             BezierPoint startBezirPoint = new BezierPoint();
-            startBezirPoint.startPoint = new Point(ScrrenLeftPosX, ScrrenCenterpPosY);//中央配置
+            startBezirPoint.startPoint = new Point(ScrrenLeftPosX, ScrrenBottomPosY);//中央配置
             startBezirPoint.endPoint = new Point(ScrrenRightPosX, ScrrenTopPosY);
             startBezirPoint.controlPoint1 = new Point(ScrrenLeftPosX + 30, ScrrenCenterpPosY + 30);
             startBezirPoint.controlPoint2 = new Point(ScrrenLeftPosX + 30, ScrrenCenterpPosY - 30);
@@ -199,10 +199,10 @@ namespace CurveEditor
             BezierPoint startBezirPoint = new BezierPoint();
             const int ofsetX = 30;
             //
-            startBezirPoint.startPoint = new Point(Math.Min( m_list[LastCnt].startPoint.X + ofsetX, ScrrenRightPosX), m_list[LastCnt].startPoint.Y);
+            startBezirPoint.startPoint = new Point(Math.Min( m_list[LastCnt].startPoint.X + ofsetX, ScrrenRightPosX - 1), m_list[LastCnt].startPoint.Y);
             startBezirPoint.endPoint = new Point(m_list[LastCnt].endPoint.X, m_list[LastCnt].endPoint.Y);
             //制御点は追加される開始点の少し右に生成させる
-            var cpointX = Clamp(startBezirPoint.startPoint.X + 10, ScrrenLeftPosX, ScrrenRightPosX);
+            var cpointX = Clamp(startBezirPoint.startPoint.X + 10, ScrrenLeftPosX, ScrrenRightPosX - 1);
             startBezirPoint.controlPoint1 = new Point(cpointX, m_list[LastCnt].startPoint.Y + 30);
             startBezirPoint.controlPoint2 = new Point(cpointX, m_list[LastCnt].startPoint.Y - 30);
             m_list.Add(startBezirPoint);//新しい点追加
@@ -354,7 +354,7 @@ namespace CurveEditor
             if (!isSelectFirstStartPoint())
             {
                 int minpx = m_list[m_SelectPoint - 1].endPoint.X;
-                sp.controlPoint1.X = Clamp(sp.controlPoint1.X, minpx, ScrrenRightPosX);
+                sp.controlPoint1.X = Clamp(sp.controlPoint1.X, minpx, ScrrenRightPosX - 1);
             }
 
             //X軸の移動 
@@ -379,7 +379,7 @@ namespace CurveEditor
             if (!isSelectFirstStartPoint())
             {
                 int minpx = m_list[m_SelectPoint - 1].endPoint.X;
-                sp.controlPoint2.X = Clamp(sp.controlPoint2.X,minpx, ScrrenRightPosX);
+                sp.controlPoint2.X = Clamp(sp.controlPoint2.X,minpx, ScrrenRightPosX - 1);
             }
 
             //一番最後の終了点以外を選択しているなら 

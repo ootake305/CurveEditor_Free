@@ -17,7 +17,7 @@ namespace CurveEditor
         protected Pen m_pen;            //線の色
 
         //グラフの範囲を示す座標
-        protected const int ScrrenRightPosX = 600;
+        protected const int ScrrenRightPosX = 500;
         protected const int ScrrenBottomPosY = 310;
         protected const int ScrrenLeftPosX = 0;
         protected const int ScrrenTopPosY = 10;
