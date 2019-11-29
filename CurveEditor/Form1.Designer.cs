@@ -94,51 +94,54 @@
             // 
             // numericUpDown1
             // 
+            this.numericUpDown1.DecimalPlaces = 2;
+            this.numericUpDown1.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
             this.numericUpDown1.Location = new System.Drawing.Point(85, 388);
             this.numericUpDown1.Maximum = new decimal(new int[] {
-            1000,
+            1,
             0,
             0,
             0});
-            this.numericUpDown1.Minimum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            -2147483648});
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(90, 19);
             this.numericUpDown1.TabIndex = 5;
             // 
             // numericUpDown2
             // 
+            this.numericUpDown2.DecimalPlaces = 2;
+            this.numericUpDown2.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
             this.numericUpDown2.Location = new System.Drawing.Point(85, 414);
             this.numericUpDown2.Maximum = new decimal(new int[] {
-            1000,
+            1,
             0,
             0,
             0});
-            this.numericUpDown2.Minimum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            -2147483648});
             this.numericUpDown2.Name = "numericUpDown2";
             this.numericUpDown2.Size = new System.Drawing.Size(90, 19);
             this.numericUpDown2.TabIndex = 6;
             // 
             // numericUpDown3
             // 
+            this.numericUpDown3.DecimalPlaces = 2;
+            this.numericUpDown3.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
             this.numericUpDown3.Location = new System.Drawing.Point(85, 439);
             this.numericUpDown3.Maximum = new decimal(new int[] {
-            1000,
+            1,
             0,
             0,
             0});
-            this.numericUpDown3.Minimum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            -2147483648});
             this.numericUpDown3.Name = "numericUpDown3";
             this.numericUpDown3.Size = new System.Drawing.Size(90, 19);
             this.numericUpDown3.TabIndex = 7;
