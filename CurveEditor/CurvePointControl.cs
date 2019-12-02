@@ -37,6 +37,7 @@ namespace CurveEditor
         const int ScrrenTopPosY =  10;      //上端
         const int ScrrenCenterpPosY = 160;  //中央
         const int intervalPointPos = 5;     //点と点の感覚
+        const int ControlOfSetX = 1;
         int m_SelectPoint = 0;  //左から何番目の点を選択精しているか
         const float m_cpSize = 8; //点のサイズ
         bool m_isMoveStartPoint = false;      //開始点を選択した状態でドラッグできるか
@@ -173,7 +174,7 @@ namespace CurveEditor
             startBezirPoint.startPoint = new Point(Math.Min(p.X, ScrrenRightPosX - 1), Clamp(p.Y, ScrrenTopPosY, ScrrenBottomPosY));
             startBezirPoint.endPoint = new Point(m_list[SelectNum].endPoint.X, m_list[SelectNum].endPoint.Y);
             //制御点は追加される開始点の少し右に生成させる
-            var cpointX = Clamp(startBezirPoint.startPoint.X + 10, ScrrenLeftPosX, ScrrenRightPosX - 1);
+            var cpointX = Clamp(startBezirPoint.startPoint.X + 10, ScrrenLeftPosX + ControlOfSetX, ScrrenRightPosX - ControlOfSetX);
             startBezirPoint.controlPoint1 = new Point(cpointX, Clamp( startBezirPoint.startPoint.Y + ofsetY, ScrrenTopPosY, ScrrenBottomPosY));
             startBezirPoint.controlPoint2 = new Point(cpointX, Clamp(startBezirPoint.startPoint.Y - ofsetY, ScrrenTopPosY, ScrrenBottomPosY));
 
@@ -353,14 +354,14 @@ namespace CurveEditor
             //X軸の移動 
             if (!isSelectFirstStartPoint())
             {
-                int minpx = m_list[m_SelectPoint - 1].endPoint.X;
+                int minpx = m_list[m_SelectPoint - 1].endPoint.X + ControlOfSetX;
                 sp.controlPoint1.X = Clamp(sp.controlPoint1.X, minpx, ScrrenRightPosX - 1);
             }
 
             //X軸の移動 
             if (!(isSelectLastEndPoint()))
             {
-                int maxpx = m_list[m_SelectPoint + 1].startPoint.X;
+                int maxpx = m_list[m_SelectPoint + 1].startPoint.X - ControlOfSetX;
                 sp.controlPoint1.X = Clamp(sp.controlPoint1.X, ScrrenLeftPosX, maxpx);
             }
             m_list[m_SelectPoint] = sp;
@@ -378,14 +379,14 @@ namespace CurveEditor
             //一番最初の開始点以外を選択しているなら 
             if (!isSelectFirstStartPoint())
             {
-                int minpx = m_list[m_SelectPoint - 1].endPoint.X;
+                int minpx = m_list[m_SelectPoint - 1].endPoint.X + ControlOfSetX;
                 sp.controlPoint2.X = Clamp(sp.controlPoint2.X,minpx, ScrrenRightPosX - 1);
             }
 
             //一番最後の終了点以外を選択しているなら 
             if (!isSelectLastEndPoint())
             {
-                int maxpx = m_list[m_SelectPoint + 1].startPoint.X;
+                int maxpx = m_list[m_SelectPoint + 1].startPoint.X - ControlOfSetX;
                 sp.controlPoint2.X = Clamp(sp.controlPoint2.X, ScrrenLeftPosX, maxpx);
             }
             m_list[m_SelectPoint] = sp;
@@ -460,14 +461,14 @@ namespace CurveEditor
                 //左端以外なら
                 if (i != 0)
                 {
-                    sp.controlPoint1.X = Clamp(sp.controlPoint1.X, m_list[i - 1].endPoint.X, ScrrenRightPosX);
-                    sp.controlPoint2.X = Clamp(sp.controlPoint2.X, m_list[i - 1].endPoint.X, ScrrenRightPosX);
+                    sp.controlPoint1.X = Clamp(sp.controlPoint1.X, m_list[i - 1].endPoint.X + ControlOfSetX, ScrrenRightPosX);
+                    sp.controlPoint2.X = Clamp(sp.controlPoint2.X, m_list[i - 1].endPoint.X + ControlOfSetX, ScrrenRightPosX);
                 }
                 //右端以外なら
                 if (i != LastNum)
                 {
-                    sp.controlPoint1.X = Clamp(sp.controlPoint1.X, ScrrenLeftPosX, m_list[i + 1].startPoint.X);
-                    sp.controlPoint2.X = Clamp(sp.controlPoint2.X, ScrrenLeftPosX, m_list[i + 1].startPoint.X);
+                    sp.controlPoint1.X = Clamp(sp.controlPoint1.X, ScrrenLeftPosX, m_list[i + 1].startPoint.X - ControlOfSetX);
+                    sp.controlPoint2.X = Clamp(sp.controlPoint2.X, ScrrenLeftPosX, m_list[i + 1].startPoint.X - ControlOfSetX);
                 }
                 m_list[i] = sp;
             }
@@ -664,14 +665,14 @@ namespace CurveEditor
             //一番最初の開始点以外を選択しているなら  +1 -1することで隣の点と同じ座標にならないようにする
             if (!isSelectFirstStartPoint())
             {
-                int minpx = m_list[m_SelectPoint - 1].endPoint.X;
+                int minpx = m_list[m_SelectPoint - 1].endPoint.X + ControlOfSetX;
                 sp.controlPoint1.X = Clamp(sp.controlPoint1.X, minpx, ScrrenRightPosX);
             }
 
             //一番最後の終了点以外を選択しているなら 
             if (!isSelectLastEndPoint())
             {
-                int maxpx = m_list[m_SelectPoint + 1].startPoint.X;
+                int maxpx = m_list[m_SelectPoint + 1].startPoint.X - ControlOfSetX;
                 sp.controlPoint1.X = Clamp(sp.controlPoint1.X, ScrrenLeftPosX, maxpx);
             }
             m_list[m_SelectPoint] = sp;
@@ -692,14 +693,14 @@ namespace CurveEditor
             //一番最初の開始点以外を選択しているなら
             if (!isSelectFirstStartPoint())
             {
-                int minpx = m_list[m_SelectPoint - 1].endPoint.X;
+                int minpx = m_list[m_SelectPoint - 1].endPoint.X + ControlOfSetX;
                 sp.controlPoint2.X = Clamp(sp.controlPoint2.X, minpx, ScrrenRightPosX);
             }
 
             //一番最後の終了点以外を選択しているなら 
             if (!isSelectLastEndPoint())
             {
-                int maxpx = m_list[m_SelectPoint + 1].startPoint.X;
+                int maxpx = m_list[m_SelectPoint + 1].startPoint.X - ControlOfSetX;
                 sp.controlPoint2.X = Clamp(sp.controlPoint2.X, ScrrenLeftPosX, maxpx);
             }
             m_list[m_SelectPoint] = sp;

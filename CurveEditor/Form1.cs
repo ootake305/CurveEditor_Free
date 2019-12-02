@@ -136,6 +136,7 @@ namespace CurveEditor
                 case MouseButtons.Middle:
                     break;
                 case MouseButtons.Right:
+                    SaveMousePos(e);
                     break;
             }
         }
@@ -420,6 +421,18 @@ namespace CurveEditor
         public decimal ChageDecimalPosX(int posX)
         {
             return (decimal)posX / (decimal)500;
+        }
+        //右クリック動作----------------------------------------------------------------
+        private void AddPointToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            m_CurvePointControl.AddPoint(m_MousePos);
+            pictureBox1.Refresh();//再描画
+        }
+
+        private void DeletePointToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            m_CurvePointControl.DeletePoint();//点削除
+            pictureBox1.Refresh();//再描画
         }
     }
 }

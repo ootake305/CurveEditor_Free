@@ -94,12 +94,12 @@
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.DecimalPlaces = 2;
+            this.numericUpDown1.DecimalPlaces = 3;
             this.numericUpDown1.Increment = new decimal(new int[] {
             1,
             0,
             0,
-            131072});
+            196608});
             this.numericUpDown1.Location = new System.Drawing.Point(85, 388);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             1,
@@ -112,12 +112,12 @@
             // 
             // numericUpDown2
             // 
-            this.numericUpDown2.DecimalPlaces = 2;
+            this.numericUpDown2.DecimalPlaces = 3;
             this.numericUpDown2.Increment = new decimal(new int[] {
             1,
             0,
             0,
-            131072});
+            196608});
             this.numericUpDown2.Location = new System.Drawing.Point(85, 414);
             this.numericUpDown2.Maximum = new decimal(new int[] {
             1,
@@ -130,12 +130,12 @@
             // 
             // numericUpDown3
             // 
-            this.numericUpDown3.DecimalPlaces = 2;
+            this.numericUpDown3.DecimalPlaces = 3;
             this.numericUpDown3.Increment = new decimal(new int[] {
             1,
             0,
             0,
-            131072});
+            196608});
             this.numericUpDown3.Location = new System.Drawing.Point(85, 439);
             this.numericUpDown3.Maximum = new decimal(new int[] {
             1,
@@ -450,12 +450,14 @@
             this.線をリニアにToolStripMenuItem.Name = "線をリニアにToolStripMenuItem";
             this.線をリニアにToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.線をリニアにToolStripMenuItem.Text = "点追加";
+            this.線をリニアにToolStripMenuItem.Click += new System.EventHandler(this.AddPointToolStripMenuItem_Click);
             // 
             // 点削除ToolStripMenuItem
             // 
             this.点削除ToolStripMenuItem.Name = "点削除ToolStripMenuItem";
             this.点削除ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.点削除ToolStripMenuItem.Text = "点削除   Del";
+            this.点削除ToolStripMenuItem.Click += new System.EventHandler(this.DeletePointToolStripMenuItem_Click);
             // 
             // label15
             // 
