@@ -24,18 +24,17 @@ namespace CurveEditor
         VerticalEndLine m_VerticalLeftLine = new VerticalEndLine(true);
         VerticalEndLine m_VerticalRightLine = new VerticalEndLine(false);
 
-        VerticalLine[] m_VerticalCenterLines = new VerticalLine[5];
+        const int LineNum = 9;
+        VerticalLine[] m_VerticalCenterLines = new VerticalLine[LineNum];
+        SideLine[] m_SideLine = new SideLine[LineNum];
         /// <summary>
         /// 曲線
         /// </summary>
         CurvePointControl m_CurvePointControl = new CurvePointControl();
 
-        int m_MinNum = -150;//最小値
-        int m_MaxNum = 150;  //最大値
-
-        const int ScrrenCenterpPosY = 160;  //中央
+        const int ScrrenCenterpPosY = 162;  //中央
         const int ScrrenTopPosY = 10;      //上端
-        const int ScrrenBottomPosY = 310;   //下端
+        const int ScrrenBottomPosY = 510;   //下端
         Point m_MousePos;//一時保存用マウスの座標
         CurvePointControl.BezierPoint bp;//一時保存用
         public Form1()
@@ -55,6 +54,7 @@ namespace CurveEditor
 
             LavelInit();
             pictureBox1.ContextMenuStrip = contextMenuStrip1;
+            checkBox1.Checked = true;
         }
         //中心の線を引くためのポイント初期化
         public void StandartPointInit()
@@ -64,10 +64,14 @@ namespace CurveEditor
             m_BottomLine.Init();
             m_VerticalLeftLine.Init();
             m_VerticalRightLine.Init();
-            for(int i = 0; i < 5; i++)
+            for(int i = 0; i < LineNum; i++)
             {
-                m_VerticalCenterLines[i] = new VerticalLine((i + 1) * 100 );
+                //縦線
+                m_VerticalCenterLines[i] = new VerticalLine((i + 1) * 50  + 10);
                 m_VerticalCenterLines[i].Init();
+                //横線
+                m_SideLine[i] = new SideLine((i + 1) * 50  + 10);
+                m_SideLine[i].Init();
             }
          
         }
@@ -85,8 +89,6 @@ namespace CurveEditor
             numericUpDown7.Value = ScrrenTopPosY;
             numericUpDown8.ValueChanged += new EventHandler(ChangeFirstStartPoint);
             numericUpDown8.Value = ScrrenBottomPosY;
-            numericUpDown9.ValueChanged += new EventHandler(ChangeMaxValue);
-            numericUpDown9.Value = m_MaxNum;
             ChangeFirstStartPoint(null,null);
             ChangeEndPoint(null, null);
         }
@@ -213,9 +215,10 @@ namespace CurveEditor
             m_BottomLine.Paint(g);
             m_VerticalLeftLine.Paint(g);
             m_VerticalRightLine.Paint(g);
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 9; i++)
             {
                 m_VerticalCenterLines[i].Paint(g);
+                m_SideLine[i].Paint(g);
             }
         }
         /// <summary>
@@ -233,8 +236,11 @@ namespace CurveEditor
 
             m_CurvePointControl.OrganizeControlPoint(); //制御点の整理
             BezierPaint(e);    //3次ベジェ曲線描画
-            ControlPaint(e);   //選択している点の制御点描画
-            PointrPaint(e);    //3次ベジェ曲線を結ぶ点描画
+            if (checkBox1.Checked)
+            {
+                ControlPaint(e);   //選択している点の制御点描画
+                PointrPaint(e);    //3次ベジェ曲線を結ぶ点描画
+            }
         }
         //点追加ボタンクリック
         private void button2_Click(object sender, EventArgs e)
@@ -371,13 +377,7 @@ namespace CurveEditor
             if (!m_CurvePointControl.isMoveSelectPoint()) pictureBox1.Refresh();//再描画
             bp = m_CurvePointControl.GetBezierPoint();
         }
-        public void ChangeMaxValue(object sender, EventArgs e)
-        {
-            int num = Convert.ToInt32(numericUpDown9.Value);
-            m_MaxNum = num;
-            if (!m_CurvePointControl.isMoveSelectPoint())  pictureBox1.Refresh();//再描画
-            label10.Text = m_MaxNum.ToString();
-        }
+
         //カーブポイント入力項目のリセット
         public void ResetCurvePointValue()
         {
@@ -415,11 +415,14 @@ namespace CurveEditor
 
             decimal num2 = (num * (decimal)500);
             int num3 = Convert.ToInt32(num2);
+
+            num3 += 10;//10からグラフが始まってるので右に+10
             return num3;
         }
         //元の座標から0～1の間に変換
         public decimal ChageDecimalPosX(int posX)
         {
+            posX = Math.Max(0, posX - 10);　//10からグラフが始まってるので右に-10
             return (decimal)posX / (decimal)500;
         }
         //右クリック動作----------------------------------------------------------------
@@ -432,6 +435,11 @@ namespace CurveEditor
         private void DeletePointToolStripMenuItem_Click(object sender, EventArgs e)
         {
             m_CurvePointControl.DeletePoint();//点削除
+            pictureBox1.Refresh();//再描画
+        }
+        //チェックボックスの値が変化したときに呼ばれる
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
             pictureBox1.Refresh();//再描画
         }
     }

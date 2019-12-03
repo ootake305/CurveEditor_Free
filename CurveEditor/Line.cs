@@ -17,11 +17,11 @@ namespace CurveEditor
         protected Pen m_pen;            //線の色
 
         //グラフの範囲を示す座標
-        protected const int ScrrenRightPosX = 500;
-        protected const int ScrrenBottomPosY = 310;
-        protected const int ScrrenLeftPosX = 0;
+        protected const int ScrrenRightPosX = 510;
+        protected const int ScrrenBottomPosY = 510;
+        protected const int ScrrenLeftPosX = 10;
         protected const int ScrrenTopPosY = 10;
-        protected const int ScrrenCenterpPosY = 160;
+        protected const int ScrrenCenterpPosY = 260;
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -161,6 +161,29 @@ namespace CurveEditor
 
             m_startPoint.Y = ScrrenTopPosY;
             m_endPoint.Y = ScrrenBottomPosY;
+            m_pen = new Pen(Color.FromArgb(50, 200, 200, 200), 1.0f);
+        }
+    }
+
+    class SideLine : LineBase
+    {
+        int m_Y;
+        public SideLine(int y)
+        {
+            m_Y = y;
+        }
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        public override void Init()
+        {
+            base.Init();
+
+            m_startPoint.Y = m_Y;
+            m_endPoint.Y = m_Y;
+
+            m_startPoint.X = ScrrenLeftPosX;
+            m_endPoint.X = ScrrenRightPosX;
             m_pen = new Pen(Color.FromArgb(50, 200, 200, 200), 1.0f);
         }
     }

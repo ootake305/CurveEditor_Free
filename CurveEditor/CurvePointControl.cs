@@ -31,12 +31,12 @@ namespace CurveEditor
         List<BezierPoint> m_list = new List<BezierPoint>();//線を引くための点を格納する場所
 
         //グラフの範囲を示す座標
-        const int ScrrenRightPosX = 500;    //右端
-        const int ScrrenBottomPosY = 310;   //下端
-        const int ScrrenLeftPosX = 0;       //左端
+        const int ScrrenRightPosX = 510;    //右端
+        const int ScrrenBottomPosY = 510;   //下端
+        const int ScrrenLeftPosX = 10;       //左端
         const int ScrrenTopPosY =  10;      //上端
-        const int ScrrenCenterpPosY = 160;  //中央
-        const int intervalPointPos = 5;     //点と点の感覚
+        const int ScrrenCenterpPosY = 260;  //中央
+        const int intervalPointPos = 2;     //点と点の感覚
         const int ControlOfSetX = 1;
         int m_SelectPoint = 0;  //左から何番目の点を選択精しているか
         const float m_cpSize = 8; //点のサイズ
@@ -349,7 +349,7 @@ namespace CurveEditor
         {
             BezierPoint sp = m_list[m_SelectPoint]; //選択している点
           
-            sp.controlPoint1.X = Clamp(mouse.X, ScrrenLeftPosX, ScrrenRightPosX);
+            sp.controlPoint1.X = Clamp(mouse.X, ScrrenLeftPosX + intervalPointPos, ScrrenRightPosX - intervalPointPos);
             sp.controlPoint1.Y = Clamp(mouse.Y, ScrrenTopPosY, ScrrenBottomPosY);
             //X軸の移動 
             if (!isSelectFirstStartPoint())
@@ -373,7 +373,7 @@ namespace CurveEditor
         public void MoveControl2Point(MouseEventArgs mouse)
         {
             BezierPoint sp = m_list[m_SelectPoint]; //選択している点
-            sp.controlPoint2.X = Clamp(mouse.X, ScrrenLeftPosX, ScrrenRightPosX);
+            sp.controlPoint2.X = Clamp(mouse.X, ScrrenLeftPosX + intervalPointPos, ScrrenRightPosX - intervalPointPos);
             sp.controlPoint2.Y = Clamp(mouse.Y, ScrrenTopPosY, ScrrenBottomPosY);
 
             //一番最初の開始点以外を選択しているなら 
