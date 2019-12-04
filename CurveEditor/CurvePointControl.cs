@@ -49,10 +49,10 @@ namespace CurveEditor
         GraphicsPath m_path = new GraphicsPath();//曲線を引くためのパス
         GraphicsPath m_path2 = new GraphicsPath();//直線を引くためのパス
         //いろんな色
-        Brush m_PointColor = new SolidBrush(Color.FromArgb(255, 255, 0, 0));       //点の色
+        Brush m_PointColor = new SolidBrush(Color.FromArgb(255, 0, 255, 0));       //点の色
         Pen m_PointLineColor = new Pen(Color.FromArgb(220, 245, 245, 245),4);     //強調線の色
         Pen m_CPointLineColor = new Pen(Color.FromArgb(100, 245, 245, 245), 4);   //制御点の強調線の色
-        Pen m_pen = new Pen(Color.FromArgb(255, 245, 245, 245), 1.5f);                           //曲線の色
+        Pen m_pen = new Pen(Color.FromArgb(255, 30, 205,30), 1.5f);                           //曲線の色
         Pen m_pen2 = new Pen(Color.FromArgb(105, 245, 245, 245), 2.0f);   //直線の色
         /// <summary>
         /// コンストラクタ
