@@ -22,6 +22,8 @@ namespace CurveEditor
         protected const int ScrrenLeftPosX = 10;
         protected const int ScrrenTopPosY = 10;
         protected const int ScrrenCenterpPosY = 260;
+
+        protected const int LineColor = 190;
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -69,7 +71,7 @@ namespace CurveEditor
             m_startPoint.Y = ScrrenCenterpPosY;
             m_endPoint.X = ScrrenRightPosX - 3;//線が重ならないようにするため-3
             m_endPoint.Y = ScrrenCenterpPosY;
-            m_pen = new Pen(Color.FromArgb(100, 200, 200, 200), 1);
+            m_pen = new Pen(Color.FromArgb(LineColor, 200, 200, 200), 1);
         }
     }
     /// <summary>
@@ -87,7 +89,7 @@ namespace CurveEditor
             m_startPoint.Y = ScrrenTopPosY;
             m_endPoint.X = ScrrenRightPosX;
             m_endPoint.Y = ScrrenTopPosY;
-            m_pen = new Pen(Color.FromArgb(100, 200, 200, 200), 1);
+            m_pen = new Pen(Color.FromArgb(LineColor, 200, 200, 200), 1);
         }
     }
     /// <summary>
@@ -106,7 +108,7 @@ namespace CurveEditor
             m_startPoint.Y = ScrrenBottomPosY;
             m_endPoint.X = ScrrenRightPosX;
             m_endPoint.Y = ScrrenBottomPosY;
-            m_pen = new Pen(Color.FromArgb(100, 200, 200, 200), 1);
+            m_pen = new Pen(Color.FromArgb(LineColor, 200, 200, 200), 1);
         }
     }
 
@@ -139,7 +141,7 @@ namespace CurveEditor
            
             m_startPoint.Y = ScrrenTopPosY;
             m_endPoint.Y = ScrrenBottomPosY;
-            m_pen = new Pen(Color.FromArgb(100, 200, 200, 200), 5.0f);
+            m_pen = new Pen(Color.FromArgb(LineColor, 200, 200, 200), 5.0f);
         }
     }
     class VerticalLine : LineBase
@@ -156,12 +158,21 @@ namespace CurveEditor
         {
             base.Init();
 
-             m_startPoint.X = m_X;
-             m_endPoint.X = m_X;
+            m_startPoint.X = m_X;
+            m_endPoint.X = m_X;
 
             m_startPoint.Y = ScrrenTopPosY;
             m_endPoint.Y = ScrrenBottomPosY;
-            m_pen = new Pen(Color.FromArgb(50, 200, 200, 200), 1.0f);
+
+            //中心だけ太め
+            if (m_X == ScrrenCenterpPosY)
+            {
+                m_pen = new Pen(Color.FromArgb(150, 200, 200, 200), 1.0f);
+            }
+            else
+            {
+                m_pen = new Pen(Color.FromArgb(50, 200, 200, 200), 1.0f);
+            }
         }
     }
 
@@ -184,7 +195,16 @@ namespace CurveEditor
 
             m_startPoint.X = ScrrenLeftPosX;
             m_endPoint.X = ScrrenRightPosX;
-            m_pen = new Pen(Color.FromArgb(50, 200, 200, 200), 1.0f);
+
+            //中心だけ太め
+            if (m_Y == ScrrenCenterpPosY)
+            {
+                m_pen = new Pen(Color.FromArgb(150, 200, 200, 200), 1.0f);
+            }
+            else
+            {
+                m_pen = new Pen(Color.FromArgb(50, 200, 200, 200), 1.0f);
+            }
         }
     }
 }

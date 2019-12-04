@@ -86,9 +86,9 @@ namespace CurveEditor
             numericUpDown5.ValueChanged += new EventHandler(ChangeControlPoint1Y);
             numericUpDown6.ValueChanged += new EventHandler(ChangeControlPoint2Y);
             numericUpDown7.ValueChanged += new EventHandler(ChangeEndPoint);
-            numericUpDown7.Value = ScrrenTopPosY;
+            numericUpDown7.Value = 1;
             numericUpDown8.ValueChanged += new EventHandler(ChangeFirstStartPoint);
-            numericUpDown8.Value = ScrrenBottomPosY;
+            numericUpDown8.Value = 0;
             ChangeFirstStartPoint(null,null);
             ChangeEndPoint(null, null);
         }
@@ -106,6 +106,10 @@ namespace CurveEditor
             pictureBox1.Controls.Add(label15);
             pictureBox1.Controls.Add(label16);
             pictureBox1.Controls.Add(label17);
+            pictureBox1.Controls.Add(label18);
+            pictureBox1.Controls.Add(label19);
+            pictureBox1.Controls.Add(label20);
+            pictureBox1.Controls.Add(label21);
         }
         /// <summary>
         /// 点を動かした際同期を取る
@@ -119,8 +123,8 @@ namespace CurveEditor
             numericUpDown4.Value = ChageDecimalPosY(bp.startPoint.Y);
             numericUpDown5.Value = ChageDecimalPosY(bp.controlPoint1.Y);
             numericUpDown6.Value = ChageDecimalPosY(bp.controlPoint2.Y);
-            numericUpDown7.Value = m_CurvePointControl.GetEndPointY();
-            numericUpDown8.Value = m_CurvePointControl.GetFirstStartPointY();
+            numericUpDown7.Value = ChageDecimalPosY(m_CurvePointControl.GetEndPointY());
+            numericUpDown8.Value = ChageDecimalPosY(m_CurvePointControl.GetFirstStartPointY());
         }
         /// <summary>
         /// クリックした瞬間の処理
@@ -309,7 +313,7 @@ namespace CurveEditor
             numericUpDown4.Value = ChageDecimalPosY(num2);
             if (!m_CurvePointControl.isMoveSelectPoint()) pictureBox1.Refresh();//再描画
             //最初の開始点と同期を取る
-            numericUpDown8.Value = m_CurvePointControl.GetFirstStartPointY();
+            numericUpDown8.Value = ChageDecimalPosY(m_CurvePointControl.GetFirstStartPointY());
         }
         /// <summary>
         /// 制御点1X
@@ -362,8 +366,9 @@ namespace CurveEditor
         //開始点せってい
         public void ChangeFirstStartPoint(object sender, EventArgs e)
         {
-            int num = Convert.ToInt32(numericUpDown8.Value);
-            numericUpDown8.Value = m_CurvePointControl.SetFirstStartPoint(num);
+            int num = ChageNomalPosY(numericUpDown8.Value);
+            int num2 = m_CurvePointControl.SetFirstStartPoint(num); ;
+            numericUpDown8.Value = ChageDecimalPosY(num2);
             if (!m_CurvePointControl.isMoveSelectPoint()) pictureBox1.Refresh();//再描画
             bp = m_CurvePointControl.GetBezierPoint();
             numericUpDown4.Value = ChageDecimalPosY( bp.startPoint.Y);
@@ -375,8 +380,10 @@ namespace CurveEditor
         /// <param name="e"></param>
         public void ChangeEndPoint(object sender, EventArgs e)
         {
-            int num = Convert.ToInt32(numericUpDown7.Value);
-            numericUpDown7.Value = m_CurvePointControl.SetEndPoint(num);
+
+            int num = ChageNomalPosY(numericUpDown7.Value);
+            int num2 = m_CurvePointControl.SetEndPoint(num); ;
+            numericUpDown7.Value = ChageDecimalPosY(num2);
             if (!m_CurvePointControl.isMoveSelectPoint()) pictureBox1.Refresh();//再描画
             bp = m_CurvePointControl.GetBezierPoint();
         }

@@ -67,6 +67,10 @@
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
@@ -264,34 +268,36 @@
             // 
             // numericUpDown7
             // 
+            this.numericUpDown7.DecimalPlaces = 3;
+            this.numericUpDown7.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            196608});
             this.numericUpDown7.Location = new System.Drawing.Point(360, 610);
             this.numericUpDown7.Maximum = new decimal(new int[] {
-            1000,
+            1,
             0,
             0,
             0});
-            this.numericUpDown7.Minimum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            -2147483648});
             this.numericUpDown7.Name = "numericUpDown7";
             this.numericUpDown7.Size = new System.Drawing.Size(58, 19);
             this.numericUpDown7.TabIndex = 20;
             // 
             // numericUpDown8
             // 
+            this.numericUpDown8.DecimalPlaces = 3;
+            this.numericUpDown8.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            196608});
             this.numericUpDown8.Location = new System.Drawing.Point(360, 585);
             this.numericUpDown8.Maximum = new decimal(new int[] {
-            1000,
+            1,
             0,
             0,
             0});
-            this.numericUpDown8.Minimum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            -2147483648});
             this.numericUpDown8.Name = "numericUpDown8";
             this.numericUpDown8.Size = new System.Drawing.Size(58, 19);
             this.numericUpDown8.TabIndex = 19;
@@ -512,11 +518,63 @@
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
+            // label21
+            // 
+            this.label21.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label21.BackColor = System.Drawing.Color.Transparent;
+            this.label21.Enabled = false;
+            this.label21.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label21.Location = new System.Drawing.Point(517, 406);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(22, 18);
+            this.label21.TabIndex = 38;
+            this.label21.Text = "0.2";
+            // 
+            // label20
+            // 
+            this.label20.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label20.BackColor = System.Drawing.Color.Transparent;
+            this.label20.Enabled = false;
+            this.label20.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label20.Location = new System.Drawing.Point(517, 308);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(22, 18);
+            this.label20.TabIndex = 39;
+            this.label20.Text = "0.4";
+            // 
+            // label18
+            // 
+            this.label18.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label18.BackColor = System.Drawing.Color.Transparent;
+            this.label18.Enabled = false;
+            this.label18.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label18.Location = new System.Drawing.Point(517, 207);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(22, 18);
+            this.label18.TabIndex = 40;
+            this.label18.Text = "0.6";
+            // 
+            // label19
+            // 
+            this.label19.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label19.BackColor = System.Drawing.Color.Transparent;
+            this.label19.Enabled = false;
+            this.label19.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label19.Location = new System.Drawing.Point(517, 106);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(22, 18);
+            this.label19.TabIndex = 41;
+            this.label19.Text = "0.8";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(574, 681);
+            this.Controls.Add(this.label19);
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.label20);
+            this.Controls.Add(this.label21);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.label16);
@@ -612,6 +670,10 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label19;
     }
 }
 
