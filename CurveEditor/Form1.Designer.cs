@@ -60,6 +60,8 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.線をリニアにToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.点削除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.線の編集ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.線を直線にToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label15 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -86,7 +88,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(435, 585);
+            this.button2.Location = new System.Drawing.Point(434, 584);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 21);
             this.button2.TabIndex = 4;
@@ -102,7 +104,7 @@
             0,
             0,
             196608});
-            this.numericUpDown1.Location = new System.Drawing.Point(90, 585);
+            this.numericUpDown1.Location = new System.Drawing.Point(89, 584);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             1,
             0,
@@ -120,7 +122,7 @@
             0,
             0,
             196608});
-            this.numericUpDown2.Location = new System.Drawing.Point(90, 611);
+            this.numericUpDown2.Location = new System.Drawing.Point(89, 610);
             this.numericUpDown2.Maximum = new decimal(new int[] {
             1,
             0,
@@ -138,7 +140,7 @@
             0,
             0,
             196608});
-            this.numericUpDown3.Location = new System.Drawing.Point(90, 636);
+            this.numericUpDown3.Location = new System.Drawing.Point(89, 635);
             this.numericUpDown3.Maximum = new decimal(new int[] {
             1,
             0,
@@ -156,7 +158,7 @@
             0,
             0,
             196608});
-            this.numericUpDown4.Location = new System.Drawing.Point(203, 585);
+            this.numericUpDown4.Location = new System.Drawing.Point(202, 584);
             this.numericUpDown4.Maximum = new decimal(new int[] {
             1,
             0,
@@ -174,7 +176,7 @@
             0,
             0,
             196608});
-            this.numericUpDown5.Location = new System.Drawing.Point(203, 612);
+            this.numericUpDown5.Location = new System.Drawing.Point(202, 611);
             this.numericUpDown5.Maximum = new decimal(new int[] {
             1,
             0,
@@ -192,7 +194,7 @@
             0,
             0,
             196608});
-            this.numericUpDown6.Location = new System.Drawing.Point(203, 636);
+            this.numericUpDown6.Location = new System.Drawing.Point(202, 635);
             this.numericUpDown6.Maximum = new decimal(new int[] {
             1,
             0,
@@ -205,7 +207,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(88, 570);
+            this.label1.Location = new System.Drawing.Point(87, 569);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(60, 12);
             this.label1.TabIndex = 11;
@@ -214,7 +216,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(201, 570);
+            this.label2.Location = new System.Drawing.Point(200, 569);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(12, 12);
             this.label2.TabIndex = 12;
@@ -224,7 +226,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Location = new System.Drawing.Point(33, 587);
+            this.label3.Location = new System.Drawing.Point(32, 586);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(41, 12);
             this.label3.TabIndex = 13;
@@ -233,7 +235,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(33, 640);
+            this.label4.Location = new System.Drawing.Point(32, 639);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(47, 12);
             this.label4.TabIndex = 14;
@@ -242,7 +244,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(33, 612);
+            this.label5.Location = new System.Drawing.Point(32, 611);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(47, 12);
             this.label5.TabIndex = 15;
@@ -251,7 +253,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(313, 587);
+            this.label6.Location = new System.Drawing.Point(312, 586);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(41, 12);
             this.label6.TabIndex = 22;
@@ -260,7 +262,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(313, 613);
+            this.label7.Location = new System.Drawing.Point(312, 612);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(41, 12);
             this.label7.TabIndex = 21;
@@ -274,7 +276,7 @@
             0,
             0,
             196608});
-            this.numericUpDown7.Location = new System.Drawing.Point(360, 610);
+            this.numericUpDown7.Location = new System.Drawing.Point(359, 609);
             this.numericUpDown7.Maximum = new decimal(new int[] {
             1,
             0,
@@ -292,7 +294,7 @@
             0,
             0,
             196608});
-            this.numericUpDown8.Location = new System.Drawing.Point(360, 585);
+            this.numericUpDown8.Location = new System.Drawing.Point(359, 584);
             this.numericUpDown8.Maximum = new decimal(new int[] {
             1,
             0,
@@ -307,7 +309,7 @@
             this.pictureBox1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.pictureBox1.Location = new System.Drawing.Point(17, 27);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(540, 540);
+            this.pictureBox1.Size = new System.Drawing.Size(540, 530);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
@@ -323,7 +325,7 @@
             this.label11.BackColor = System.Drawing.Color.Transparent;
             this.label11.Enabled = false;
             this.label11.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label11.Location = new System.Drawing.Point(513, 499);
+            this.label11.Location = new System.Drawing.Point(513, 494);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(63, 23);
             this.label11.TabIndex = 27;
@@ -405,7 +407,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(435, 610);
+            this.button1.Location = new System.Drawing.Point(434, 609);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 21);
             this.button1.TabIndex = 30;
@@ -416,24 +418,40 @@
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.線の編集ToolStripMenuItem,
             this.線をリニアにToolStripMenuItem,
             this.点削除ToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(137, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 92);
             // 
             // 線をリニアにToolStripMenuItem
             // 
             this.線をリニアにToolStripMenuItem.Name = "線をリニアにToolStripMenuItem";
-            this.線をリニアにToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.線をリニアにToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.線をリニアにToolStripMenuItem.Text = "点追加";
             this.線をリニアにToolStripMenuItem.Click += new System.EventHandler(this.AddPointToolStripMenuItem_Click);
             // 
             // 点削除ToolStripMenuItem
             // 
             this.点削除ToolStripMenuItem.Name = "点削除ToolStripMenuItem";
-            this.点削除ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.点削除ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.点削除ToolStripMenuItem.Text = "点削除   Del";
             this.点削除ToolStripMenuItem.Click += new System.EventHandler(this.DeletePointToolStripMenuItem_Click);
+            // 
+            // 線の編集ToolStripMenuItem
+            // 
+            this.線の編集ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.線を直線にToolStripMenuItem});
+            this.線の編集ToolStripMenuItem.Name = "線の編集ToolStripMenuItem";
+            this.線の編集ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.線の編集ToolStripMenuItem.Text = "線の編集";
+            // 
+            // 線を直線にToolStripMenuItem
+            // 
+            this.線を直線にToolStripMenuItem.Name = "線を直線にToolStripMenuItem";
+            this.線を直線にToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.線を直線にToolStripMenuItem.Text = "線を直線に";
+            this.線を直線にToolStripMenuItem.Click += new System.EventHandler(this.StraightLineEditToolStripMenuItem_Click);
             // 
             // label15
             // 
@@ -453,7 +471,7 @@
             this.label12.BackColor = System.Drawing.Color.Transparent;
             this.label12.Enabled = false;
             this.label12.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label12.Location = new System.Drawing.Point(12, 515);
+            this.label12.Location = new System.Drawing.Point(10, 515);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(22, 18);
             this.label12.TabIndex = 32;
@@ -510,7 +528,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(435, 640);
+            this.checkBox1.Location = new System.Drawing.Point(434, 639);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(70, 16);
             this.checkBox1.TabIndex = 37;
@@ -524,7 +542,7 @@
             this.label21.BackColor = System.Drawing.Color.Transparent;
             this.label21.Enabled = false;
             this.label21.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label21.Location = new System.Drawing.Point(517, 406);
+            this.label21.Location = new System.Drawing.Point(517, 401);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(22, 18);
             this.label21.TabIndex = 38;
@@ -536,7 +554,7 @@
             this.label20.BackColor = System.Drawing.Color.Transparent;
             this.label20.Enabled = false;
             this.label20.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label20.Location = new System.Drawing.Point(517, 308);
+            this.label20.Location = new System.Drawing.Point(517, 303);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(22, 18);
             this.label20.TabIndex = 39;
@@ -548,7 +566,7 @@
             this.label18.BackColor = System.Drawing.Color.Transparent;
             this.label18.Enabled = false;
             this.label18.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label18.Location = new System.Drawing.Point(517, 207);
+            this.label18.Location = new System.Drawing.Point(517, 202);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(22, 18);
             this.label18.TabIndex = 40;
@@ -560,7 +578,7 @@
             this.label19.BackColor = System.Drawing.Color.Transparent;
             this.label19.Enabled = false;
             this.label19.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label19.Location = new System.Drawing.Point(517, 106);
+            this.label19.Location = new System.Drawing.Point(517, 101);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(22, 18);
             this.label19.TabIndex = 41;
@@ -570,7 +588,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(574, 681);
+            this.ClientSize = new System.Drawing.Size(574, 671);
             this.Controls.Add(this.label19);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.label20);
@@ -674,6 +692,8 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.ToolStripMenuItem 線の編集ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 線を直線にToolStripMenuItem;
     }
 }
 

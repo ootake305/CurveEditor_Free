@@ -760,7 +760,7 @@ namespace CurveEditor
             return sp.endPoint.Y;
         }
         /// <summary>
-        /// 
+        /// 現在選択している曲線の情報樹徳
         /// </summary>
         /// <returns></returns>
 
@@ -769,7 +769,7 @@ namespace CurveEditor
             return m_list[m_SelectPoint];
         }
         /// <summary>
-        /// 
+        /// 開始点取得
         /// </summary>
         /// <returns></returns>
 
@@ -777,11 +777,49 @@ namespace CurveEditor
         {
             return m_list[0].startPoint.Y;
         }
-
+        /// <summary>
+        /// 終了点取得
+        /// </summary>
+        /// <returns></returns>
         public int GetEndPointY()
         {
             var LastCnt = m_list.Count() - 1;
             return m_list[LastCnt].endPoint.Y;
+        }
+        /// <summary>
+        /// 選択している線を直線にする
+        /// </summary>
+        public void StraightLineEdit()
+        {
+            //点を選択してないときは編集できない
+            if (m_SelectMode == SelectMode.None)
+            {
+                MessageBox.Show("点を選択していません");
+                return;
+            }
+            //終了点は編集できない
+            if (m_SelectMode == SelectMode.SelectEnd)
+            {
+                MessageBox.Show("最後の点は編集できません。");
+                return;
+            }
+            //開始点と終了点で引いたベクトルの中間に制御点を置く
+            int  posX = m_list[m_SelectPoint].endPoint.X - m_list[m_SelectPoint].startPoint.X ;
+            int  posY = m_list[m_SelectPoint].endPoint.Y - m_list[m_SelectPoint].startPoint.Y;
+
+            posX /= 2;
+            posY /= 2;
+
+            BezierPoint bp = m_list[m_SelectPoint];
+
+            bp.controlPoint1.X = posX + bp.startPoint.X;
+            bp.controlPoint2.X = posX + bp.startPoint.X;
+
+
+            bp.controlPoint1.Y = posY + bp.startPoint.Y;
+            bp.controlPoint2.Y = posY + bp.startPoint.Y;
+
+            m_list[m_SelectPoint] = bp;
         }
     }
 }

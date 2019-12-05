@@ -398,26 +398,6 @@ namespace CurveEditor
               numericUpDown5.Value = 0;
               numericUpDown6.Value = 0;
         }
-
-        public int OriginalPosToLimitPosX()
-        {
-            return 0;
-        }
-
-        public int OriginalPosToLimitPosY()
-        {
-            return 0;
-        }
-
-        public int LimitPosToOriginalPosX()
-        {
-            return 0;
-        }
-
-        public int LimitPosToOriginalPosY()
-        {
-            return 0;
-        }
         //小数から元の座標に変換
         public int ChageNomalPosX(decimal Value)
         {
@@ -460,6 +440,11 @@ namespace CurveEditor
     
             return (decimal)posY / (decimal)500;
         }
+        //チェックボックスの値が変化したときに呼ばれる
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            pictureBox1.Refresh();//再描画
+        }
         //右クリック動作----------------------------------------------------------------
         private void AddPointToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -472,11 +457,14 @@ namespace CurveEditor
             m_CurvePointControl.DeletePoint();//点削除
             pictureBox1.Refresh();//再描画
         }
-        //チェックボックスの値が変化したときに呼ばれる
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        /// <summary>
+        /// 線を直線にする
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StraightLineEditToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            pictureBox1.Refresh();//再描画
+            m_CurvePointControl.StraightLineEdit();
         }
-
     }
 }

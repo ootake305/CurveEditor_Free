@@ -89,7 +89,7 @@ namespace CurveEditor
             m_startPoint.Y = ScrrenTopPosY;
             m_endPoint.X = ScrrenRightPosX;
             m_endPoint.Y = ScrrenTopPosY;
-            m_pen = new Pen(Color.FromArgb(LineColor, 200, 200, 200), 1);
+            m_pen = new Pen(Color.FromArgb(LineColor, 200, 200, 200), 1.5f);
         }
     }
     /// <summary>
@@ -108,7 +108,7 @@ namespace CurveEditor
             m_startPoint.Y = ScrrenBottomPosY;
             m_endPoint.X = ScrrenRightPosX;
             m_endPoint.Y = ScrrenBottomPosY;
-            m_pen = new Pen(Color.FromArgb(LineColor, 200, 200, 200), 1);
+            m_pen = new Pen(Color.FromArgb(LineColor, 200, 200, 200), 1.5f);
         }
     }
 
