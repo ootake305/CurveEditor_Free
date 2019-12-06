@@ -437,8 +437,8 @@ namespace CurveEditor
             posY = Math.Max(0, posY - 10);
             posY = posY - 500;
             posY = posY * -1;
-    
-            return (decimal)posY / (decimal)500;
+
+            return Math.Max(0, (decimal)posY / (decimal)500);
         }
         //チェックボックスの値が変化したときに呼ばれる
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -465,6 +465,52 @@ namespace CurveEditor
         private void StraightLineEditToolStripMenuItem_Click(object sender, EventArgs e)
         {
             m_CurvePointControl.StraightLineEdit();
+        }
+
+        private void 新規作成NToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("現在あるグラフをリセットしてよろしいでしょうか？",
+    "質問",
+    MessageBoxButtons.OKCancel,
+    MessageBoxIcon.Exclamation,
+    MessageBoxDefaultButton.Button2);
+
+            //何が選択されたか調べる
+            if (result == DialogResult.OK)
+            {
+                //「はい」が選択された時
+                m_CurvePointControl.CurveEditorInit();
+            }
+            else if (result == DialogResult.Cancel)
+            {
+                //「キャンセル」が選択された時
+                Console.WriteLine("「キャンセル」が選択されました");
+            }
+        }
+        /// <summary>
+        /// エディタの終了
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void menuEnd_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("アプリケーションを終了してもよろしいでしょうか？",
+"質問",
+MessageBoxButtons.OKCancel,
+MessageBoxIcon.Exclamation,
+MessageBoxDefaultButton.Button2);
+
+            //何が選択されたか調べる
+            if (result == DialogResult.OK)
+            {
+                //「はい」が選択された時
+                Close();
+            }
+            else if (result == DialogResult.Cancel)
+            {
+
+            }  
+           
         }
     }
 }

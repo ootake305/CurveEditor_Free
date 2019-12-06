@@ -59,6 +59,17 @@ namespace CurveEditor
         /// </summary>
         public  CurvePointControl()
         {
+            CurveEditorInit();
+        }
+        /// <summary>
+        /// グラフの初期化
+        /// </summary>
+        public void CurveEditorInit()
+        {
+            m_SelectMode = SelectMode.None;
+            CancelMovePoint();
+            m_SelectPoint = 0;
+            m_list.Clear();
             //初期の曲線設定
             BezierPoint startBezirPoint = new BezierPoint();
             startBezirPoint.startPoint = new Point(ScrrenLeftPosX, ScrrenBottomPosY);//中央配置

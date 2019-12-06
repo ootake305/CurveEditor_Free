@@ -58,10 +58,10 @@
             this.label10 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.線をリニアにToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.点削除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.線の編集ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.線を直線にToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.線をリニアにToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.点削除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label15 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -349,6 +349,7 @@
             this.新規作成NToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.新規作成NToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.新規作成NToolStripMenuItem.Text = "新規作成(&N)";
+            this.新規作成NToolStripMenuItem.Click += new System.EventHandler(this.新規作成NToolStripMenuItem_Click);
             // 
             // menuPoen
             // 
@@ -375,6 +376,7 @@
             this.menuEnd.Name = "menuEnd";
             this.menuEnd.Size = new System.Drawing.Size(190, 22);
             this.menuEnd.Text = "エディタの終了";
+            this.menuEnd.Click += new System.EventHandler(this.menuEnd_Click);
             // 
             // menuStrip1
             // 
@@ -422,36 +424,36 @@
             this.線をリニアにToolStripMenuItem,
             this.点削除ToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 92);
-            // 
-            // 線をリニアにToolStripMenuItem
-            // 
-            this.線をリニアにToolStripMenuItem.Name = "線をリニアにToolStripMenuItem";
-            this.線をリニアにToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.線をリニアにToolStripMenuItem.Text = "点追加";
-            this.線をリニアにToolStripMenuItem.Click += new System.EventHandler(this.AddPointToolStripMenuItem_Click);
-            // 
-            // 点削除ToolStripMenuItem
-            // 
-            this.点削除ToolStripMenuItem.Name = "点削除ToolStripMenuItem";
-            this.点削除ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.点削除ToolStripMenuItem.Text = "点削除   Del";
-            this.点削除ToolStripMenuItem.Click += new System.EventHandler(this.DeletePointToolStripMenuItem_Click);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(137, 70);
             // 
             // 線の編集ToolStripMenuItem
             // 
             this.線の編集ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.線を直線にToolStripMenuItem});
             this.線の編集ToolStripMenuItem.Name = "線の編集ToolStripMenuItem";
-            this.線の編集ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.線の編集ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.線の編集ToolStripMenuItem.Text = "線の編集";
             // 
             // 線を直線にToolStripMenuItem
             // 
             this.線を直線にToolStripMenuItem.Name = "線を直線にToolStripMenuItem";
-            this.線を直線にToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.線を直線にToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.線を直線にToolStripMenuItem.Text = "線を直線に";
             this.線を直線にToolStripMenuItem.Click += new System.EventHandler(this.StraightLineEditToolStripMenuItem_Click);
+            // 
+            // 線をリニアにToolStripMenuItem
+            // 
+            this.線をリニアにToolStripMenuItem.Name = "線をリニアにToolStripMenuItem";
+            this.線をリニアにToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.線をリニアにToolStripMenuItem.Text = "点追加";
+            this.線をリニアにToolStripMenuItem.Click += new System.EventHandler(this.AddPointToolStripMenuItem_Click);
+            // 
+            // 点削除ToolStripMenuItem
+            // 
+            this.点削除ToolStripMenuItem.Name = "点削除ToolStripMenuItem";
+            this.点削除ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.点削除ToolStripMenuItem.Text = "点削除   Del";
+            this.点削除ToolStripMenuItem.Click += new System.EventHandler(this.DeletePointToolStripMenuItem_Click);
             // 
             // label15
             // 
