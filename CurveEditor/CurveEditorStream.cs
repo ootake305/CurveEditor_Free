@@ -5,8 +5,27 @@ using System.IO;
 using System.Windows.Forms;
 namespace CurveEditor
 {
+    //CSVからグラフを読み書きするクラス
     class CurveEditorStream
     {
+        /// <summary>
+        /// 文字列数値に変換
+        /// </summary>
+        /// <param name="values"></param>
+        CurvePointControl.BezierPoint ConvertBezierPoint(string[] values)
+        {
+            //文字列を数値に変換
+            CurvePointControl.BezierPoint bp = new CurvePointControl.BezierPoint();
+            bp.startPoint.X = int.Parse(values[0]);
+            bp.startPoint.Y = int.Parse(values[1]);
+            bp.controlPoint1.X = int.Parse(values[2]);
+            bp.controlPoint1.Y = int.Parse(values[3]);
+            bp.controlPoint2.X = int.Parse(values[4]);
+            bp.controlPoint2.Y = int.Parse(values[5]);
+            bp.endPoint.X = int.Parse(values[6]);
+            bp.endPoint.Y = int.Parse(values[7]);
+            return bp;
+        }
         /// <summary>
         /// CSVからデータを読み込み
         /// </summary>
@@ -15,6 +34,19 @@ namespace CurveEditor
         public List<CurvePointControl.BezierPoint> Load(string s)
         {
             List<CurvePointControl.BezierPoint> list = new List<CurvePointControl.BezierPoint>();
+            StreamReader file = new StreamReader(s);
+
+              //末尾まで繰り返す
+            while (!file.EndOfStream)
+            {
+               // CSVファイルの一行を読み込む
+                string line = file.ReadLine();
+                // 読み込んだ一行をカンマ毎に分けて配列に格納する
+                string[] values = line.Split(',');
+                CurvePointControl.BezierPoint b = ConvertBezierPoint(values);
+                list.Add(b);
+            }
+            file.Close();
             return list;
         }
         /// <summary>
@@ -45,8 +77,6 @@ namespace CurveEditor
                 MessageBox.Show(e.Message);
                 Console.WriteLine(e.Message);       // エラーメッセージを表示
             }
-            
-
         }
     }
 }

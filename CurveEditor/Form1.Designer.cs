@@ -359,6 +359,7 @@
             // menuPoen
             // 
             this.menuPoen.Name = "menuPoen";
+            this.menuPoen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.menuPoen.Size = new System.Drawing.Size(190, 22);
             this.menuPoen.Text = "開く(&O)";
             this.menuPoen.Click += new System.EventHandler(this.menuPoen_Click);

@@ -40,7 +40,7 @@ namespace CurveEditor
         public Form1()
         {
             InitializeComponent();
-            Text = "CurveEditor ver:0.7 α版";
+            Text = "CurveEditor ver:0.8";
             //ちらつき防止
             SetStyle(
     ControlStyles.DoubleBuffer |
@@ -504,6 +504,8 @@ namespace CurveEditor
         /// <param name="e"></param>
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
+            m_CurvePointControl.LoadGraph(openFileDialog1.FileName);
+            editFilePath = openFileDialog1.FileName;
             pictureBox1.Refresh();//再描画
         }
         /// <summary>
