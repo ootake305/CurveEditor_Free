@@ -12,7 +12,6 @@ using System.Windows.Input;
 
 namespace CurveEditor
 {
-
     public partial class Form1 : Form
     {
         /// <summary>
@@ -37,6 +36,7 @@ namespace CurveEditor
         const int ScrrenBottomPosY = 510;   //下端
         Point m_MousePos;//一時保存用マウスの座標
         CurvePointControl.BezierPoint bp;//一時保存用
+        private string editFilePath = "";  //編集中のファイルのパス
         public Form1()
         {
             InitializeComponent();
@@ -117,14 +117,14 @@ namespace CurveEditor
         public void numericUpDownSync()
         {
             bp = m_CurvePointControl.GetBezierPoint();
-            numericUpDown1.Value = ChageDecimalPosX(bp.startPoint.X);
-            numericUpDown2.Value = ChageDecimalPosX(bp.controlPoint1.X);
-            numericUpDown3.Value = ChageDecimalPosX(bp.controlPoint2.X);
-            numericUpDown4.Value = ChageDecimalPosY(bp.startPoint.Y);
-            numericUpDown5.Value = ChageDecimalPosY(bp.controlPoint1.Y);
-            numericUpDown6.Value = ChageDecimalPosY(bp.controlPoint2.Y);
-            numericUpDown7.Value = ChageDecimalPosY(m_CurvePointControl.GetEndPointY());
-            numericUpDown8.Value = ChageDecimalPosY(m_CurvePointControl.GetFirstStartPointY());
+            numericUpDown1.Value = CMath.ChageDecimalPosX(bp.startPoint.X);
+            numericUpDown2.Value = CMath.ChageDecimalPosX(bp.controlPoint1.X);
+            numericUpDown3.Value = CMath.ChageDecimalPosX(bp.controlPoint2.X);
+            numericUpDown4.Value = CMath.ChageDecimalPosY(bp.startPoint.Y);
+            numericUpDown5.Value = CMath.ChageDecimalPosY(bp.controlPoint1.Y);
+            numericUpDown6.Value = CMath.ChageDecimalPosY(bp.controlPoint2.Y);
+            numericUpDown7.Value = CMath.ChageDecimalPosY(m_CurvePointControl.GetEndPointY());
+            numericUpDown8.Value = CMath.ChageDecimalPosY(m_CurvePointControl.GetFirstStartPointY());
         }
         /// <summary>
         /// クリックした瞬間の処理
@@ -294,6 +294,8 @@ namespace CurveEditor
             p.Y = e.Y;
             m_MousePos = p;
         }
+        //入力項目の同期-------------------------------------------------------------------------
+
         /// <summary>
         /// 選択点X
         /// </summary>
@@ -301,9 +303,9 @@ namespace CurveEditor
         /// <param name="e"></param>
         public void ChangeSelectPointX(object sender, EventArgs e)
         {
-            int num3 = ChageNomalPosX(numericUpDown1.Value);
+            int num3 = CMath.ChageNomalPosX(numericUpDown1.Value);
             int num4 = m_CurvePointControl.SetStartPointX(num3);
-            numericUpDown1.Value = ChageDecimalPosX(num4); 
+            numericUpDown1.Value = CMath.ChageDecimalPosX(num4); 
              if (!m_CurvePointControl.isMoveSelectPoint()) pictureBox1.Refresh();//再描画
         }
         /// <summary>
@@ -313,12 +315,12 @@ namespace CurveEditor
         /// <param name="e"></param>
         public void ChangeSelectPointY(object sender, EventArgs e)
         {
-            int num = ChageNomalPosY(numericUpDown4.Value);
+            int num = CMath.ChageNomalPosY(numericUpDown4.Value);
             int num2 = m_CurvePointControl.SetStartPointY(num);
-            numericUpDown4.Value = ChageDecimalPosY(num2);
+            numericUpDown4.Value = CMath.ChageDecimalPosY(num2);
             if (!m_CurvePointControl.isMoveSelectPoint()) pictureBox1.Refresh();//再描画
             //最初の開始点と同期を取る
-            numericUpDown8.Value = ChageDecimalPosY(m_CurvePointControl.GetFirstStartPointY());
+            numericUpDown8.Value = CMath.ChageDecimalPosY(m_CurvePointControl.GetFirstStartPointY());
         }
         /// <summary>
         /// 制御点1X
@@ -327,9 +329,9 @@ namespace CurveEditor
         /// <param name="e"></param>
         public void ChangeControlPoint1X(object sender, EventArgs e)
         {
-            int num = ChageNomalPosX(numericUpDown2.Value);
+            int num = CMath.ChageNomalPosX(numericUpDown2.Value);
             int num2 = m_CurvePointControl.SetControl1PointX(num);
-            numericUpDown2.Value =ChageDecimalPosX(num2);
+            numericUpDown2.Value = CMath.ChageDecimalPosX(num2);
              if (!m_CurvePointControl.isMoveSelectPoint())  pictureBox1.Refresh();//再描画
         }
         /// <summary>
@@ -339,9 +341,9 @@ namespace CurveEditor
         /// <param name="e"></param>
         public void ChangeControlPoint1Y(object sender, EventArgs e)
         {
-            int num = ChageNomalPosY(numericUpDown5.Value);
+            int num = CMath.ChageNomalPosY(numericUpDown5.Value);
             int num2 = m_CurvePointControl.SetControl1PointY(num);
-            numericUpDown5.Value = ChageDecimalPosY(num2);
+            numericUpDown5.Value = CMath.ChageDecimalPosY(num2);
             if (!m_CurvePointControl.isMoveSelectPoint())  pictureBox1.Refresh();//再描画
         }
         /// <summary>
@@ -351,9 +353,9 @@ namespace CurveEditor
         /// <param name="e"></param>
         public void ChangeControlPoint2X(object sender, EventArgs e)
         {
-            int num = ChageNomalPosX(numericUpDown3.Value);
+            int num = CMath.ChageNomalPosX(numericUpDown3.Value);
             int num2 = m_CurvePointControl.SetControl2PointX(num);
-            numericUpDown3.Value = ChageDecimalPosX(num2);
+            numericUpDown3.Value = CMath.ChageDecimalPosX(num2);
             if (!m_CurvePointControl.isMoveSelectPoint())  pictureBox1.Refresh();//再描画
         }
         /// <summary>
@@ -363,20 +365,20 @@ namespace CurveEditor
         /// <param name="e"></param>
         public void ChangeControlPoint2Y(object sender, EventArgs e)
         {
-            int num = ChageNomalPosY(numericUpDown6.Value);
+            int num = CMath.ChageNomalPosY(numericUpDown6.Value);
             int num2 = m_CurvePointControl.SetControl2PointY(num);
-            numericUpDown6.Value = ChageDecimalPosY(num2);
+            numericUpDown6.Value = CMath.ChageDecimalPosY(num2);
             if (!m_CurvePointControl.isMoveSelectPoint()) pictureBox1.Refresh();//再描画
         }
         //開始点せってい
         public void ChangeFirstStartPoint(object sender, EventArgs e)
         {
-            int num = ChageNomalPosY(numericUpDown8.Value);
+            int num = CMath.ChageNomalPosY(numericUpDown8.Value);
             int num2 = m_CurvePointControl.SetFirstStartPoint(num); ;
-            numericUpDown8.Value = ChageDecimalPosY(num2);
+            numericUpDown8.Value = CMath.ChageDecimalPosY(num2);
             if (!m_CurvePointControl.isMoveSelectPoint()) pictureBox1.Refresh();//再描画
             bp = m_CurvePointControl.GetBezierPoint();
-            numericUpDown4.Value = ChageDecimalPosY( bp.startPoint.Y);
+            numericUpDown4.Value = CMath.ChageDecimalPosY( bp.startPoint.Y);
         }
         /// <summary>
         /// 終了点
@@ -385,13 +387,13 @@ namespace CurveEditor
         /// <param name="e"></param>
         public void ChangeEndPoint(object sender, EventArgs e)
         {
-
-            int num = ChageNomalPosY(numericUpDown7.Value);
+            int num = CMath.ChageNomalPosY(numericUpDown7.Value);
             int num2 = m_CurvePointControl.SetEndPoint(num); ;
-            numericUpDown7.Value = ChageDecimalPosY(num2);
+            numericUpDown7.Value = CMath.ChageDecimalPosY(num2);
             if (!m_CurvePointControl.isMoveSelectPoint()) pictureBox1.Refresh();//再描画
             bp = m_CurvePointControl.GetBezierPoint();
         }
+        //変換----------------------------------------------------------------------
 
         //カーブポイント入力項目のリセット
         public void ResetCurvePointValue()
@@ -403,48 +405,7 @@ namespace CurveEditor
               numericUpDown5.Value = 0;
               numericUpDown6.Value = 0;
         }
-        //小数から元の座標に変換
-        public int ChageNomalPosX(decimal Value)
-        {
-            decimal num = Value;
-
-            decimal num2 = (num * (decimal)500);
-            int num3 = Convert.ToInt32(num2);
-
-            num3 += 10;//10からグラフが始まってるので右に+10
-            return num3;
-        }
-        //元の座標から0～1の間に変換
-        public decimal ChageDecimalPosX(int posX)
-        {
-            posX = Math.Max(0, posX - 10);　//10からグラフが始まってるので右に-10
-            return (decimal)posX / (decimal)500;
-        }
-        //小数から元の座標に変換
-        public int ChageNomalPosY(decimal Value)
-        {
-            decimal num = Value;
-
-            decimal num2 = num * (decimal)500;
-            int num3 = Convert.ToInt32(num2);
-
-            num3 = num3 - 500;
-            num3 = num3 * -1;
-            num3 += 10;//10からグラフが始まってるので右に+10
-    
-            return num3;
-        }
-        //元の座標から0～1の間に変換
-        public decimal ChageDecimalPosY(int posY)
-        {
-            //  posY = Math.Min(500, posY - 10);
-            //10からグラフが始まってるので右に-10
-            posY = Math.Max(0, posY - 10);
-            posY = posY - 500;
-            posY = posY * -1;
-
-            return Math.Max(0, (decimal)posY / (decimal)500);
-        }
+     
         //チェックボックスの値が変化したときに呼ばれる
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
@@ -472,7 +433,7 @@ namespace CurveEditor
             m_CurvePointControl.StraightLineEdit();
         }
         //  メニューバー--------------------------------------------------------------------------
-        private void 新規作成NToolStripMenuItem_Click(object sender, EventArgs e)
+        private void NewCreate_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("現在あるグラフをリセットしてよろしいでしょうか？",
               "質問",
@@ -486,6 +447,7 @@ namespace CurveEditor
                 //「はい」が選択された時
                 m_CurvePointControl.CurveEditorInit();
                 pictureBox1.Refresh();//再描画
+
             }
             else if (result == DialogResult.Cancel)
             {
@@ -526,7 +488,43 @@ namespace CurveEditor
                   MessageBoxIcon.Exclamation,
                   MessageBoxDefaultButton.Button2);
         }
-    }
+        /// <summary>
+        /// 開く
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void menuPoen_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.ShowDialog();
+        }
+        /// <summary>
+        /// CSVを開いてグラフを表示
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            pictureBox1.Refresh();//再描画
+        }
+        /// <summary>
+        /// 名前を付けて保存
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void menuSaveAdd_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.FileName = "new.csv";
+            saveFileDialog1.ShowDialog();
+        }
+        /// <summary>
+        /// ファイルをCSVに保存
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            m_CurvePointControl.SaveGraph(saveFileDialog1.FileName);
+        }
 
-  
+    }
 }

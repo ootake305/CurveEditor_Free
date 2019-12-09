@@ -54,6 +54,8 @@ namespace CurveEditor
         Pen m_CPointLineColor = new Pen(Color.FromArgb(100, 245, 245, 245), 4);   //制御点の強調線の色
         Pen m_pen = new Pen(Color.FromArgb(255, 30, 205,30), 1.5f);                           //曲線の色
         Pen m_pen2 = new Pen(Color.FromArgb(105, 245, 245, 245), 2.0f);   //直線の色
+        //データ読み書き機能
+        CurveEditorStream m_stream = new CurveEditorStream();
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -182,12 +184,12 @@ namespace CurveEditor
             BezierPoint startBezirPoint = new BezierPoint();
             const int ofsetY = 30;
 
-            startBezirPoint.startPoint = new Point(Math.Min(p.X, ScrrenRightPosX - 1), Clamp(p.Y, ScrrenTopPosY, ScrrenBottomPosY));
+            startBezirPoint.startPoint = new Point(Math.Min(p.X, ScrrenRightPosX - 1), CMath.Clamp(p.Y, ScrrenTopPosY, ScrrenBottomPosY));
             startBezirPoint.endPoint = new Point(m_list[SelectNum].endPoint.X, m_list[SelectNum].endPoint.Y);
             //制御点は追加される開始点の少し右に生成させる
-            var cpointX = Clamp(startBezirPoint.startPoint.X + 10, ScrrenLeftPosX + ControlOfSetX, ScrrenRightPosX - ControlOfSetX);
-            startBezirPoint.controlPoint1 = new Point(cpointX, Clamp( startBezirPoint.startPoint.Y + ofsetY, ScrrenTopPosY, ScrrenBottomPosY));
-            startBezirPoint.controlPoint2 = new Point(cpointX, Clamp(startBezirPoint.startPoint.Y - ofsetY, ScrrenTopPosY, ScrrenBottomPosY));
+            var cpointX = CMath.Clamp(startBezirPoint.startPoint.X + 10, ScrrenLeftPosX + ControlOfSetX, ScrrenRightPosX - ControlOfSetX);
+            startBezirPoint.controlPoint1 = new Point(cpointX, CMath.Clamp( startBezirPoint.startPoint.Y + ofsetY, ScrrenTopPosY, ScrrenBottomPosY));
+            startBezirPoint.controlPoint2 = new Point(cpointX, CMath.Clamp(startBezirPoint.startPoint.Y - ofsetY, ScrrenTopPosY, ScrrenBottomPosY));
 
             m_list.Insert(SelectNum + 1, startBezirPoint);//新しい点追加
 
@@ -214,7 +216,7 @@ namespace CurveEditor
             startBezirPoint.startPoint = new Point(Math.Min( m_list[LastCnt].startPoint.X + ofsetX, ScrrenRightPosX - 1), m_list[LastCnt].startPoint.Y);
             startBezirPoint.endPoint = new Point(m_list[LastCnt].endPoint.X, m_list[LastCnt].endPoint.Y);
             //制御点は追加される開始点の少し右に生成させる
-            var cpointX = Clamp(startBezirPoint.startPoint.X + 10, ScrrenLeftPosX, ScrrenRightPosX - 1);
+            var cpointX = CMath.Clamp(startBezirPoint.startPoint.X + 10, ScrrenLeftPosX, ScrrenRightPosX - 1);
             startBezirPoint.controlPoint1 = new Point(cpointX, m_list[LastCnt].startPoint.Y + 30);
             startBezirPoint.controlPoint2 = new Point(cpointX, m_list[LastCnt].startPoint.Y - 30);
             m_list.Add(startBezirPoint);//新しい点追加
@@ -335,7 +337,7 @@ namespace CurveEditor
         {
             BezierPoint sp = m_list[m_SelectPoint]; //選択している点
 
-            sp.startPoint.Y = Clamp(mouse.Y, ScrrenTopPosY, ScrrenBottomPosY);
+            sp.startPoint.Y = CMath.Clamp(mouse.Y, ScrrenTopPosY, ScrrenBottomPosY);
             // 一番最初の開始点だけY軸にしか動かせないように
             if (!isSelectFirstStartPoint())
             {     
@@ -343,7 +345,7 @@ namespace CurveEditor
                 //X軸の移動 intervalPointPosを加算減算すること隣の点と同じ座標にならないようにする
                 int minpx = m_list[BeforeSelectPoint].startPoint.X + intervalPointPos;
                 int maxpx = sp.endPoint.X - intervalPointPos;
-                sp.startPoint.X = Clamp(mouse.X, minpx, maxpx);
+                sp.startPoint.X = CMath.Clamp(mouse.X, minpx, maxpx);
                 //ひとつ前の終了点の移動
                 BezierPoint sp2 = m_list[BeforeSelectPoint];
                 sp2.endPoint = sp.startPoint;
@@ -360,20 +362,20 @@ namespace CurveEditor
         {
             BezierPoint sp = m_list[m_SelectPoint]; //選択している点
           
-            sp.controlPoint1.X = Clamp(mouse.X, ScrrenLeftPosX + intervalPointPos, ScrrenRightPosX - intervalPointPos);
-            sp.controlPoint1.Y = Clamp(mouse.Y, ScrrenTopPosY, ScrrenBottomPosY);
+            sp.controlPoint1.X = CMath.Clamp(mouse.X, ScrrenLeftPosX + intervalPointPos, ScrrenRightPosX - intervalPointPos);
+            sp.controlPoint1.Y = CMath.Clamp(mouse.Y, ScrrenTopPosY, ScrrenBottomPosY);
             //X軸の移動 
             if (!isSelectFirstStartPoint())
             {
                 int minpx = m_list[m_SelectPoint - 1].endPoint.X + ControlOfSetX;
-                sp.controlPoint1.X = Clamp(sp.controlPoint1.X, minpx, ScrrenRightPosX - 1);
+                sp.controlPoint1.X = CMath.Clamp(sp.controlPoint1.X, minpx, ScrrenRightPosX - 1);
             }
 
             //X軸の移動 
             if (!(isSelectLastEndPoint()))
             {
                 int maxpx = m_list[m_SelectPoint + 1].startPoint.X - ControlOfSetX;
-                sp.controlPoint1.X = Clamp(sp.controlPoint1.X, ScrrenLeftPosX, maxpx);
+                sp.controlPoint1.X = CMath.Clamp(sp.controlPoint1.X, ScrrenLeftPosX, maxpx);
             }
             m_list[m_SelectPoint] = sp;
         }
@@ -384,21 +386,21 @@ namespace CurveEditor
         public void MoveControl2Point(MouseEventArgs mouse)
         {
             BezierPoint sp = m_list[m_SelectPoint]; //選択している点
-            sp.controlPoint2.X = Clamp(mouse.X, ScrrenLeftPosX + intervalPointPos, ScrrenRightPosX - intervalPointPos);
-            sp.controlPoint2.Y = Clamp(mouse.Y, ScrrenTopPosY, ScrrenBottomPosY);
+            sp.controlPoint2.X = CMath.Clamp(mouse.X, ScrrenLeftPosX + intervalPointPos, ScrrenRightPosX - intervalPointPos);
+            sp.controlPoint2.Y = CMath.Clamp(mouse.Y, ScrrenTopPosY, ScrrenBottomPosY);
 
             //一番最初の開始点以外を選択しているなら 
             if (!isSelectFirstStartPoint())
             {
                 int minpx = m_list[m_SelectPoint - 1].endPoint.X + ControlOfSetX;
-                sp.controlPoint2.X = Clamp(sp.controlPoint2.X,minpx, ScrrenRightPosX - 1);
+                sp.controlPoint2.X = CMath.Clamp(sp.controlPoint2.X,minpx, ScrrenRightPosX - 1);
             }
 
             //一番最後の終了点以外を選択しているなら 
             if (!isSelectLastEndPoint())
             {
                 int maxpx = m_list[m_SelectPoint + 1].startPoint.X - ControlOfSetX;
-                sp.controlPoint2.X = Clamp(sp.controlPoint2.X, ScrrenLeftPosX, maxpx);
+                sp.controlPoint2.X = CMath.Clamp(sp.controlPoint2.X, ScrrenLeftPosX, maxpx);
             }
             m_list[m_SelectPoint] = sp;
         }
@@ -410,7 +412,7 @@ namespace CurveEditor
         {
             int LastCnt = m_list.Count() - 1;
             BezierPoint sp = m_list[LastCnt]; //選択している点
-            sp.endPoint.Y = Clamp(mouse.Y, ScrrenTopPosY, ScrrenBottomPosY); ;
+            sp.endPoint.Y = CMath.Clamp(mouse.Y, ScrrenTopPosY, ScrrenBottomPosY); ;
             m_list[LastCnt] = sp;
         }
         /// <summary>
@@ -472,14 +474,14 @@ namespace CurveEditor
                 //左端以外なら
                 if (i != 0)
                 {
-                    sp.controlPoint1.X = Clamp(sp.controlPoint1.X, m_list[i - 1].endPoint.X + ControlOfSetX, ScrrenRightPosX);
-                    sp.controlPoint2.X = Clamp(sp.controlPoint2.X, m_list[i - 1].endPoint.X + ControlOfSetX, ScrrenRightPosX);
+                    sp.controlPoint1.X = CMath.Clamp(sp.controlPoint1.X, m_list[i - 1].endPoint.X + ControlOfSetX, ScrrenRightPosX);
+                    sp.controlPoint2.X = CMath.Clamp(sp.controlPoint2.X, m_list[i - 1].endPoint.X + ControlOfSetX, ScrrenRightPosX);
                 }
                 //右端以外なら
                 if (i != LastNum)
                 {
-                    sp.controlPoint1.X = Clamp(sp.controlPoint1.X, ScrrenLeftPosX, m_list[i + 1].startPoint.X - ControlOfSetX);
-                    sp.controlPoint2.X = Clamp(sp.controlPoint2.X, ScrrenLeftPosX, m_list[i + 1].startPoint.X - ControlOfSetX);
+                    sp.controlPoint1.X = CMath.Clamp(sp.controlPoint1.X, ScrrenLeftPosX, m_list[i + 1].startPoint.X - ControlOfSetX);
+                    sp.controlPoint2.X = CMath.Clamp(sp.controlPoint2.X, ScrrenLeftPosX, m_list[i + 1].startPoint.X - ControlOfSetX);
                 }
                 m_list[i] = sp;
             }
@@ -604,17 +606,7 @@ namespace CurveEditor
             if (m_SelectMode == SelectMode.None) return false;
             return true;
         }
-        /// <summary>
-        /// /値を特定の範囲に宣言する
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="minVal"></param>
-        /// <param name="maxVal"></param>
-        /// <returns></returns>
-        public int  Clamp(int x, int minVal, int maxVal)
-        {
-            return Math.Min(Math.Max(minVal, x), maxVal);
-        }
+
         /// <summary>
         ///    開始点セット
         /// </summary>
@@ -630,7 +622,7 @@ namespace CurveEditor
             //X軸の移動 intervalPointPosを加算減算すること隣の点と同じ座標にならないようにする
             int minpx = m_list[BeforeSelectPoint].startPoint.X + intervalPointPos;
             int maxpx = sp.endPoint.X - intervalPointPos;
-            sp.startPoint.X = Clamp(x, minpx, maxpx);
+            sp.startPoint.X = CMath.Clamp(x, minpx, maxpx);
             //ひとつ前の終了点の移動
             BezierPoint sp2 = m_list[BeforeSelectPoint];
             sp2.endPoint = sp.startPoint;
@@ -649,7 +641,7 @@ namespace CurveEditor
 
             BezierPoint sp = m_list[m_SelectPoint]; //最初の点のY
 
-            sp.startPoint.Y = Clamp(y, ScrrenTopPosY, ScrrenBottomPosY);
+            sp.startPoint.Y = CMath.Clamp(y, ScrrenTopPosY, ScrrenBottomPosY);
             m_list[m_SelectPoint] = sp;
 
             //最初の開始点を選択してないなら前の終了点も移動させる
@@ -671,20 +663,20 @@ namespace CurveEditor
             if (m_SelectMode == SelectMode.None) return 0;
 
             BezierPoint sp = m_list[m_SelectPoint]; //選択している点
-            sp.controlPoint1.X = Clamp(x, ScrrenLeftPosX, ScrrenRightPosX);
+            sp.controlPoint1.X = CMath.Clamp(x, ScrrenLeftPosX, ScrrenRightPosX);
 
             //一番最初の開始点以外を選択しているなら  +1 -1することで隣の点と同じ座標にならないようにする
             if (!isSelectFirstStartPoint())
             {
                 int minpx = m_list[m_SelectPoint - 1].endPoint.X + ControlOfSetX;
-                sp.controlPoint1.X = Clamp(sp.controlPoint1.X, minpx, ScrrenRightPosX);
+                sp.controlPoint1.X = CMath.Clamp(sp.controlPoint1.X, minpx, ScrrenRightPosX);
             }
 
             //一番最後の終了点以外を選択しているなら 
             if (!isSelectLastEndPoint())
             {
                 int maxpx = m_list[m_SelectPoint + 1].startPoint.X - ControlOfSetX;
-                sp.controlPoint1.X = Clamp(sp.controlPoint1.X, ScrrenLeftPosX, maxpx);
+                sp.controlPoint1.X = CMath.Clamp(sp.controlPoint1.X, ScrrenLeftPosX, maxpx);
             }
             m_list[m_SelectPoint] = sp;
 
@@ -699,20 +691,20 @@ namespace CurveEditor
             if (m_SelectMode == SelectMode.None) return 0;
 
             BezierPoint sp = m_list[m_SelectPoint]; //選択している点
-            sp.controlPoint2.X = Clamp(x, ScrrenLeftPosX, ScrrenRightPosX);
+            sp.controlPoint2.X = CMath.Clamp(x, ScrrenLeftPosX, ScrrenRightPosX);
 
             //一番最初の開始点以外を選択しているなら
             if (!isSelectFirstStartPoint())
             {
                 int minpx = m_list[m_SelectPoint - 1].endPoint.X + ControlOfSetX;
-                sp.controlPoint2.X = Clamp(sp.controlPoint2.X, minpx, ScrrenRightPosX);
+                sp.controlPoint2.X = CMath.Clamp(sp.controlPoint2.X, minpx, ScrrenRightPosX);
             }
 
             //一番最後の終了点以外を選択しているなら 
             if (!isSelectLastEndPoint())
             {
                 int maxpx = m_list[m_SelectPoint + 1].startPoint.X - ControlOfSetX;
-                sp.controlPoint2.X = Clamp(sp.controlPoint2.X, ScrrenLeftPosX, maxpx);
+                sp.controlPoint2.X = CMath.Clamp(sp.controlPoint2.X, ScrrenLeftPosX, maxpx);
             }
             m_list[m_SelectPoint] = sp;
 
@@ -728,7 +720,7 @@ namespace CurveEditor
 
             BezierPoint sp = m_list[m_SelectPoint];
 
-            sp.controlPoint1.Y = Clamp(y, ScrrenTopPosY, ScrrenBottomPosY);
+            sp.controlPoint1.Y = CMath.Clamp(y, ScrrenTopPosY, ScrrenBottomPosY);
             m_list[m_SelectPoint] = sp;
             return sp.controlPoint1.Y;
         }
@@ -742,7 +734,7 @@ namespace CurveEditor
 
             BezierPoint sp = m_list[m_SelectPoint];
 
-            sp.controlPoint2.Y = Clamp(y, ScrrenTopPosY, ScrrenBottomPosY);
+            sp.controlPoint2.Y = CMath.Clamp(y, ScrrenTopPosY, ScrrenBottomPosY);
             m_list[m_SelectPoint] = sp;
             return sp.controlPoint2.Y;
         }
@@ -753,7 +745,7 @@ namespace CurveEditor
         public int SetFirstStartPoint(int y)
         {
             BezierPoint sp = m_list[0]; //最初の点
-            sp.startPoint.Y = Clamp(y, ScrrenTopPosY, ScrrenBottomPosY);
+            sp.startPoint.Y = CMath.Clamp(y, ScrrenTopPosY, ScrrenBottomPosY);
             m_list[0] = sp;
             return sp.startPoint.Y;
         }
@@ -766,7 +758,7 @@ namespace CurveEditor
             var LastCnt = m_list.Count() - 1;
 
             BezierPoint sp = m_list[LastCnt]; //最後の点
-            sp.endPoint.Y = Clamp(y, ScrrenTopPosY, ScrrenBottomPosY);
+            sp.endPoint.Y = CMath.Clamp(y, ScrrenTopPosY, ScrrenBottomPosY);
             m_list[LastCnt] = sp;
             return sp.endPoint.Y;
         }
@@ -825,12 +817,31 @@ namespace CurveEditor
 
             bp.controlPoint1.X = posX + bp.startPoint.X;
             bp.controlPoint2.X = posX + bp.startPoint.X;
-
-
             bp.controlPoint1.Y = posY + bp.startPoint.Y;
             bp.controlPoint2.Y = posY + bp.startPoint.Y;
 
             m_list[m_SelectPoint] = bp;
+        }
+
+        /// <summary>
+        /// CSVデータからグラフの点データを読み込む
+        /// </summary>
+        /// <returns></returns>
+        public bool LoadGraph(string s)
+        {
+            CurveEditorInit();
+            m_list = m_stream.Load(s);
+            return false;
+        }
+
+        /// <summary>
+        /// CSVデータにグラフの点データを書き込む
+        /// </summary>
+        /// <returns></returns>
+        public bool SaveGraph(string s)
+        {
+            m_stream.Save(ref m_list,s);
+            return false;
         }
     }
 }
