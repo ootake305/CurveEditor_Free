@@ -40,7 +40,7 @@ namespace CurveEditor
         public Form1()
         {
             InitializeComponent();
-            Text = "CurveEditor ver:0.6 α版";
+            Text = "CurveEditor ver:0.7 α版";
             //ちらつき防止
             SetStyle(
     ControlStyles.DoubleBuffer |
@@ -276,7 +276,12 @@ namespace CurveEditor
             //エスケープキーを押したら
             if (e.KeyCode == Keys.Escape)
             {
-                Close();
+                if (isCloseCheck() == DialogResult.OK)
+                {
+                    // Form1の破棄
+                    this.Dispose();
+                }
+  
             }
         }
         /// <summary>
@@ -466,20 +471,21 @@ namespace CurveEditor
         {
             m_CurvePointControl.StraightLineEdit();
         }
-
+        //  メニューバー--------------------------------------------------------------------------
         private void 新規作成NToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("現在あるグラフをリセットしてよろしいでしょうか？",
-    "質問",
-    MessageBoxButtons.OKCancel,
-    MessageBoxIcon.Exclamation,
-    MessageBoxDefaultButton.Button2);
+              "質問",
+               MessageBoxButtons.OKCancel,
+               MessageBoxIcon.Exclamation,
+               MessageBoxDefaultButton.Button2);
 
             //何が選択されたか調べる
             if (result == DialogResult.OK)
             {
                 //「はい」が選択された時
                 m_CurvePointControl.CurveEditorInit();
+                pictureBox1.Refresh();//再描画
             }
             else if (result == DialogResult.Cancel)
             {
@@ -494,11 +500,7 @@ namespace CurveEditor
         /// <param name="e"></param>
         private void menuEnd_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("アプリケーションを終了してもよろしいでしょうか？",
-"質問",
-MessageBoxButtons.OKCancel,
-MessageBoxIcon.Exclamation,
-MessageBoxDefaultButton.Button2);
+            DialogResult result = isCloseCheck();
 
             //何が選択されたか調べる
             if (result == DialogResult.OK)
@@ -512,5 +514,19 @@ MessageBoxDefaultButton.Button2);
             }  
            
         }
+        /// <summary>
+        /// 終了の確認
+        /// </summary>
+        /// <returns></returns>
+        public DialogResult isCloseCheck()
+        {
+            return MessageBox.Show("アプリケーションを終了してもよろしいでしょうか？",
+                  "質問",
+                  MessageBoxButtons.OKCancel,
+                  MessageBoxIcon.Exclamation,
+                  MessageBoxDefaultButton.Button2);
+        }
     }
+
+  
 }
