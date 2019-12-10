@@ -180,7 +180,6 @@ namespace CurveEditor
         {
             m_CurvePointControl.MovePoint(e);
             numericUpDownSync();
-          //  Invalidate();重くなるのでいらない
             pictureBox1.Refresh();//再描画
         }  
         /// <summary>
@@ -526,6 +525,7 @@ namespace CurveEditor
         private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
             m_CurvePointControl.SaveGraph(saveFileDialog1.FileName);
+            editFilePath = saveFileDialog1.FileName;
         }
 
     }

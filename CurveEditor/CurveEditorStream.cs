@@ -9,21 +9,21 @@ namespace CurveEditor
     class CurveEditorStream
     {
         /// <summary>
-        /// 文字列数値に変換
+        /// 文字列から座標に変換
         /// </summary>
         /// <param name="values"></param>
-        CurvePointControl.BezierPoint ConvertBezierPoint(string[] values)
+        CurvePointControl.BezierPoint ToBezierPoint(string[] values)
         {
             //文字列を数値に変換
             CurvePointControl.BezierPoint bp = new CurvePointControl.BezierPoint();
-            bp.startPoint.X = int.Parse(values[0]);
-            bp.startPoint.Y = int.Parse(values[1]);
-            bp.controlPoint1.X = int.Parse(values[2]);
-            bp.controlPoint1.Y = int.Parse(values[3]);
-            bp.controlPoint2.X = int.Parse(values[4]);
-            bp.controlPoint2.Y = int.Parse(values[5]);
-            bp.endPoint.X = int.Parse(values[6]);
-            bp.endPoint.Y = int.Parse(values[7]);
+            bp.startPoint.X = CMath.ChageNomalPosX(decimal.Parse(values[0]));
+            bp.startPoint.Y = CMath.ChageNomalPosY(decimal.Parse(values[1]));
+            bp.controlPoint1.X = CMath.ChageNomalPosX(decimal.Parse(values[2]));
+            bp.controlPoint1.Y = CMath.ChageNomalPosY(decimal.Parse(values[3]));
+            bp.controlPoint2.X = CMath.ChageNomalPosX(decimal.Parse(values[4]));
+            bp.controlPoint2.Y = CMath.ChageNomalPosY(decimal.Parse(values[5]));
+            bp.endPoint.X = CMath.ChageNomalPosX(decimal.Parse(values[6]));
+            bp.endPoint.Y = CMath.ChageNomalPosY(decimal.Parse(values[7]));
             return bp;
         }
         /// <summary>
@@ -43,7 +43,7 @@ namespace CurveEditor
                 string line = file.ReadLine();
                 // 読み込んだ一行をカンマ毎に分けて配列に格納する
                 string[] values = line.Split(',');
-                CurvePointControl.BezierPoint b = ConvertBezierPoint(values);
+                CurvePointControl.BezierPoint b = ToBezierPoint(values);
                 list.Add(b);
             }
             file.Close();
@@ -61,13 +61,9 @@ namespace CurveEditor
                 int size = List.Count;
                 for(int i = 0; i < size;i++)
                 {
-                    //座標を文字列化させる
+                    //座標を0～1の間に変換し文字列化させる
                     string [] name = new string[4];
-                    name[0] = List[i].startPoint.X.ToString() + "," + List[i].startPoint.Y.ToString();
-                    name[1] = List[i].controlPoint1.X.ToString() + "," + List[i].controlPoint1.Y.ToString();
-                    name[2] = List[i].controlPoint2.X.ToString() + "," + List[i].controlPoint2.Y.ToString();
-                    name[3] = List[i].endPoint.X.ToString() + "," + List[i].endPoint.Y.ToString();
-
+                    name = ToSting(List[i]);
                     file.Write(name[0]+ "," + name[1] + "," + name[2] + "," + name[3] + "\n");
                 }
                 file.Close();
@@ -77,6 +73,26 @@ namespace CurveEditor
                 MessageBox.Show(e.Message);
                 Console.WriteLine(e.Message);       // エラーメッセージを表示
             }
+        }
+        /// <summary>
+        ///  //座標を0～1の間に変換し文字列化させる
+        /// </summary>
+        /// <param name="bs"></param>
+        /// <returns></returns>
+        public string[] ToSting( CurvePointControl.BezierPoint bs)
+        {
+            //座標を0～1の間に変換し文字列化させる
+            string[] name = new string[4];
+            name[0] = CMath.ChageDecimalPosX(bs.startPoint.X).ToString()
+                + "," + CMath.ChageDecimalPosY(bs.startPoint.Y).ToString();
+            name[1] = CMath.ChageDecimalPosX(bs.controlPoint1.X).ToString()
+                + "," + CMath.ChageDecimalPosY(bs.controlPoint1.Y).ToString();
+            name[2] = CMath.ChageDecimalPosX(bs.controlPoint2.X).ToString()
+                + "," + CMath.ChageDecimalPosY(bs.controlPoint2.Y).ToString();
+            name[3] = CMath.ChageDecimalPosX(bs.endPoint.X).ToString()
+                + "," + CMath.ChageDecimalPosY(bs.endPoint.Y).ToString();
+
+            return name;
         }
     }
 }
