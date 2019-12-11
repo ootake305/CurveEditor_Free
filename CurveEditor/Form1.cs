@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Input;
-
+using System.Threading;
 
 namespace CurveEditor
 {
@@ -37,10 +31,12 @@ namespace CurveEditor
         Point m_MousePos;//一時保存用マウスの座標
         CurvePointControl.BezierPoint bp;//一時保存用
         private string editFilePath = "";  //編集中のファイルのパス
+        //データの読み書きが早くてカーソルの変更がわからないので待機時間を設ける
+        const int WaitTime = 300;
         public Form1()
         {
             InitializeComponent();
-            Text = "CurveEditor ver:0.8";
+            Text = "CurveEditor ver:0.85";
             //ちらつき防止
             SetStyle(
     ControlStyles.DoubleBuffer |
@@ -51,7 +47,6 @@ namespace CurveEditor
             KeyPreview = true;//キー入力有効化
             //入力装置の初期化
             numericUpDownInit();
-
             LavelInit();
             pictureBox1.ContextMenuStrip = contextMenuStrip1;
             checkBox1.Checked = true;
@@ -72,8 +67,7 @@ namespace CurveEditor
                 //横線
                 m_SideLine[i] = new SideLine((i + 1) * 50  + 10);
                 m_SideLine[i].Init();
-            }
-         
+            } 
         }
         //入力項目の初期化
         public void numericUpDownInit()
@@ -92,7 +86,6 @@ namespace CurveEditor
             ChangeFirstStartPoint(null,null);
             ChangeEndPoint(null, null);
         }
-
         /// <summary>
         /// 背景を透過させるための初期化
         /// </summary>
@@ -181,6 +174,15 @@ namespace CurveEditor
             m_CurvePointControl.MovePoint(e);
             numericUpDownSync();
             pictureBox1.Refresh();//再描画
+            //点を移動してるときはカーソルの見た目を変える
+            if (m_CurvePointControl.isMoveSelectPoint())
+            {
+                this.Cursor = Cursors.SizeAll;
+            }
+            else
+            {
+                if (this.Cursor != Cursors.AppStarting) this.Cursor = Cursors.Default;
+            }
         }  
         /// <summary>
         /// 3次ベジェ曲線を結ぶ点描画
@@ -232,7 +234,7 @@ namespace CurveEditor
         private void TestPaint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-           g.Clear(Color.FromArgb(20, 230, 230, 230));
+            g.Clear(Color.FromArgb(20, 230, 230, 230));
 
             //線の描画
             LinePaint(g);
@@ -280,7 +282,6 @@ namespace CurveEditor
                     // Form1の破棄
                     this.Dispose();
                 }
-  
             }
         }
         /// <summary>
@@ -403,8 +404,7 @@ namespace CurveEditor
               numericUpDown4.Value = 0;
               numericUpDown5.Value = 0;
               numericUpDown6.Value = 0;
-        }
-     
+        }   
         //チェックボックスの値が変化したときに呼ばれる
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
@@ -446,7 +446,7 @@ namespace CurveEditor
                 //「はい」が選択された時
                 m_CurvePointControl.CurveEditorInit();
                 pictureBox1.Refresh();//再描画
-
+                menuSave.Enabled = false;
             }
             else if (result == DialogResult.Cancel)
             {
@@ -469,11 +469,6 @@ namespace CurveEditor
                 //「はい」が選択された時
                 Close();
             }
-            else if (result == DialogResult.Cancel)
-            {
-
-            }  
-           
         }
         /// <summary>
         /// 終了の確認
@@ -494,6 +489,7 @@ namespace CurveEditor
         /// <param name="e"></param>
         private void menuPoen_Click(object sender, EventArgs e)
         {
+            openFileDialog1.FileName = "";
             openFileDialog1.ShowDialog();
         }
         /// <summary>
@@ -503,9 +499,13 @@ namespace CurveEditor
         /// <param name="e"></param>
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
+            this.Cursor = Cursors.AppStarting;
             m_CurvePointControl.LoadGraph(openFileDialog1.FileName);
             editFilePath = openFileDialog1.FileName;
+            menuSave.Enabled = true;     
             pictureBox1.Refresh();//再描画
+            Thread.Sleep(WaitTime);
+            this.Cursor = Cursors.Default;
         }
         /// <summary>
         /// 名前を付けて保存
@@ -524,9 +524,24 @@ namespace CurveEditor
         /// <param name="e"></param>
         private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
+            this.Cursor = Cursors.AppStarting;
             m_CurvePointControl.SaveGraph(saveFileDialog1.FileName);
             editFilePath = saveFileDialog1.FileName;
+            menuSave.Enabled = true;
+            Thread.Sleep(WaitTime);
+            this.Cursor = Cursors.Default;
         }
-
+        /// <summary>
+        /// 上書き保存
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void menuSave_Click(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.AppStarting;
+            m_CurvePointControl.SaveGraph(editFilePath);
+            Thread.Sleep(WaitTime);
+            this.Cursor = Cursors.Default;
+        }
     }
 }

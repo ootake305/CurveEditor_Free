@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Windows.Forms;
+
 namespace CurveEditor
 {
     //CSVからグラフを読み書きするクラス

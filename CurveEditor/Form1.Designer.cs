@@ -78,6 +78,7 @@
             this.label19 = new System.Windows.Forms.Label();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
@@ -371,6 +372,7 @@
             this.menuSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.menuSave.Size = new System.Drawing.Size(190, 22);
             this.menuSave.Text = "上書き保存($S)";
+            this.menuSave.Click += new System.EventHandler(this.menuSave_Click);
             // 
             // menuSaveAdd
             // 
@@ -404,8 +406,8 @@
             this.戻るToolStripMenuItem,
             this.進むToolStripMenuItem});
             this.編集ToolStripMenuItem.Name = "編集ToolStripMenuItem";
-            this.編集ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
-            this.編集ToolStripMenuItem.Text = "編集";
+            this.編集ToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.編集ToolStripMenuItem.Text = "編集(&E)";
             // 
             // 戻るToolStripMenuItem
             // 
@@ -745,6 +747,7 @@
         private System.Windows.Forms.ToolStripMenuItem 進むToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 

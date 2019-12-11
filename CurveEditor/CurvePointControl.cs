@@ -158,7 +158,6 @@ namespace CurveEditor
 
             e.Graphics.DrawPath(m_pen2, m_path2);
         }
-
         /// <summary>
         /// マウスが点が何番目の点になるかを求める
         /// </summary>
@@ -459,7 +458,6 @@ namespace CurveEditor
             m_isMoveEndPoint = false;
             m_SelectMode = SelectMode.None;
         }
-
         /// <summary>
         /// すべての制御点の位置を整理させる
         /// </summary>
@@ -606,7 +604,6 @@ namespace CurveEditor
             if (m_SelectMode == SelectMode.None) return false;
             return true;
         }
-
         /// <summary>
         ///    開始点セット
         /// </summary>
@@ -822,26 +819,22 @@ namespace CurveEditor
 
             m_list[m_SelectPoint] = bp;
         }
-
         /// <summary>
         /// CSVデータからグラフの点データを読み込む
         /// </summary>
         /// <returns></returns>
-        public bool LoadGraph(string s)
+        public void LoadGraph(string s)
         {
             CurveEditorInit();
             m_list = m_stream.Load(s);
-            return false;
         }
-
         /// <summary>
         /// CSVデータにグラフの点データを書き込む
         /// </summary>
         /// <returns></returns>
-        public bool SaveGraph(string s)
+        public void SaveGraph(string s)
         {
             m_stream.Save(ref m_list,s);
-            return false;
         }
     }
 }
