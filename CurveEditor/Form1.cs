@@ -156,6 +156,8 @@ namespace CurveEditor
                         //入力項目のリセット
                         ResetCurvePointValue();
                     }
+                    //変更した値を保存
+                    m_CurvePointControl.SaveMemento();
                     break;
                 case MouseButtons.Middle:
                     break;
@@ -251,7 +253,8 @@ namespace CurveEditor
         private void button2_Click(object sender, EventArgs e)
         {
             m_CurvePointControl.AddPoint();
-            pictureBox1.Refresh();//再描画
+            pictureBox1.Refresh();//再描画 
+            m_CurvePointControl.SaveMemento(); //変更した値を保存
         }
         //点追加ダブルクリック時呼びだす
         private void pictureBox1_DoubleClick(object sender, EventArgs e)
@@ -264,6 +267,8 @@ namespace CurveEditor
         {
             m_CurvePointControl.DeletePoint();
             pictureBox1.Refresh();//再描画
+                                 
+            m_CurvePointControl.SaveMemento(); //変更した値を保存
         }
         //キーを押した際のイベント
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -273,7 +278,8 @@ namespace CurveEditor
              {
                  m_CurvePointControl.DeletePoint();//点削除
                  pictureBox1.Refresh();//再描画
-             }
+                m_CurvePointControl.SaveMemento(); //変更した値を保存
+            }
             //エスケープキーを押したら
             if (e.KeyCode == Keys.Escape)
             {
@@ -542,6 +548,25 @@ namespace CurveEditor
             m_CurvePointControl.SaveGraph(editFilePath);
             Thread.Sleep(WaitTime);
             this.Cursor = Cursors.Default;
+        }
+        /// <summary>
+        /// 戻る
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuUnDo_Click(object sender, EventArgs e)
+        {
+
+        }
+        /// <summary>
+        /// 進む
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        private void MenuReDo_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

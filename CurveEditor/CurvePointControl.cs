@@ -836,5 +836,26 @@ namespace CurveEditor
         {
             m_stream.Save(ref m_list,s);
         }
+        /// <summary>
+        /// 戻る
+        /// </summary>
+        public void UnDo()
+        {
+
+        }
+        /// <summary>
+        /// 進む
+        /// </summary>
+        public void ReDo()
+        {
+
+        }
+        /// <summary>
+        /// 操作した後のグラフデータをスタックに保存
+        /// </summary>
+        public void SaveMemento()
+        {
+
+        }
     }
 }

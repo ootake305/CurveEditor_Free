@@ -54,9 +54,9 @@
             this.menuSaveAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.menuEnd = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.編集ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.戻るToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.進むToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuIUnDo = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuUnDo = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuReDo = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label10 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -164,7 +164,7 @@
             0,
             0,
             196608});
-            this.numericUpDown4.Location = new System.Drawing.Point(202, 584);
+            this.numericUpDown4.Location = new System.Drawing.Point(203, 584);
             this.numericUpDown4.Maximum = new decimal(new int[] {
             1,
             0,
@@ -241,6 +241,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.Cursor = System.Windows.Forms.Cursors.Default;
             this.label4.Location = new System.Drawing.Point(32, 639);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(47, 12);
@@ -392,7 +393,7 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileToolStripMenuItem,
-            this.編集ToolStripMenuItem,
+            this.MenuIUnDo,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -400,28 +401,30 @@
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // 編集ToolStripMenuItem
+            // MenuIUnDo
             // 
-            this.編集ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.戻るToolStripMenuItem,
-            this.進むToolStripMenuItem});
-            this.編集ToolStripMenuItem.Name = "編集ToolStripMenuItem";
-            this.編集ToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
-            this.編集ToolStripMenuItem.Text = "編集(&E)";
+            this.MenuIUnDo.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuUnDo,
+            this.MenuReDo});
+            this.MenuIUnDo.Name = "MenuIUnDo";
+            this.MenuIUnDo.Size = new System.Drawing.Size(57, 20);
+            this.MenuIUnDo.Text = "編集(&E)";
             // 
-            // 戻るToolStripMenuItem
+            // MenuUnDo
             // 
-            this.戻るToolStripMenuItem.Name = "戻るToolStripMenuItem";
-            this.戻るToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.戻るToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.戻るToolStripMenuItem.Text = "戻る(&Z)";
+            this.MenuUnDo.Name = "MenuUnDo";
+            this.MenuUnDo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.MenuUnDo.Size = new System.Drawing.Size(152, 22);
+            this.MenuUnDo.Text = "戻る(&Z)";
+            this.MenuUnDo.Click += new System.EventHandler(this.MenuUnDo_Click);
             // 
-            // 進むToolStripMenuItem
+            // MenuReDo
             // 
-            this.進むToolStripMenuItem.Name = "進むToolStripMenuItem";
-            this.進むToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Z)));
-            this.進むToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.進むToolStripMenuItem.Text = "進む";
+            this.MenuReDo.Name = "MenuReDo";
+            this.MenuReDo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Z)));
+            this.MenuReDo.Size = new System.Drawing.Size(152, 22);
+            this.MenuReDo.Text = "進む";
+            this.MenuReDo.Click += new System.EventHandler(this.MenuReDo_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -742,9 +745,9 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.ToolStripMenuItem 線の編集ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 線を直線にToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 編集ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 戻るToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 進むToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MenuIUnDo;
+        private System.Windows.Forms.ToolStripMenuItem MenuUnDo;
+        private System.Windows.Forms.ToolStripMenuItem MenuReDo;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
