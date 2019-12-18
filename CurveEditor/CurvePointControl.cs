@@ -843,31 +843,38 @@ namespace CurveEditor
         /// </summary>
         public void UnDo()
         {
+            //無選択状態に
             m_SelectMode = SelectMode.None;
             CancelMovePoint();
             m_SelectPoint = 0;
 
             if (stack.Count <= 1)
             {
-                m_list = new List<BezierPoint>(stack.Peek());
+                if (isListMatch(ref m_list, stack.Peek())) return;
+                stack2.Push(new List<BezierPoint>(m_list));
+                m_list = new List<BezierPoint>(stack.Peek());//初期状態のグラフ
 
                 return;
             }
-            m_list = stack.Pop();
             stack2.Push(new List<BezierPoint>(m_list));
+            m_list = stack.Pop();
+           
         }
         /// <summary>
         /// 進む
         /// </summary>
         public void ReDo()
         {
-            if (stack2.Count == 0) return;
-
+            //一回も戻っていなければ進まない
+           if (stack2.Count - 1 <= -1) return;
+            //無選択状態に
             m_SelectMode = SelectMode.None;
             CancelMovePoint();
             m_SelectPoint = 0;
 
             m_list = stack2.Pop();
+            //最後の進むだけ戻るのスタックに入れない
+            if (stack2.Count == 0) return;
             stack.Push(new List<BezierPoint>(m_list));
         }
         /// <summary>

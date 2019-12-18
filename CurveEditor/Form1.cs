@@ -421,7 +421,7 @@ namespace CurveEditor
         //右クリック動作----------------------------------------------------------------
         private void AddPointToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            m_CurvePointControl.SaveMemento(); //変更した値を保存
+            m_CurvePointControl.SaveMemento_DoubleClick(); //変更した値を保存
             m_CurvePointControl.AddPoint(m_MousePos);
             pictureBox1.Refresh();//再描画
           
@@ -429,7 +429,7 @@ namespace CurveEditor
 
         private void DeletePointToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            m_CurvePointControl.SaveMemento(); //変更した値を保存
+            m_CurvePointControl.SaveMemento_DoubleClick(); //変更した値を保存
             m_CurvePointControl.DeletePoint();//点削除
             pictureBox1.Refresh();//再描画
         
@@ -441,7 +441,7 @@ namespace CurveEditor
         /// <param name="e"></param>
         private void StraightLineEditToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            m_CurvePointControl.SaveMemento(); //変更した値を保存
+            m_CurvePointControl.SaveMemento_DoubleClick(); //変更した値を保存
             m_CurvePointControl.StraightLineEdit();
    
         }
