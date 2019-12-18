@@ -253,7 +253,7 @@ namespace CurveEditor
         //点追加ボタンクリック
         private void button2_Click(object sender, EventArgs e)
         {
-            m_CurvePointControl.SaveMemento(); //変更した値を保存
+            m_CurvePointControl.SaveMemento_DoubleClick();//変更した値を保存
             m_CurvePointControl.AddPoint();
             pictureBox1.Refresh();//再描画 
            
@@ -261,13 +261,14 @@ namespace CurveEditor
         //点追加ダブルクリック時呼びだす
         private void pictureBox1_DoubleClick(object sender, EventArgs e)
         {
+            m_CurvePointControl.SaveMemento_DoubleClick();//変更した値を保存
             m_CurvePointControl.AddPoint(m_MousePos);
             pictureBox1.Refresh();//再描画
         }
         //点削除ボタンクリック
         private void button1_Click(object sender, EventArgs e)
         {
-            m_CurvePointControl.SaveMemento(); //変更した値を保存
+            m_CurvePointControl.SaveMemento_DoubleClick(); //変更した値を保存
             m_CurvePointControl.DeletePoint();
             pictureBox1.Refresh();//再描画
         }
@@ -456,8 +457,11 @@ namespace CurveEditor
             //何が選択されたか調べる
             if (result == DialogResult.OK)
             {
+                //保持していたしたデータを破棄
+                m_CurvePointControl.ClearSaveMemento();
                 //「はい」が選択された時
                 m_CurvePointControl.CurveEditorInit();
+                m_CurvePointControl.SaveMemento();
                 pictureBox1.Refresh();//再描画
                 menuSave.Enabled = false;
             }
@@ -513,7 +517,11 @@ namespace CurveEditor
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
             this.Cursor = Cursors.AppStarting;
+            //保持していたしたデータを破棄
+            m_CurvePointControl.ClearSaveMemento();
+            //データ読み込み
             m_CurvePointControl.LoadGraph(openFileDialog1.FileName);
+            m_CurvePointControl.SaveMemento();
             editFilePath = openFileDialog1.FileName;
             menuSave.Enabled = true;     
             pictureBox1.Refresh();//再描画

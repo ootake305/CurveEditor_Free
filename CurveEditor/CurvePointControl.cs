@@ -879,8 +879,29 @@ namespace CurveEditor
             {
                 if (isListMatch(ref m_list, stack.Peek())) return;
             }
-            if (m_SelectMode == SelectMode.None && stack2.Count == 0) return;//ここがよくない
+         
+            if (m_SelectMode == SelectMode.None && stack.Count != 0) return;
             stack.Push(new List<BezierPoint>(m_list));
+            stack2.Clear();
+        }
+        /// <summary>
+        /// 操作した後のグラフデータをスタックに保存
+        /// </summary>
+        public void SaveMemento_DoubleClick()
+        {
+            if (stack.Count() != 0)
+            {
+                if (isListMatch(ref m_list, stack.Peek())) return;
+            }
+            stack.Push(new List<BezierPoint>(m_list));
+            stack2.Clear();
+        }
+        /// <summary>
+        ///スタックにたまっているデータを破棄
+        /// </summary>
+        public void ClearSaveMemento()
+        {
+            stack.Clear();
             stack2.Clear();
         }
         /// <summary>
