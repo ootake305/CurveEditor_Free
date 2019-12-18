@@ -29,7 +29,8 @@ namespace CurveEditor
             None,       //何も選択していない
         }
         List<BezierPoint> m_list = new List<BezierPoint>();//線を引くための点を格納する場所
-
+        Stack<List<BezierPoint>> stack = new Stack<List<BezierPoint>>();
+        Stack<List<BezierPoint>> stack2 = new Stack<List<BezierPoint>>();
         //グラフの範囲を示す座標
         const int ScrrenRightPosX = 510;    //右端
         const int ScrrenBottomPosY = 510;   //下端
@@ -62,6 +63,7 @@ namespace CurveEditor
         public  CurvePointControl()
         {
             CurveEditorInit();
+            SaveMemento();
         }
         /// <summary>
         /// グラフの初期化
@@ -835,6 +837,95 @@ namespace CurveEditor
         public void SaveGraph(string s)
         {
             m_stream.Save(ref m_list,s);
+        }
+        /// <summary>
+        /// 戻る
+        /// </summary>
+        public void UnDo()
+        {
+            //無選択状態に
+            m_SelectMode = SelectMode.None;
+            CancelMovePoint();
+            m_SelectPoint = 0;
+
+            if (stack.Count <= 1)
+            {
+                if (isListMatch(ref m_list, stack.Peek())) return;
+                stack2.Push(new List<BezierPoint>(m_list));
+                m_list = new List<BezierPoint>(stack.Peek());//初期状態のグラフ
+
+                return;
+            }
+            stack2.Push(new List<BezierPoint>(m_list));
+            m_list = stack.Pop();
+           
+        }
+        /// <summary>
+        /// 進む
+        /// </summary>
+        public void ReDo()
+        {
+            //一回も戻っていなければ進まない
+           if (stack2.Count - 1 <= -1) return;
+            //無選択状態に
+            m_SelectMode = SelectMode.None;
+            CancelMovePoint();
+            m_SelectPoint = 0;
+
+            m_list = stack2.Pop();
+            //最後の進むだけ戻るのスタックに入れない
+            if (stack2.Count == 0) return;
+            stack.Push(new List<BezierPoint>(m_list));
+        }
+        /// <summary>
+        /// 操作した後のグラフデータをスタックに保存
+        /// </summary>
+        public void SaveMemento()
+        {
+            if (stack.Count() != 0)
+            {
+                if (isListMatch(ref m_list, stack.Peek())) return;
+            }
+         
+            if (m_SelectMode == SelectMode.None && stack.Count != 0) return;
+            stack.Push(new List<BezierPoint>(m_list));
+            stack2.Clear();
+        }
+        /// <summary>
+        /// 操作した後のグラフデータをスタックに保存
+        /// </summary>
+        public void SaveMemento_DoubleClick()
+        {
+            if (stack.Count() != 0)
+            {
+                if (isListMatch(ref m_list, stack.Peek())) return;
+            }
+            stack.Push(new List<BezierPoint>(m_list));
+            stack2.Clear();
+        }
+        /// <summary>
+        ///スタックにたまっているデータを破棄
+        /// </summary>
+        public void ClearSaveMemento()
+        {
+            stack.Clear();
+            stack2.Clear();
+        }
+        /// <summary>
+        /// 今のグラフと前の操作時のグラフが一致しているか
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="st"></param>
+        /// <returns></returns>
+        public bool isListMatch(ref List<BezierPoint> list,  List<BezierPoint> st)
+        {
+            int listSize = list.Count();
+            if (listSize != st.Count()) return false;
+            for(int i = 0; i < listSize; i++)
+            {
+                if (!list[i].Equals(st[i])) return false;
+            }
+            return true;
         }
     }
 }
