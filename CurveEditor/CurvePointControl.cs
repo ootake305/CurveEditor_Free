@@ -29,7 +29,8 @@ namespace CurveEditor
             None,       //何も選択していない
         }
         List<BezierPoint> m_list = new List<BezierPoint>();//線を引くための点を格納する場所
-
+        Stack<List<BezierPoint>> stack = new Stack<List<BezierPoint>>();
+        Stack<List<BezierPoint>> stack2 = new Stack<List<BezierPoint>>();
         //グラフの範囲を示す座標
         const int ScrrenRightPosX = 510;    //右端
         const int ScrrenBottomPosY = 510;   //下端
@@ -62,6 +63,7 @@ namespace CurveEditor
         public  CurvePointControl()
         {
             CurveEditorInit();
+            SaveMemento();
         }
         /// <summary>
         /// グラフの初期化
@@ -841,21 +843,61 @@ namespace CurveEditor
         /// </summary>
         public void UnDo()
         {
+            m_SelectMode = SelectMode.None;
+            CancelMovePoint();
+            m_SelectPoint = 0;
 
+            if (stack.Count <= 1)
+            {
+                m_list = new List<BezierPoint>(stack.Peek());
+
+                return;
+            }
+            m_list = stack.Pop();
+            stack2.Push(new List<BezierPoint>(m_list));
         }
         /// <summary>
         /// 進む
         /// </summary>
         public void ReDo()
         {
+            if (stack2.Count == 0) return;
 
+            m_SelectMode = SelectMode.None;
+            CancelMovePoint();
+            m_SelectPoint = 0;
+
+            m_list = stack2.Pop();
+            stack.Push(new List<BezierPoint>(m_list));
         }
         /// <summary>
         /// 操作した後のグラフデータをスタックに保存
         /// </summary>
         public void SaveMemento()
         {
-
+            if (stack.Count() != 0)
+            {
+                if (isListMatch(ref m_list, stack.Peek())) return;
+            }
+            if (m_SelectMode == SelectMode.None && stack2.Count == 0) return;//ここがよくない
+            stack.Push(new List<BezierPoint>(m_list));
+            stack2.Clear();
+        }
+        /// <summary>
+        /// 今のグラフと前の操作時のグラフが一致しているか
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="st"></param>
+        /// <returns></returns>
+        public bool isListMatch(ref List<BezierPoint> list,  List<BezierPoint> st)
+        {
+            int listSize = list.Count();
+            if (listSize != st.Count()) return false;
+            for(int i = 0; i < listSize; i++)
+            {
+                if (!list[i].Equals(st[i])) return false;
+            }
+            return true;
         }
     }
 }
