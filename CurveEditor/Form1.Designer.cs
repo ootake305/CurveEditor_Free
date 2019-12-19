@@ -119,6 +119,8 @@
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(90, 19);
             this.numericUpDown1.TabIndex = 5;
+            this.numericUpDown1.Click += new System.EventHandler(this.numericUpDown1_Click);
+            this.numericUpDown1.DragEnter += new System.Windows.Forms.DragEventHandler(this.numericUpDown1_DragEnter);
             // 
             // numericUpDown2
             // 
@@ -137,6 +139,8 @@
             this.numericUpDown2.Name = "numericUpDown2";
             this.numericUpDown2.Size = new System.Drawing.Size(90, 19);
             this.numericUpDown2.TabIndex = 6;
+            this.numericUpDown2.Click += new System.EventHandler(this.numericUpDown2_Click);
+            this.numericUpDown2.Enter += new System.EventHandler(this.numericUpDown2_Enter);
             // 
             // numericUpDown3
             // 
@@ -155,6 +159,8 @@
             this.numericUpDown3.Name = "numericUpDown3";
             this.numericUpDown3.Size = new System.Drawing.Size(90, 19);
             this.numericUpDown3.TabIndex = 7;
+            this.numericUpDown3.Click += new System.EventHandler(this.numericUpDown3_Click);
+            this.numericUpDown3.Enter += new System.EventHandler(this.numericUpDown3_Enter);
             // 
             // numericUpDown4
             // 
@@ -173,6 +179,8 @@
             this.numericUpDown4.Name = "numericUpDown4";
             this.numericUpDown4.Size = new System.Drawing.Size(90, 19);
             this.numericUpDown4.TabIndex = 10;
+            this.numericUpDown4.Click += new System.EventHandler(this.numericUpDown4_Click);
+            this.numericUpDown4.Enter += new System.EventHandler(this.numericUpDown4_Enter);
             // 
             // numericUpDown5
             // 
@@ -191,6 +199,8 @@
             this.numericUpDown5.Name = "numericUpDown5";
             this.numericUpDown5.Size = new System.Drawing.Size(90, 19);
             this.numericUpDown5.TabIndex = 9;
+            this.numericUpDown5.Click += new System.EventHandler(this.numericUpDown5_Click);
+            this.numericUpDown5.Enter += new System.EventHandler(this.numericUpDown5_Enter);
             // 
             // numericUpDown6
             // 
@@ -209,6 +219,8 @@
             this.numericUpDown6.Name = "numericUpDown6";
             this.numericUpDown6.Size = new System.Drawing.Size(90, 19);
             this.numericUpDown6.TabIndex = 8;
+            this.numericUpDown6.Click += new System.EventHandler(this.numericUpDown6_Click);
+            this.numericUpDown6.Enter += new System.EventHandler(this.numericUpDown6_Enter);
             // 
             // label1
             // 
@@ -292,6 +304,8 @@
             this.numericUpDown7.Name = "numericUpDown7";
             this.numericUpDown7.Size = new System.Drawing.Size(58, 19);
             this.numericUpDown7.TabIndex = 20;
+            this.numericUpDown7.Click += new System.EventHandler(this.numericUpDown7_Click);
+            this.numericUpDown7.Enter += new System.EventHandler(this.numericUpDown7_Enter);
             // 
             // numericUpDown8
             // 
@@ -310,6 +324,8 @@
             this.numericUpDown8.Name = "numericUpDown8";
             this.numericUpDown8.Size = new System.Drawing.Size(58, 19);
             this.numericUpDown8.TabIndex = 19;
+            this.numericUpDown8.Click += new System.EventHandler(this.numericUpDown8_Click);
+            this.numericUpDown8.Enter += new System.EventHandler(this.numericUpDown8_Enter);
             // 
             // pictureBox1
             // 
@@ -414,7 +430,7 @@
             // 
             this.MenuUnDo.Name = "MenuUnDo";
             this.MenuUnDo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.MenuUnDo.Size = new System.Drawing.Size(152, 22);
+            this.MenuUnDo.Size = new System.Drawing.Size(150, 22);
             this.MenuUnDo.Text = "戻る(&Z)";
             this.MenuUnDo.Click += new System.EventHandler(this.MenuUnDo_Click);
             // 
@@ -422,7 +438,7 @@
             // 
             this.MenuReDo.Name = "MenuReDo";
             this.MenuReDo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Z)));
-            this.MenuReDo.Size = new System.Drawing.Size(152, 22);
+            this.MenuReDo.Size = new System.Drawing.Size(150, 22);
             this.MenuReDo.Text = "進む";
             this.MenuReDo.Click += new System.EventHandler(this.MenuReDo_Click);
             // 

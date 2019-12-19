@@ -63,7 +63,7 @@ namespace CurveEditor
         public  CurvePointControl()
         {
             CurveEditorInit();
-            SaveMemento();
+            SaveMemento_Click();
         }
         /// <summary>
         /// グラフの初期化
@@ -878,15 +878,15 @@ namespace CurveEditor
             stack.Push(new List<BezierPoint>(m_list));
         }
         /// <summary>
-        /// 操作した後のグラフデータをスタックに保存
+        /// 左マウスクリック後のグラフデータをスタックに保存
         /// </summary>
-        public void SaveMemento()
+        public void SaveMemento_Click()
         {
             if (stack.Count() != 0)
             {
                 if (isListMatch(ref m_list, stack.Peek())) return;
             }
-         
+           //点選択を解除させたときに余計なデータを保存させない
             if (m_SelectMode == SelectMode.None && stack.Count != 0) return;
             stack.Push(new List<BezierPoint>(m_list));
             stack2.Clear();
@@ -894,14 +894,31 @@ namespace CurveEditor
         /// <summary>
         /// 操作した後のグラフデータをスタックに保存
         /// </summary>
-        public void SaveMemento_DoubleClick()
+        public void SaveMemento()
         {
             if (stack.Count() != 0)
             {
-                if (isListMatch(ref m_list, stack.Peek())) return;
+                //余計なデータを保存していたら削除
+                if (isListMatch(ref m_list, stack.Peek()))
+                {
+                    DeleteMemento();
+                    return;
+                }
             }
+            //データを保存
             stack.Push(new List<BezierPoint>(m_list));
             stack2.Clear();
+        }
+        /// <summary>
+        /// 余計なデータを保存していたら削除させる
+        /// </summary>
+        public void DeleteMemento()
+        {
+            if (stack.Count <= 1) return;
+        
+           
+                stack.Pop();
+            
         }
         /// <summary>
         ///スタックにたまっているデータを破棄

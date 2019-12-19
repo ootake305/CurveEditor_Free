@@ -36,7 +36,7 @@ namespace CurveEditor
         public Form1()
         {
             InitializeComponent();
-            Text = "CurveEditor ver:0.85";
+            Text = "CurveEditor ver:0.9";
             //ちらつき防止
             SetStyle(
     ControlStyles.DoubleBuffer |
@@ -158,7 +158,6 @@ namespace CurveEditor
                         //入力項目のリセット
                         ResetCurvePointValue();
                     }
-         
                     break;
                 case MouseButtons.Middle:
                     break;
@@ -253,7 +252,7 @@ namespace CurveEditor
         //点追加ボタンクリック
         private void button2_Click(object sender, EventArgs e)
         {
-            m_CurvePointControl.SaveMemento_DoubleClick();//変更した値を保存
+            m_CurvePointControl.SaveMemento();//変更した値を保存
             m_CurvePointControl.AddPoint();
             pictureBox1.Refresh();//再描画 
            
@@ -261,14 +260,14 @@ namespace CurveEditor
         //点追加ダブルクリック時呼びだす
         private void pictureBox1_DoubleClick(object sender, EventArgs e)
         {
-            m_CurvePointControl.SaveMemento_DoubleClick();//変更した値を保存
+            m_CurvePointControl.SaveMemento();//変更した値を保存
             m_CurvePointControl.AddPoint(m_MousePos);
             pictureBox1.Refresh();//再描画
         }
         //点削除ボタンクリック
         private void button1_Click(object sender, EventArgs e)
         {
-            m_CurvePointControl.SaveMemento_DoubleClick(); //変更した値を保存
+            m_CurvePointControl.SaveMemento(); //変更した値を保存
             m_CurvePointControl.DeletePoint();
             pictureBox1.Refresh();//再描画
         }
@@ -421,18 +420,16 @@ namespace CurveEditor
         //右クリック動作----------------------------------------------------------------
         private void AddPointToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            m_CurvePointControl.SaveMemento_DoubleClick(); //変更した値を保存
+            m_CurvePointControl.SaveMemento(); //変更した値を保存
             m_CurvePointControl.AddPoint(m_MousePos);
-            pictureBox1.Refresh();//再描画
-          
+            pictureBox1.Refresh();//再描画       
         }
 
         private void DeletePointToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            m_CurvePointControl.SaveMemento_DoubleClick(); //変更した値を保存
+            m_CurvePointControl.SaveMemento(); //変更した値を保存
             m_CurvePointControl.DeletePoint();//点削除
-            pictureBox1.Refresh();//再描画
-        
+            pictureBox1.Refresh();//再描画       
         }
         /// <summary>
         /// 線を直線にする
@@ -441,9 +438,8 @@ namespace CurveEditor
         /// <param name="e"></param>
         private void StraightLineEditToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            m_CurvePointControl.SaveMemento_DoubleClick(); //変更した値を保存
+            m_CurvePointControl.SaveMemento(); //変更した値を保存
             m_CurvePointControl.StraightLineEdit();
-   
         }
         //  メニューバー--------------------------------------------------------------------------
         private void NewCreate_Click(object sender, EventArgs e)
@@ -585,5 +581,86 @@ namespace CurveEditor
             m_CurvePointControl.ReDo();
             pictureBox1.Refresh();//再描画
         }
+        //numericUpDownで値を入寮したときのイベント
+
+        private void numericUpDown1_Click(object sender, EventArgs e)
+        {
+            m_CurvePointControl.SaveMemento();
+        }
+
+        private void numericUpDown1_DragEnter(object sender, DragEventArgs e)
+        {
+            m_CurvePointControl.SaveMemento();
+        }
+
+        private void numericUpDown2_Click(object sender, EventArgs e)
+        {
+            m_CurvePointControl.SaveMemento();
+        }
+
+        private void numericUpDown2_Enter(object sender, EventArgs e)
+        {
+            m_CurvePointControl.SaveMemento();
+        }
+
+        private void numericUpDown3_Click(object sender, EventArgs e)
+        {
+            m_CurvePointControl.SaveMemento();
+        }
+
+        private void numericUpDown3_Enter(object sender, EventArgs e)
+        {
+            m_CurvePointControl.SaveMemento();
+        }
+
+        private void numericUpDown4_Click(object sender, EventArgs e)
+        {
+            m_CurvePointControl.SaveMemento();
+        }
+        private void numericUpDown4_Enter(object sender, EventArgs e)
+        {
+             m_CurvePointControl.SaveMemento();
+        }
+
+        private void numericUpDown5_Click(object sender, EventArgs e)
+        {
+            m_CurvePointControl.SaveMemento();
+        }
+
+        private void numericUpDown5_Enter(object sender, EventArgs e)
+        {
+            m_CurvePointControl.SaveMemento();
+        }
+
+        private void numericUpDown6_Click(object sender, EventArgs e)
+        {
+            m_CurvePointControl.SaveMemento();
+        }
+
+        private void numericUpDown6_Enter(object sender, EventArgs e)
+        {
+            m_CurvePointControl.SaveMemento();
+        }
+        private void numericUpDown7_Click(object sender, EventArgs e)
+        {
+            m_CurvePointControl.SaveMemento();
+        }
+
+        private void numericUpDown7_Enter(object sender, EventArgs e)
+        {
+            m_CurvePointControl.SaveMemento();
+        }
+
+        private void numericUpDown8_Click(object sender, EventArgs e)
+        {
+            m_CurvePointControl.SaveMemento();
+        }
+
+        private void numericUpDown8_Enter(object sender, EventArgs e)
+        {
+            m_CurvePointControl.SaveMemento();
+        }
+
+   
     }
 }
