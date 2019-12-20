@@ -581,38 +581,31 @@ namespace CurveEditor
             m_CurvePointControl.ReDo();
             pictureBox1.Refresh();//再描画
         }
-        //numericUpDownで値を入寮したときのイベント
-
+        //numericUpDownで値を入寮したときのイベント-------------------------------------------------------------------
         private void numericUpDown1_Click(object sender, EventArgs e)
         {
             m_CurvePointControl.SaveMemento();
         }
-
         private void numericUpDown1_DragEnter(object sender, DragEventArgs e)
         {
             m_CurvePointControl.SaveMemento();
         }
-
         private void numericUpDown2_Click(object sender, EventArgs e)
         {
             m_CurvePointControl.SaveMemento();
         }
-
         private void numericUpDown2_Enter(object sender, EventArgs e)
         {
             m_CurvePointControl.SaveMemento();
         }
-
         private void numericUpDown3_Click(object sender, EventArgs e)
         {
             m_CurvePointControl.SaveMemento();
         }
-
         private void numericUpDown3_Enter(object sender, EventArgs e)
         {
             m_CurvePointControl.SaveMemento();
         }
-
         private void numericUpDown4_Click(object sender, EventArgs e)
         {
             m_CurvePointControl.SaveMemento();
@@ -621,22 +614,18 @@ namespace CurveEditor
         {
              m_CurvePointControl.SaveMemento();
         }
-
         private void numericUpDown5_Click(object sender, EventArgs e)
         {
             m_CurvePointControl.SaveMemento();
         }
-
         private void numericUpDown5_Enter(object sender, EventArgs e)
         {
             m_CurvePointControl.SaveMemento();
         }
-
         private void numericUpDown6_Click(object sender, EventArgs e)
         {
             m_CurvePointControl.SaveMemento();
         }
-
         private void numericUpDown6_Enter(object sender, EventArgs e)
         {
             m_CurvePointControl.SaveMemento();
@@ -645,17 +634,14 @@ namespace CurveEditor
         {
             m_CurvePointControl.SaveMemento();
         }
-
         private void numericUpDown7_Enter(object sender, EventArgs e)
         {
             m_CurvePointControl.SaveMemento();
         }
-
         private void numericUpDown8_Click(object sender, EventArgs e)
         {
             m_CurvePointControl.SaveMemento();
         }
-
         private void numericUpDown8_Enter(object sender, EventArgs e)
         {
             m_CurvePointControl.SaveMemento();

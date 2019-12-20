@@ -765,7 +765,6 @@ namespace CurveEditor
         /// 現在選択している曲線の情報樹徳
         /// </summary>
         /// <returns></returns>
-
         public BezierPoint GetBezierPoint()
         {
             return m_list[m_SelectPoint];
@@ -774,7 +773,6 @@ namespace CurveEditor
         /// 開始点取得
         /// </summary>
         /// <returns></returns>
-
         public int GetFirstStartPointY()
         {
             return m_list[0].startPoint.Y;
@@ -857,8 +855,7 @@ namespace CurveEditor
                 return;
             }
             stack2.Push(new List<BezierPoint>(m_list));
-            m_list = stack.Pop();
-           
+            m_list = stack.Pop();   
         }
         /// <summary>
         /// 進む
@@ -914,11 +911,9 @@ namespace CurveEditor
         /// </summary>
         public void DeleteMemento()
         {
-            if (stack.Count <= 1) return;
-        
-           
-                stack.Pop();
-            
+            //最初に保存してあるデータは削除させない
+            if (stack.Count <= 1) return;        
+            stack.Pop();        
         }
         /// <summary>
         ///スタックにたまっているデータを破棄
