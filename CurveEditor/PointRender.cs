@@ -47,7 +47,7 @@ namespace CurveEditor
 
             for(int i = 0; i< 100; i++)
             {
-                int x = CMath.ChageNomalPosY((decimal)(0.01f * i));
+                int x = CMath.ChageNomalPosY(Evaluate((decimal)(0.01f * i)));
                 int y = CMath.ChageNomalPosY((decimal)(0.01f * i));
 
                 e.Graphics.FillEllipse(m_PointColor, x - m_cpSize / 2, y - m_cpSize / 2, m_cpSize, m_cpSize);

@@ -29,8 +29,8 @@ namespace CurveEditor
             None,       //何も選択していない
         }
         List<BezierPoint> m_list = new List<BezierPoint>();//線を引くための点を格納する場所
-        Stack<List<BezierPoint>> stack = new Stack<List<BezierPoint>>();
-        Stack<List<BezierPoint>> stack2 = new Stack<List<BezierPoint>>();
+        Stack<List<BezierPoint>> m_UnDoStack = new Stack<List<BezierPoint>>();
+        Stack<List<BezierPoint>> m_ReDoStack = new Stack<List<BezierPoint>>();
         //グラフの範囲を示す座標
         const int ScrrenRightPosX = 510;    //右端
         const int ScrrenBottomPosY = 510;   //下端
@@ -846,16 +846,18 @@ namespace CurveEditor
             CancelMovePoint();
             m_SelectPoint = 0;
 
-            if (stack.Count <= 1)
+            if (m_UnDoStack.Count <= 1)
             {
-                if (isListMatch(ref m_list, stack.Peek())) return;
-                stack2.Push(new List<BezierPoint>(m_list));
-                m_list = new List<BezierPoint>(stack.Peek());//初期状態のグラフ
+                //すでに初期状態のグラフデータなら進むスタックに余計なデータを入れさせない
+                if (isListMatch(ref m_list, m_UnDoStack.Peek())) return;
+                //初期状態のグラフデータ入れる
+                m_ReDoStack.Push(new List<BezierPoint>(m_list));
+                m_list = new List<BezierPoint>(m_UnDoStack.Peek());//初期状態のグラフ
 
                 return;
             }
-            stack2.Push(new List<BezierPoint>(m_list));
-            m_list = stack.Pop();   
+            m_ReDoStack.Push(new List<BezierPoint>(m_list));
+            m_list = m_UnDoStack.Pop();   
         }
         /// <summary>
         /// 進む
@@ -863,48 +865,45 @@ namespace CurveEditor
         public void ReDo()
         {
             //一回も戻っていなければ進まない
-           if (stack2.Count - 1 <= -1) return;
+           if (m_ReDoStack.Count - 1 <= -1) return;
             //無選択状態に
             m_SelectMode = SelectMode.None;
             CancelMovePoint();
             m_SelectPoint = 0;
-
-            m_list = stack2.Pop();
-            //最後の進むだけ戻るのスタックに入れない
-            if (stack2.Count == 0) return;
-            stack.Push(new List<BezierPoint>(m_list));
+            m_UnDoStack.Push(new List<BezierPoint>(m_list));
+            m_list = m_ReDoStack.Pop();    
         }
         /// <summary>
         /// 左マウスクリック後のグラフデータをスタックに保存
         /// </summary>
         public void SaveMemento_Click()
         {
-            if (stack.Count() != 0)
+            if (m_UnDoStack.Count() != 0)
             {
-                if (isListMatch(ref m_list, stack.Peek())) return;
+                if (isListMatch(ref m_list, m_UnDoStack.Peek())) return;
             }
            //点選択を解除させたときに余計なデータを保存させない
-            if (m_SelectMode == SelectMode.None && stack.Count != 0) return;
-            stack.Push(new List<BezierPoint>(m_list));
-            stack2.Clear();
+            if (m_SelectMode == SelectMode.None && m_UnDoStack.Count != 0) return;
+            m_UnDoStack.Push(new List<BezierPoint>(m_list));
+            m_ReDoStack.Clear();
         }
         /// <summary>
         /// 操作した後のグラフデータをスタックに保存
         /// </summary>
         public void SaveMemento()
         {
-            if (stack.Count() != 0)
+            if (m_UnDoStack.Count() != 0)
             {
                 //余計なデータを保存していたら削除
-                if (isListMatch(ref m_list, stack.Peek()))
+                if (isListMatch(ref m_list, m_UnDoStack.Peek()))
                 {
                     DeleteMemento();
                     return;
                 }
             }
             //データを保存
-            stack.Push(new List<BezierPoint>(m_list));
-            stack2.Clear();
+            m_UnDoStack.Push(new List<BezierPoint>(m_list));
+            m_ReDoStack.Clear();
         }
         /// <summary>
         /// 余計なデータを保存していたら削除させる
@@ -912,16 +911,16 @@ namespace CurveEditor
         public void DeleteMemento()
         {
             //最初に保存してあるデータは削除させない
-            if (stack.Count <= 1) return;        
-            stack.Pop();        
+            if (m_UnDoStack.Count <= 1) return;        
+            m_UnDoStack.Pop();        
         }
         /// <summary>
         ///スタックにたまっているデータを破棄
         /// </summary>
         public void ClearSaveMemento()
         {
-            stack.Clear();
-            stack2.Clear();
+            m_UnDoStack.Clear();
+            m_ReDoStack.Clear();
         }
         /// <summary>
         /// 今のグラフと前の操作時のグラフが一致しているか
