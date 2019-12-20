@@ -939,5 +939,11 @@ namespace CurveEditor
             }
             return true;
         }
+
+        public  List<BezierPoint> GetGraph()
+        {
+            return m_list;
+        }
+
     }
 }

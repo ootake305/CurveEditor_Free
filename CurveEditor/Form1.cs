@@ -24,7 +24,7 @@ namespace CurveEditor
         /// 曲線
         /// </summary>
         CurvePointControl m_CurvePointControl = new CurvePointControl();
-
+        PointRender m_PointRender = new PointRender();
         const int ScrrenCenterpPosY = 162;  //中央
         const int ScrrenTopPosY = 10;      //上端
         const int ScrrenBottomPosY = 510;   //下端
@@ -237,10 +237,17 @@ namespace CurveEditor
         {
             Graphics g = e.Graphics;
             g.Clear(Color.FromArgb(20, 230, 230, 230));
-
+        
             //線の描画
             LinePaint(g);
-
+#if DEBUG
+            if (checkBox2.Checked)
+            {
+                m_PointRender.SetList(m_CurvePointControl.GetGraph());
+                m_PointRender.Paint(e);
+                return;
+            }
+#endif
             m_CurvePointControl.OrganizeControlPoint(); //制御点の整理
             BezierPaint(e);    //3次ベジェ曲線描画
             if (checkBox1.Checked)
@@ -414,6 +421,10 @@ namespace CurveEditor
         }   
         //チェックボックスの値が変化したときに呼ばれる
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            pictureBox1.Refresh();//再描画
+        }
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
             pictureBox1.Refresh();//再描画
         }
@@ -647,6 +658,6 @@ namespace CurveEditor
             m_CurvePointControl.SaveMemento();
         }
 
-   
+  
     }
 }
