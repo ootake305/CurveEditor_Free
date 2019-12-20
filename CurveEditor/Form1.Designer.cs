@@ -657,9 +657,9 @@
             this.checkBox2.AutoSize = true;
             this.checkBox2.Location = new System.Drawing.Point(314, 638);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(86, 16);
+            this.checkBox2.Size = new System.Drawing.Size(92, 16);
             this.checkBox2.TabIndex = 42;
-            this.checkBox2.Text = "再計算テスト";
+            this.checkBox2.Text = "プレビュー表示";
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 

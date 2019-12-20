@@ -25,7 +25,7 @@ namespace CurveEditor
         List<CurvePointControl.BezierPoint> m_list = new List<CurvePointControl.BezierPoint>();//線を引くための点を格納する場所
         List< CSVPoint> m_Csvlist = new List<CSVPoint>();//線を引くための点を格納する場所
 
-        const float m_cpSize = 8; //点のサイズ
+        const float m_cpSize = 5; //点のサイズ
 
         public void Paint(PaintEventArgs e)
         {
