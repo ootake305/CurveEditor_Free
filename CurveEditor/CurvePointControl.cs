@@ -857,7 +857,7 @@ namespace CurveEditor
                 return;
             }
             m_ReDoStack.Push(new List<BezierPoint>(m_list));
-            m_list = m_UnDoStack.Pop();   
+            m_list = m_UnDoStack.Pop();//戻る
         }
         /// <summary>
         /// 進む
@@ -870,8 +870,8 @@ namespace CurveEditor
             m_SelectMode = SelectMode.None;
             CancelMovePoint();
             m_SelectPoint = 0;
-            m_UnDoStack.Push(new List<BezierPoint>(m_list));
-            m_list = m_ReDoStack.Pop();    
+            m_UnDoStack.Push(new List<BezierPoint>(m_list));//戻るの方にデータを保存
+            m_list = m_ReDoStack.Pop();//進む    
         }
         /// <summary>
         /// 左マウスクリック後のグラフデータをスタックに保存

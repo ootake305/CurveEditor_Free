@@ -47,13 +47,26 @@ namespace CurveEditor
 
             for(int i = 0; i< 100; i++)
             {
-                int x = CMath.ChageNomalPosY(Evaluate((decimal)(0.01f * i)));
-                int y = CMath.ChageNomalPosY((decimal)(0.01f * i));
+                int x = CMath.ChageNomalPosX(EvaluateX((decimal)(0.01f * i)));
+                int y = CMath.ChageNomalPosY(EvaluateY((decimal)(0.01f * i)));
 
                 e.Graphics.FillEllipse(m_PointColor, x - m_cpSize / 2, y - m_cpSize / 2, m_cpSize, m_cpSize);
             }
+            TestPrint();
         }
-
+        bool q = true;
+        public void TestPrint()
+        {
+            if (!q) return;
+            for (int i = 0; i < 100; i++)
+            {
+                //int x = CMath.ChageNomalPosX((decimal)(0.001f * i));
+                decimal x = EvaluateX((decimal)(0.01f * i));
+                decimal y = EvaluateY((decimal)(0.01f * i));
+                Console.Write("x = {0:f3}, y = {1:f3} \n", x, y); // 文字や数値の出力
+            }
+             q = false;
+        }
         public void SetList(List<CurvePointControl.BezierPoint> list)
         {
             m_list = list;
@@ -83,9 +96,68 @@ namespace CurveEditor
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        public decimal Evaluate(decimal x)
+        public decimal EvaluateY(decimal x)
         {
-            return x;
+            int num = 0;
+            int pontcnt = m_list.Count();
+            //どこのベジェ曲線か検索
+            num = SearchBezier(x);
+
+            decimal x1 = m_Csvlist[num].startPoint[0];
+            decimal y1 = m_Csvlist[num].startPoint[1];
+            decimal x2 = m_Csvlist[num].controlPoint1[0];
+            decimal y2 = m_Csvlist[num].controlPoint1[1];
+            decimal x3 = m_Csvlist[num].controlPoint2[0];
+            decimal y3 = m_Csvlist[num].controlPoint2[1];
+            decimal x4 = m_Csvlist[num].endPoint[0];
+            decimal y4 = m_Csvlist[num].endPoint[1];
+
+            decimal t = CMath.ChageDecimalT(x1, x4, x);
+            var tp = 1 - t;
+
+            var y = (tp * tp * tp * y1) + (y2* 3 * tp * tp * t) + (y3* 3  * tp * t * t) + (t* t* t * y4);
+
+            return y;
+        }
+        /// <summary>
+        /// グラフのxからxを求める
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public decimal EvaluateX(decimal x)
+        {
+            int num = 0;
+            int pontcnt = m_list.Count();
+            //どこのベジェ曲線か検索
+            num = SearchBezier(x);
+          
+            decimal x1 = m_Csvlist[num].startPoint[0];
+            decimal x2 = m_Csvlist[num].controlPoint1[0];
+            decimal x3 = m_Csvlist[num].controlPoint2[0];
+            decimal x4 = m_Csvlist[num].endPoint[0];
+            decimal t = CMath.ChageDecimalT(x1, x4, x);
+            var tp =1 - t;
+
+            var rx = (tp * tp * tp * x1) + (x2 * 3 * tp * tp * t) + (x3 * 3 * tp * t * t) + (t * t * t * x4);
+
+            return rx;
+        }
+        public int SearchBezier(decimal x)
+        {
+            int num = 0;
+            int pontcnt = m_list.Count();
+            //どこのベジェ曲線か検索
+            for (int i = 0; i < pontcnt; i++)
+            {
+                if (m_Csvlist[i].endPoint[0] > x)
+                {
+                    num = i;
+                    return num;
+                }
+            }
+            return 0;
         }
     }
+
+
 }
