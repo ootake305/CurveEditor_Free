@@ -88,15 +88,12 @@ namespace CurveEditor
             return Math.Min(Math.Max(minVal, x), maxVal);
         }
 
-
-
-
-
-
+        /*
+         3次方程式を解くやつ　結局使い方がわからず
         // real number only
         // swiftlint:disable identifier_name
         // ax^3 + bx^2 + cx + d = 0
-        public double[] solveCubicEquation(double a, double b, double c, double d)
+        public static double[] solveCubicEquation(double a, double b, double c, double d)
         {
             if (a == 0)
             {
@@ -108,19 +105,18 @@ namespace CurveEditor
                 double A = b / a;
                 double B = c / a;
                 double C = d / a;
-                return solveCubicEquation(A: A, B: B, C: C);
+                return solveCubicEquation(A,B,C);
             }
         }
 
 
         // MARK: - Private
         // x^3 + Ax^2 + Bx + C = 0
-        private double[] solveCubicEquation(double A, double B, double C)
+        private static double[] solveCubicEquation(double A, double B, double C)
         {
-
             if (A == 0)
             {
-                return solveCubicEquation(p: B, q: C);
+                return solveCubicEquation( B, C);
             }
             else
             {
@@ -128,12 +124,14 @@ namespace CurveEditor
                 double p = B - (Math.Pow(A, 2.0) / 3.0);
                 double q = C - ((A * B) / 3.0) + ((2.0 / 27.0) * Math.Pow(A, 3.0));
                 double[] roots = solveCubicEquation(p, q);
-               // roots
-                foreach (double[] i in roots)
+                // roots
+               int num = roots.Length;
+                for(int i = 0; i < num; i++)
                 {
-                    i = roots - A / 3.0;
+                    roots[i] = roots[i] - A / 3.0;
                 }
-                return roots.map { $0 - A / 3.0 };
+                return roots;
+             //   return roots.map { $0 - A / 3.0 };
             }
         }
 
@@ -141,7 +139,7 @@ namespace CurveEditor
         // for avoid considering the complex plane, I choose geometric solution.
         // respect François Viète
         // ref: https://pomax.github.io/bezierinfo/#extremities
-        private double[] solveCubicEquation(double p, double q)
+        private static double[] solveCubicEquation(double p, double q)
         {
             double p3 = p / 3.0;
             double q2 = q / 2.0;
@@ -189,20 +187,29 @@ namespace CurveEditor
         }
 
 
-        public double[] solveQuadraticEquation(double a, double b, double c)
+        public static double[] solveQuadraticEquation(double a, double b, double c)
         {
             if (a == 0.0)
             {
                 // seems linear equation
-                double root = solveLinearEquation(a: b, b: c);
-                //虚数をなくす
-                return [root].filter({ !$0.isNaN });
+                double root = solveLinearEquation(a, c);
+          
+                if(root == double.NaN)
+                {
+                    return new double[1] { root };
+                }
+                else
+                {
+                    return new double[0];
+                }
+
+              //  return [root].filter({ !$0.isNaN });
             }
 
             double discriminant = Math.Pow(b, 2.0) - (4.0 * a * c);// D = b^2 - 4ac
             if (discriminant < 0.0)
             {
-                return [];
+                return new double[0];
             }
             else if (discriminant == 0.0)
             {
@@ -218,7 +225,7 @@ namespace CurveEditor
             }
         }
 
-        private double cuberoot(double v)
+        private static double cuberoot(double v)
         {
             double c = 1.0 / 3.0;
             if (v < 0)
@@ -231,5 +238,17 @@ namespace CurveEditor
             }
         }
 
+        public static double solveLinearEquation(double a, double b)
+        {
+            if (a == 0.0)
+            {
+                return double.NaN;
+            }
+            else
+            {
+                double root = -b / a;
+                return root;
+            }
+        }*/
     }
 }
