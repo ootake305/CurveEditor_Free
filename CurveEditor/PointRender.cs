@@ -144,15 +144,15 @@ namespace CurveEditor
             //どこのベジェ曲線か検索
             for (int i = 0; i < pontcnt; i++)
             {
-                if (m_Csvlist[i].endPoint[0] >= x)
+                if (m_Csvlist[i].endPoint[0] > x)
                 {
                     num = i;
                     return num;
                 }
             }
-            // 0～1でない値なら端の曲線を返す
+            // 0～1の間でない値なら端の曲線を返す
             if (x >= 1) return pontcnt - 1;
-           if (x < 0) return  0;
+           if (x <= 0) return  0;
            return 0;
         }
         private void SetConstants3()
