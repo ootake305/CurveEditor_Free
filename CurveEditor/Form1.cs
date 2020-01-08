@@ -36,7 +36,7 @@ namespace CurveEditor
         public Form1()
         {
             InitializeComponent();
-            Text = "CurveEditor ver:0.9";
+            Text = "CurveEditor ver:0.95";
             //ちらつき防止
             SetStyle(
     ControlStyles.DoubleBuffer |
@@ -131,7 +131,7 @@ namespace CurveEditor
                 case MouseButtons.Left:
                     m_CurvePointControl.SearchSelectPoint(e);
                     //変更した値を保存
-                    m_CurvePointControl.SaveMemento();
+                    m_CurvePointControl.SaveMemento_Click();
                     SaveMousePos(e);
                     break;
                 case MouseButtons.Middle:
