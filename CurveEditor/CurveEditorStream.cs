@@ -58,14 +58,14 @@ namespace CurveEditor
         {
             try
             {
-                StreamWriter file = new StreamWriter(s, false, Encoding.UTF8);
+                StreamWriter file = new StreamWriter(s, false, Encoding.ASCII);
                 int size = List.Count;
                 for(int i = 0; i < size;i++)
                 {
                     //座標を0～1の間に変換し文字列化させる
                     string [] name = new string[4];
                     name = ToSting(List[i]);
-                    file.Write(name[0]+ "," + name[1] + "," + name[2] + "," + name[3] + "\n");
+                    file.Write(name[0]+ "," + name[1] + "," + name[2] + "," + name[3] + "," + "\n");
                 }
                 file.Close();
             }

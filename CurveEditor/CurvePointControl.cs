@@ -879,20 +879,16 @@ namespace CurveEditor
         public void SaveMemento_Click()
         {
             if (m_UnDoStack.Count() != 0)
-            {
-                if (isListMatch(ref m_list, m_UnDoStack.Peek())) return;
-            }
-           //点選択を解除させたときに余計なデータを保存させない
-            if (m_SelectMode == SelectMode.None && m_UnDoStack.Count != 0) return;
-            //余計なデータを保存していたら削除
-            if (m_UnDoStack.Count() != 0)
-            {
+            {     //余計なデータを保存していたら削除
                 if (isListMatch(ref m_list, m_UnDoStack.Peek()))
                 {
                     DeleteMemento();
                     return;
                 }
             }
+            //点選択を解除させたときに余計なデータを保存させない
+            if (m_SelectMode == SelectMode.None && m_UnDoStack.Count != 0) return;
+   
             m_UnDoStack.Push(new List<BezierPoint>(m_list));
             m_ReDoStack.Clear();
         }
