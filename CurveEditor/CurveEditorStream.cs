@@ -17,14 +17,22 @@ namespace CurveEditor
         {
             //文字列を数値に変換
             CurvePointControl.BezierPoint bp = new CurvePointControl.BezierPoint();
-            bp.startPoint.X = CMath.ChageNomalPosX(decimal.Parse(values[0]));
-            bp.startPoint.Y = CMath.ChageNomalPosY(decimal.Parse(values[1]));
-            bp.controlPoint1.X = CMath.ChageNomalPosX(decimal.Parse(values[2]));
-            bp.controlPoint1.Y = CMath.ChageNomalPosY(decimal.Parse(values[3]));
-            bp.controlPoint2.X = CMath.ChageNomalPosX(decimal.Parse(values[4]));
-            bp.controlPoint2.Y = CMath.ChageNomalPosY(decimal.Parse(values[5]));
-            bp.endPoint.X = CMath.ChageNomalPosX(decimal.Parse(values[6]));
-            bp.endPoint.Y = CMath.ChageNomalPosY(decimal.Parse(values[7]));
+            try
+            {
+                bp.startPoint.X = CMath.ChageNomalPosX(decimal.Parse(values[0]));
+                bp.startPoint.Y = CMath.ChageNomalPosY(decimal.Parse(values[1]));
+                bp.controlPoint1.X = CMath.ChageNomalPosX(decimal.Parse(values[2]));
+                bp.controlPoint1.Y = CMath.ChageNomalPosY(decimal.Parse(values[3]));
+                bp.controlPoint2.X = CMath.ChageNomalPosX(decimal.Parse(values[4]));
+                bp.controlPoint2.Y = CMath.ChageNomalPosY(decimal.Parse(values[5]));
+                bp.endPoint.X = CMath.ChageNomalPosX(decimal.Parse(values[6]));
+                bp.endPoint.Y = CMath.ChageNomalPosY(decimal.Parse(values[7]));
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                Console.WriteLine(e.Message);       // エラーメッセージを表示
+            }
             return bp;
         }
         /// <summary>
@@ -48,6 +56,9 @@ namespace CurveEditor
                 list.Add(b);
             }
             file.Close();
+            if(list[0].startPoint.X != 0) MessageBox.Show("グラフデータがおかしいです");
+            if (list[list.Count].endPoint.X != 1) MessageBox.Show("グラフデータがおかしいです");
+
             return list;
         }
         /// <summary>
