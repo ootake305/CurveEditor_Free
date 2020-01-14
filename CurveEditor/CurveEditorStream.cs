@@ -56,8 +56,11 @@ namespace CurveEditor
                 list.Add(b);
             }
             file.Close();
-            if(list[0].startPoint.X != 0) MessageBox.Show("グラフデータがおかしいです");
-            if (list[list.Count].endPoint.X != 1) MessageBox.Show("グラフデータがおかしいです");
+            //例外処理
+            var sx = CMath.ChageDecimalPosX(list[0].startPoint.X);
+            var ex = CMath.ChageDecimalPosX(list[list.Count - 1].endPoint.X);
+            if (sx  != 0) MessageBox.Show("グラフデータがおかしいです");
+            if (ex != 1) MessageBox.Show("グラフデータがおかしいです");
 
             return list;
         }
