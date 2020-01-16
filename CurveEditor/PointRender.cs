@@ -55,22 +55,12 @@ namespace CurveEditor
         public void PaintGraph(PaintEventArgs e)
         {
             var pontcnt = m_list.Count();
-            //開始点すべて描画
-            for (int i = 0; i < pontcnt; i++)
-            {
-                e.Graphics.FillEllipse(m_PointColor, m_list[i].startPoint.X - m_cpSize / 2, m_list[i].startPoint.Y - m_cpSize / 2, m_cpSize, m_cpSize);
-            }
-            int lastpoint = pontcnt - 1;
-            //最後の終了点だけ描画
-            e.Graphics.FillEllipse(m_PointColor, m_list[lastpoint].endPoint.X - m_cpSize / 2, m_list[lastpoint].endPoint.Y - m_cpSize / 2, m_cpSize, m_cpSize);
-
-
+ 
             for (int i = 0; i <= 100; i++)
             {
-                // int x = CMath.ChageNomalPosX(EvaluateX((decimal)(0.01f * i)));
                 int x = CMath.ChageNomalPosX((decimal)(0.01f * i));
                 int y = CMath.ChageNomalPosY(EvaluateY((decimal)(0.01f * i)));
-
+                //保存されている点を描画
                 e.Graphics.FillEllipse(m_PointColor, x - m_cpSize / 2, y - m_cpSize / 2, m_cpSize, m_cpSize);
             }
             TestPrint();
@@ -84,7 +74,6 @@ namespace CurveEditor
             if (!m_isOntimeTest) return;
             for (int i = 0; i <= 100; i++)
             {
-                //int x = CMath.ChageNomalPosX((decimal)(0.001f * i));
                 decimal x = ((decimal)(0.01f * i));
                 decimal y = EvaluateY((decimal)(0.01f * i));
                 Console.Write("x = {0:f3}, y = {1:f3} \n", x, y); // 文字や数値の出力
@@ -305,28 +294,5 @@ namespace CurveEditor
             return GetPointAtTime(t2).y; // 失敗
         }
 
-        /*   /// <summary>
-   /// グラフのxからxを求める
-   /// </summary>
-   /// <param name="x"></param>
-   /// <returns></returns>
-   public decimal EvaluateX(decimal x)
-   {
-       int num = 0;
-       int pontcnt = m_list.Count();
-       //どこのベジェ曲線か検索
-       num = SearchBezier(x);
-
-       decimal x1 = m_Csvlist[num].startPoint[0];
-       decimal x2 = m_Csvlist[num].controlPoint1[0];
-       decimal x3 = m_Csvlist[num].controlPoint2[0];
-       decimal x4 = m_Csvlist[num].endPoint[0];
-       decimal t = CMath.ChageDecimalT(x1, x4, x);
-       var tp = 1 - t;
-
-       var rx = (tp * tp * tp * x1) + (x2 * 3 * tp * tp * t) + (x3 * 3 * tp * t * t) + (t * t * t * x4);
-
-       return rx;
-   }*/
     }
 }
