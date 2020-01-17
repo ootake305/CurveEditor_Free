@@ -218,8 +218,8 @@ namespace CurveEditor
             startBezirPoint.endPoint = new Point(m_list[LastCnt].endPoint.X, m_list[LastCnt].endPoint.Y);
             //制御点は追加される開始点の少し右に生成させる
             var cpointX = CMath.Clamp(startBezirPoint.startPoint.X + 10, ScrrenLeftPosX, ScrrenRightPosX - 1);
-            startBezirPoint.controlPoint1 = new Point(cpointX, m_list[LastCnt].startPoint.Y + 30);
-            startBezirPoint.controlPoint2 = new Point(cpointX, m_list[LastCnt].startPoint.Y - 30);
+            startBezirPoint.controlPoint1 = new Point(cpointX, CMath.Clamp(m_list[LastCnt].startPoint.Y + 30, ScrrenTopPosY, ScrrenBottomPosY));
+            startBezirPoint.controlPoint2 = new Point(cpointX, CMath.Clamp(m_list[LastCnt].startPoint.Y - 30, ScrrenTopPosY, ScrrenBottomPosY));
             m_list.Add(startBezirPoint);//新しい点追加
 
             //追加前の最後の終了点を追加した最後の開始点とつなげる ここ大事！
