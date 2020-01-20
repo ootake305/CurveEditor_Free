@@ -80,6 +80,7 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.カーブエディタの使い方ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
@@ -445,6 +446,8 @@
             // 
             // helpToolStripMenuItem
             // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.カーブエディタの使い方ToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
@@ -663,6 +666,13 @@
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
+            // カーブエディタの使い方ToolStripMenuItem
+            // 
+            this.カーブエディタの使い方ToolStripMenuItem.Name = "カーブエディタの使い方ToolStripMenuItem";
+            this.カーブエディタの使い方ToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.カーブエディタの使い方ToolStripMenuItem.Text = "カーブエディタの使い方";
+            this.カーブエディタの使い方ToolStripMenuItem.Click += new System.EventHandler(this.カーブエディタの使い方ToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -781,6 +791,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.ToolStripMenuItem カーブエディタの使い方ToolStripMenuItem;
     }
 }
 

@@ -7,3 +7,12 @@ E:\勉強\カーブ\CurveEditor\CurveEditor\obj\Debug\CurveEditor.csproj.Generat
 E:\勉強\カーブ\CurveEditor\CurveEditor\obj\Debug\CurveEditor.exe
 E:\勉強\カーブ\CurveEditor\CurveEditor\obj\Debug\CurveEditor.pdb
 E:\勉強\カーブ\CurveEditor\CurveEditor\obj\Debug\CurveEditor.Form1.resources
+C:\Users\otake\Downloads\CurveEditor-master\CurveEditor-master\CurveEditor\bin\Debug\CurveEditor.exe.config
+C:\Users\otake\Downloads\CurveEditor-master\CurveEditor-master\CurveEditor\obj\Debug\CurveEditor.exe
+C:\Users\otake\Downloads\CurveEditor-master\CurveEditor-master\CurveEditor\obj\Debug\CurveEditor.pdb
+C:\Users\otake\Downloads\CurveEditor-master\CurveEditor-master\CurveEditor\bin\Debug\CurveEditor.exe
+C:\Users\otake\Downloads\CurveEditor-master\CurveEditor-master\CurveEditor\bin\Debug\CurveEditor.pdb
+C:\Users\otake\Downloads\CurveEditor-master\CurveEditor-master\CurveEditor\obj\Debug\CurveEditor.csprojResolveAssemblyReference.cache
+C:\Users\otake\Downloads\CurveEditor-master\CurveEditor-master\CurveEditor\obj\Debug\CurveEditor.Form1.resources
+C:\Users\otake\Downloads\CurveEditor-master\CurveEditor-master\CurveEditor\obj\Debug\CurveEditor.Properties.Resources.resources
+C:\Users\otake\Downloads\CurveEditor-master\CurveEditor-master\CurveEditor\obj\Debug\CurveEditor.csproj.GenerateResource.Cache

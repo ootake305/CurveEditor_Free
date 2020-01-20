@@ -658,6 +658,9 @@ namespace CurveEditor
             m_CurvePointControl.SaveMemento();
         }
 
-  
+        private void カーブエディタの使い方ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://bravememo.hatenablog.com/entry/HelpCurveEditor");
+        }
     }
 }
