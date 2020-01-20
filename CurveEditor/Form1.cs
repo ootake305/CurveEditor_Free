@@ -36,7 +36,7 @@ namespace CurveEditor
         public Form1()
         {
             InitializeComponent();
-            Text = "CurveEditor ver:0.95";
+            Text = "CurveEditor Free ver:1.0 ";
             //ちらつき防止
             SetStyle(
     ControlStyles.DoubleBuffer |
