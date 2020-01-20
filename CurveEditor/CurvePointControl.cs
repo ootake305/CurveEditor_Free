@@ -37,7 +37,7 @@ namespace CurveEditor
         const int ScrrenLeftPosX = 10;       //左端
         const int ScrrenTopPosY =  10;      //上端
         const int ScrrenCenterpPosY = 260;  //中央
-        const int intervalPointPos = 2;     //点と点の感覚
+        const int intervalPointPos = 1;     //点と点の感覚
         const int ControlOfSetX = 1;
         int m_SelectPoint = 0;  //左から何番目の点を選択精しているか
         const float m_cpSize = 8; //点のサイズ
