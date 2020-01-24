@@ -241,12 +241,6 @@ namespace CurveEditor
             //線の描画
             LinePaint(g);
 
-            if (checkBox2.Checked)
-            {
-                m_PointRender.SetList(m_CurvePointControl.GetGraph());
-                m_PointRender.Paint(e);
-                return;
-            }
 
             m_CurvePointControl.OrganizeControlPoint(); //制御点の整理
             BezierPaint(e);    //3次ベジェ曲線描画

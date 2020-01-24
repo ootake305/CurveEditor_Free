@@ -58,6 +58,7 @@
             this.MenuUnDo = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuReDo = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.カーブエディタの使い方ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label10 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -79,8 +80,6 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.カーブエディタの使い方ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
@@ -452,6 +451,13 @@
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
+            // カーブエディタの使い方ToolStripMenuItem
+            // 
+            this.カーブエディタの使い方ToolStripMenuItem.Name = "カーブエディタの使い方ToolStripMenuItem";
+            this.カーブエディタの使い方ToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.カーブエディタの使い方ToolStripMenuItem.Text = "カーブエディタの使い方";
+            this.カーブエディタの使い方ToolStripMenuItem.Click += new System.EventHandler(this.カーブエディタの使い方ToolStripMenuItem_Click);
+            // 
             // label10
             // 
             this.label10.BackColor = System.Drawing.Color.Transparent;
@@ -655,30 +661,11 @@
             this.openFileDialog1.Filter = "CSVファイル (*.csv)|*.csv";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(314, 638);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(92, 16);
-            this.checkBox2.TabIndex = 42;
-            this.checkBox2.Text = "プレビュー表示";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
-            // 
-            // カーブエディタの使い方ToolStripMenuItem
-            // 
-            this.カーブエディタの使い方ToolStripMenuItem.Name = "カーブエディタの使い方ToolStripMenuItem";
-            this.カーブエディタの使い方ToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
-            this.カーブエディタの使い方ToolStripMenuItem.Text = "カーブエディタの使い方";
-            this.カーブエディタの使い方ToolStripMenuItem.Click += new System.EventHandler(this.カーブエディタの使い方ToolStripMenuItem_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(574, 671);
-            this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.label19);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.label20);
@@ -790,7 +777,6 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.ToolStripMenuItem カーブエディタの使い方ToolStripMenuItem;
     }
 }
